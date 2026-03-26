@@ -40,6 +40,13 @@
 
   body { font-family: 'DM Sans', sans-serif; background-color: var(--bg-color); color: var(--text-dark); overflow-x: hidden; scroll-behavior: smooth; }
 
+  /* ANIMACIÓN FLOTANTE COMÚN */
+  @keyframes floatPill {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(2deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+  }
+
   /* =========================================
      PANTALLA DE CALIBRACIÓN (SPLASH)
   ========================================= */
@@ -59,31 +66,23 @@
     border: 1px solid rgba(0,0,0,0.02); position: relative; overflow: hidden;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
   }
-  .scan-card label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 10px; width: 100%; }
+  .scan-card label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 10px; width: 100%; text-align: left; }
   
-  /* NUEVO: IMAGEN DE LA PASTILLA FLOTANTE */
-  .pill-image {
-    width: 110px; 
-    height: 110px;
+  /* IMAGEN DE LA PASTILLA FLOTANTE EN SPLASH */
+  .pill-image-splash {
+    width: 110px; height: 110px;
     object-fit: contain;
     margin: 10px 0 20px 0;
     animation: floatPill 4s ease-in-out infinite;
     filter: drop-shadow(0 15px 15px rgba(0,0,0,0.15));
   }
-  @keyframes floatPill {
-    0% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-8px) rotate(2deg); }
-    100% { transform: translateY(0px) rotate(0deg); }
-  }
 
   .scan-card h2 { font-size: 20px; color: var(--accent); display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; }
-  
   .pulse-dot { width: 10px; height: 10px; background: #FF3B30; border-radius: 50%; display: inline-block; animation: pulseRed 1s infinite; }
   @keyframes pulseRed { 0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); } }
 
   .splash-text { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 35px; max-width: 300px; }
 
-  /* BOTÓN (INMUNIZADO CONTRA GESTOS RAROS DE MÓVIL) */
   .hold-btn {
     background: var(--text-dark); color: var(--white);
     padding: 18px 30px; border-radius: 100px; border: none;
@@ -119,7 +118,17 @@
   .top-logo-bar { display: flex; justify-content: center; align-items: center; padding: 30px 0 10px; }
   .top-logo-bar img { height: 45px; width: auto; object-fit: contain; }
 
-  header { padding: 10px 24px 20px; display: flex; justify-content: center; align-items: center; text-align: center; }
+  header { padding: 10px 24px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  
+  /* NUEVO: IMAGEN DE LA PASTILLA FLOTANTE EN PRINCIPAL */
+  .pill-image-main {
+    width: 90px; height: 90px;
+    object-fit: contain;
+    margin: 10px 0 20px 0;
+    animation: floatPill 4s ease-in-out infinite;
+    filter: drop-shadow(0 10px 10px rgba(0,0,0,0.1));
+  }
+
   .header-content p { font-size: 13px; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
   .header-content h1 { font-size: 26px; font-weight: 700; display: flex; align-items: center; gap: 8px; justify-content: center; }
 
@@ -239,7 +248,7 @@
     
     <div class="scan-card">
       <label>Sustancia Digital Detectada</label>
-      <img src="untitled.png" alt="Pastilla Fufu Paciencia-Max" class="pill-image">
+      <img src="untitled.png" alt="Pastilla Fufu Paciencia-Max" class="pill-image-splash">
       <h2><span class="pulse-dot"></span> PACIENCIA-MAX™</h2>
     </div>
     
@@ -254,13 +263,16 @@
   </div>
 
   <div id="main-app" class="hidden">
+    
     <div class="top-logo-bar slide-up">
       <img src="logooo.png" alt="Fufu Logo">
     </div>
+
     <header class="slide-up delay-1">
+      <img src="untitled.png" alt="Pastilla Fufu Paciencia-Max" class="pill-image-main">
       <div class="header-content">
-        <p>Nivel de Hartazgo: Crítico</p>
-        <h1>Expediente de Lorena 🙄</h1>
+        <p>Dosis Personalizada para Lorena 👋</p>
+        <h1>Expediente 😏</h1>
       </div>
     </header>
 
