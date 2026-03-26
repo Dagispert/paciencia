@@ -14,6 +14,7 @@
     --text-dark: #1A1A1A;
     --text-muted: #8E8E93;
     --accent: #26A69A;
+    --accent-success: #4ADE80;
     --white: #FFFFFF;
     --shadow-soft: 0 12px 30px rgba(0, 0, 0, 0.04);
     --shadow-float: 0 10px 25px rgba(0, 0, 0, 0.15);
@@ -49,16 +50,33 @@
     padding: 0 24px; text-align: center;
   }
 
-  .splash-logo { height: 40px; margin-bottom: 40px; }
+  .splash-logo { height: 40px; margin-bottom: 30px; }
   .splash-title { font-size: 28px; font-weight: 700; margin-bottom: 20px; color: var(--text-dark); }
   
   .scan-card {
-    background: var(--white); padding: 20px; border-radius: var(--radius-md);
+    background: var(--white); padding: 24px; border-radius: var(--radius-md);
     box-shadow: var(--shadow-soft); margin-bottom: 24px; width: 100%; max-width: 320px;
     border: 1px solid rgba(0,0,0,0.02); position: relative; overflow: hidden;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
   }
-  .scan-card label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 8px; }
-  .scan-card h2 { font-size: 20px; color: var(--accent); display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .scan-card label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 10px; width: 100%; }
+  
+  /* NUEVO: IMAGEN DE LA PASTILLA FLOTANTE */
+  .pill-image {
+    width: 110px; 
+    height: 110px;
+    object-fit: contain;
+    margin: 10px 0 20px 0;
+    animation: floatPill 4s ease-in-out infinite;
+    filter: drop-shadow(0 15px 15px rgba(0,0,0,0.15));
+  }
+  @keyframes floatPill {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(2deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+  }
+
+  .scan-card h2 { font-size: 20px; color: var(--accent); display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; }
   
   .pulse-dot { width: 10px; height: 10px; background: #FF3B30; border-radius: 50%; display: inline-block; animation: pulseRed 1s infinite; }
   @keyframes pulseRed { 0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); } }
@@ -169,10 +187,10 @@
   .badge-label { font-size: 9px; font-weight: 700; color: var(--text-dark); text-transform: uppercase; }
 
   /* =========================================
-     NUEVO: ESTILOS PARA HISTORIAL Y BORRADO
+     ESTILOS PARA HISTORIAL Y BORRADO
   ========================================= */
   .history-item { 
-    position: relative; /* Clave para el botón absoluto */
+    position: relative; 
     background: var(--bg-color); padding: 16px; 
     border-radius: 16px; text-align: left; margin-top: 10px; 
   }
@@ -218,10 +236,13 @@
   <div id="splash-screen">
     <img src="logooo.png" alt="Fufu Logo" class="splash-logo">
     <h1 class="splash-title">Hola, Lorena. 👋</h1>
+    
     <div class="scan-card">
       <label>Sustancia Digital Detectada</label>
+      <img src="untitled.png" alt="Pastilla Fufu Paciencia-Max" class="pill-image">
       <h2><span class="pulse-dot"></span> PACIENCIA-MAX™</h2>
     </div>
+    
     <p class="splash-text">
       Por favor, mantén la calma. Estamos escaneando tus signos vitales y preparando el filtro anti-frustración para sincronizarlo con tu córtex prefrontal.
     </p>
@@ -351,7 +372,7 @@
   ];
 
   /* =========================================
-     TRUCO DE AUDIO: PAUSAR Y REANUDAR (SIN TOQUES EXTRA)
+     TRUCO DE AUDIO: PAUSAR Y REANUDAR
   ========================================= */
   const syncBtn = document.getElementById('sync-btn');
   let holdTimer;
@@ -523,17 +544,9 @@
     renderHistory();
   }
 
-  /* =========================================
-     NUEVA FUNCIÓN: BORRAR ENTRADA DEL HISTORIAL
-  ========================================= */
   function deleteJournalEntry(index) {
-    // 1. Eliminamos el elemento del array usando su índice
     journalEntries.splice(index, 1);
-    
-    // 2. Guardamos el array actualizado en el navegador
     localStorage.setItem("paciencia_journal_v81", JSON.stringify(journalEntries));
-    
-    // 3. Volvemos a dibujar el historial (y recalcular insignias)
     renderHistory();
   }
 
@@ -544,7 +557,6 @@
     if (journalEntries.length === 0) {
       container.innerHTML = "<p style='color: var(--text-muted); font-size: 14px;'>Aún no hay registros.</p>";
     } else {
-      // Dibujamos cada tarjeta. Notar el nuevo SVG de basura.
       journalEntries.forEach((entry, index) => {
         container.innerHTML += `
           <div class="history-item">
@@ -558,17 +570,13 @@
       });
     }
 
-    // Recalcular insignias
-    const total = journalEntries.length; 
-    let unlocked = 0;
+    const total = journalEntries.length; let unlocked = 0;
     
-    // Quitamos la clase 'active' de todos primero (por si borró y perdió el nivel)
     document.getElementById('badge-1').classList.remove('active');
     document.getElementById('badge-2').classList.remove('active');
     document.getElementById('badge-3').classList.remove('active');
     document.getElementById('badge-4').classList.remove('active');
 
-    // Volvemos a asignarlas
     if (total >= 1) { document.getElementById('badge-1').classList.add('active'); unlocked++; }
     if (total >= 3) { document.getElementById('badge-2').classList.add('active'); unlocked++; }
     if (total >= 5) { document.getElementById('badge-3').classList.add('active'); unlocked++; }
