@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>PACIENCIA-MAX™ — Protocolo de Calma</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --mint-deep: #004D40;
+    --mint-mid: #4DB6AC;
+    --mint-light: #B2DFDB;
+    --mint-pale: #F0F7F6;
+    --gray-dark: #1C1C1E;
+    --gray-mid: #8E8E93;
+    --white: #FFFFFF;
+    --blur: blur(10px);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    background: #fbfbfd; /* Color de fondo oficial Apple */
+    color: var(--gray-dark);
+    overflow-x: hidden;
+    opacity: 0;
+    animation: fadeInPage 0.8s ease forwards;
+  }
+
+  @keyframes fadeInPage {
+    to { opacity: 1; }
+  }
+
+  /* --- HEADER --- */
+  .top-bar {
+    background: rgba(240, 247, 246, 0.8);
+    backdrop-filter: var(--blur);
+    padding: 10px 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    display: flex;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  header {
+    padding: 40px 24px 20px;
+    transform: translateY(20px);
+    animation: slideUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
+  .logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    color: var(--mint-deep);
+  }
+
+  /* --- HERO ANIMADO --- */
+  .nfc-hero {
+    background: linear-gradient(135deg, var(--mint-deep) 0%, #002D26 100%);
+    color: white;
+    padding: 40px 24px;
+    margin: 0 16px;
+    border-radius: 28px;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    transform: scale(0.95);
+    animation: heroPop 0.8s cubic-bezier(0.3, 1.5, 0.5, 1) 0.2s forwards;
+  }
+
+  @keyframes heroPop {
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .scan-info {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+  }
+
+  .pulse-dot {
+    width: 6px; height: 6px;
+    background: #4ADE80;
+    border-radius: 50%;
+    margin-right: 10px;
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); }
+    70% { transform: scale(1.2); box-shadow: 0 0 0 10px rgba(74, 222, 128, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+  }
+
+  #phrase-text {
+    font-size: 26px;
+    font-weight: 300;
+    line-height: 1.2;
+    min-height: 120px;
+    transition: all 0.5s ease;
+  }
+
+  /* --- BARRA DE PROGRESO SUAVE --- */
+  .progress-container {
+    height: 3px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    margin: 30px 0;
+    overflow: hidden;
+  }
+
+  #progress-bar {
+    height: 100%;
+    background: var(--mint-light);
+    width: 0%;
+    border-radius: 10px;
+  }
+
+  /* --- TARJETAS --- */
+  main { padding: 40px 20px; }
+
+  .pill-card {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    background: var(--white);
+    padding: 24px;
+    border-radius: 24px;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.02);
+    margin-bottom: 20px;
+    animation: slideUp 0.6s ease 0.4s forwards;
+    opacity: 0;
+  }
+
+  .pill-emoji {
+    font-size: 50px;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 30px;
+    animation: slideUp 0.6s ease 0.5s forwards;
+    opacity: 0;
+  }
+
+  .info-item {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: var(--blur);
+    padding: 20px;
+    border-radius: 20px;
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+
+  .info-item label {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    text-transform: uppercase;
+    color: var(--gray-mid);
+    margin-bottom: 6px;
+  }
+
+  /* --- BOTÓN PREMIUM --- */
+  .next-btn {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: white;
+    padding: 16px;
+    border-radius: 16px;
+    width: 100%;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+  }
+
+  .next-btn:active {
+    transform: scale(0.97);
+    background: rgba(255,255,255,0.2);
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  footer {
+    opacity: 0.4;
+    padding: 60px 20px;
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+  }
+
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div>ESTADO: ANALIZANDO PACIENCIA</div>
+  <div>SISTEMA V.2.1</div>
+</div>
+
+<header>
+  <div class="logo">PACIENCIA-MAX™</div>
+  <p style="color: var(--gray-mid); font-size: 14px;">Protocolo de neutralización de irritantes.</p>
+</header>
+
+<section class="nfc-hero">
+  <div class="scan-info"><div class="pulse-dot"></div> SESIÓN NFC ACTIVA</div>
+  <div id="phrase-text">Iniciando calibración de tolerancia...</div>
+  <div class="progress-container"><div id="progress-bar"></div></div>
+  <button class="next-btn" onclick="triggerNext()">FORZAR DOSIS DE ZEN</button>
+</section>
+
+<main>
+  <div class="pill-card">
+    <div class="pill-emoji">🙄</div>
+    <div>
+      <h3 style="font-weight: 600;">Hardware v.01</h3>
+      <p style="font-size: 13px; color: var(--gray-mid);">Cerámica mate técnica.</p>
+    </div>
+  </div>
+
+  <div class="info-grid">
+    <div class="info-item"><label>Acción</label><strong>Filtro Anti-Tontos</strong></div>
+    <div class="info-item"><label>Status</label><strong>Zen Estable</strong></div>
+    <div class="info-item"><label>Efecto</label><strong>Paz Cínica</strong></div>
+    <div class="info-item"><label>Dosis</label><strong>24h de Calma</strong></div>
+  </div>
+
+  <div style="background: var(--mint-pale); padding: 20px; border-radius: 20px; font-size: 13px;">
+    <p><strong>Nota clínica:</strong> El uso prolongado de esta interfaz puede causar que ignores activamente correos que empiezan por "URGENTE". Es normal.</p>
+  </div>
+</main>
+
+<footer>
+  LABORATORIOS EMOCIONALES S.L.<br>
+  CUIDA TU CEREBRO. ES EL ÚNICO QUE TIENES.
+</footer>
+
+<script>
+  const phrases = [
+    "No es falta de paciencia, es que te sobra gente tonta.",
+    "Respira. Esa persona no sabe que es tu chiste interno.",
+    "Activando modo: 'Sonreír y asentir mientras pienso en pizza'.",
+    "Niveles de tolerancia al 2%. No me preguntes nada obvio.",
+    "Paciencia descargando... 48% (Error por falta de café).",
+    "Si te dicen '¿Lo tienes ya?', escanea esto de nuevo.",
+    "Protocolo: Ignorar notificaciones hasta nuevo aviso."
+  ];
+
+  let current = 0;
+  const duration = 6000;
+  let startTime = Date.now();
+
+  function triggerNext() {
+    const el = document.getElementById('phrase-text');
+    el.style.opacity = 0;
+    el.style.transform = 'translateY(-10px)';
+    
+    setTimeout(() => {
+      current = (current + 1) % phrases.length;
+      el.textContent = phrases[current];
+      el.style.opacity = 1;
+      el.style.transform = 'translateY(0)';
+      startTime = Date.now();
+    }, 300);
+  }
+
+  function update() {
+    const elapsed = Date.now() - startTime;
+    const progress = Math.min((elapsed / duration) * 100, 100);
+    document.getElementById('progress-bar').style.width = progress + '%';
+    
+    if (elapsed >= duration) triggerNext();
+    requestAnimationFrame(update);
+  }
+
+  update();
+</script>
+
+</body>
+</html>
