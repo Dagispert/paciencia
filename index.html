@@ -157,7 +157,7 @@
   .history-date { font-size: 11px; color: var(--text-muted); margin-bottom: 5px; }
 
   /* =========================================
-     NUEVO: BURBUJAS DE NAVEGACIÓN (ICONOS SVG)
+     BURBUJAS DE NAVEGACIÓN FLOTANTES
   ========================================= */
   .floating-nav {
     position: fixed; bottom: 24px; right: 24px;
@@ -172,8 +172,6 @@
     transition: transform 0.2s, background 0.2s;
   }
   .nav-bubble:active { transform: scale(0.9); background: var(--accent); }
-  
-  /* Los SVG heredan el color blanco de la burbuja */
   .nav-bubble svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
 </style>
@@ -294,36 +292,42 @@
     </div>
 
     <div class="floating-nav slide-up delay-6">
-      
       <a href="https://fufuestudio.com/" target="_blank" class="nav-bubble" title="Farmacia Fufu">
         <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
       </a>
-
       <button class="nav-bubble" onclick="scrollToDiary()" title="Ir al Diario">
         <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
       </button>
-
     </div>
 
   </div>
 
 <script>
   /* =========================================
-     LÓGICA DEL BOTÓN DE 3 SEGUNDOS Y AUDIO FIX
+     LÓGICA DEL BOTÓN Y DESBLOQUEO DE AUDIO (FIX)
   ========================================= */
   const syncBtn = document.getElementById('sync-btn');
   let holdTimer;
   let isAppStarted = false;
   let audioUnlocked = false; 
 
+  // Esta función fuerza al móvil a habilitar el motor de voz
+  function unlockAudioEngine() {
+    if (!audioUnlocked && 'speechSynthesis' in window) {
+      // Creamos un audio con un simple espacio y volumen 0
+      let silentSpeech = new SpeechSynthesisUtterance(" ");
+      silentSpeech.volume = 0;
+      window.speechSynthesis.speak(silentSpeech);
+      audioUnlocked = true;
+    }
+  }
+
   function startHold(e) {
     if (isAppStarted) return;
     if(e.type === 'touchstart') e.preventDefault(); 
     
-    if (!audioUnlocked && 'speechSynthesis' in window) {
-      window.speechSynthesis.speak(new SpeechSynthesisUtterance(""));
-      audioUnlocked = true;
-    }
+    // DESBLOQUEAMOS EL AUDIO EN EL MILISEGUNDO 0
+    unlockAudioEngine();
 
     syncBtn.classList.add('holding'); 
     holdTimer = setTimeout(() => {
@@ -340,6 +344,7 @@
     clearTimeout(holdTimer);
   }
 
+  // Escuchamos todos los posibles toques de usuario
   syncBtn.addEventListener('mousedown', startHold);
   syncBtn.addEventListener('mouseup', endHold);
   syncBtn.addEventListener('mouseleave', endHold); 
@@ -412,10 +417,14 @@
 
   function speakPhrase(text) {
     if ('speechSynthesis' in window) {
+      // Reanuda y limpia la caché para evitar bloqueos en iOS
+      window.speechSynthesis.resume();
       window.speechSynthesis.cancel(); 
+      
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'es-ES';
       utterance.rate = 0.95;
+      utterance.volume = 1; // Volumen restaurado
       window.speechSynthesis.speak(utterance);
     }
   }
