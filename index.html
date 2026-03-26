@@ -14,7 +14,7 @@
     --text-dark: #1A1A1A;
     --text-muted: #8E8E93;
     --accent: #26A69A;
-    --accent-success: #4ADE80; /* Color verde brillante para indicar "Listo" */
+    --accent-success: #4ADE80;
     --white: #FFFFFF;
     --shadow-soft: 0 12px 30px rgba(0, 0, 0, 0.04);
     --shadow-float: 0 10px 25px rgba(0, 0, 0, 0.15);
@@ -53,20 +53,19 @@
 
   .splash-text { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 35px; max-width: 300px; }
 
-  /* BOTÓN "MANTENER PRESIONADO" REDISEÑADO */
+  /* BOTÓN - AÑADIDO TOUCH-ACTION PARA EVITAR BLOQUEOS DE IOS */
   .hold-btn {
     background: var(--text-dark); color: var(--white);
     padding: 18px 30px; border-radius: 100px; border: none;
     font-size: 15px; font-weight: 700; cursor: pointer;
     box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
     position: relative; overflow: hidden; width: 100%; max-width: 300px;
+    touch-action: none; /* TRUCO MAGICO: Evita scroll sin romper el audio */
   }
   .btn-text { position: relative; z-index: 2; pointer-events: none; }
   .btn-fill { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: var(--accent); z-index: 1; transition: width 0s; }
   
   .hold-btn.holding .btn-fill { width: 100%; transition: width 3s linear; }
-  
-  /* Estado de "Listo" tras los 3 segundos */
   .hold-btn.ready .btn-fill { background: var(--accent-success); width: 100%; transition: none; }
   .hold-btn.ready { transform: scale(1.05); transition: transform 0.2s; box-shadow: 0 15px 30px rgba(74, 222, 128, 0.4); }
 
@@ -203,11 +202,9 @@
   </div>
 
   <div id="main-app" class="hidden">
-    
     <div class="top-logo-bar slide-up">
       <img src="logooo.png" alt="Fufu Logo">
     </div>
-
     <header class="slide-up delay-1">
       <div class="header-content">
         <p>Nivel de Hartazgo: Crítico</p>
@@ -247,26 +244,24 @@
         <div class="warning-icon">⚠️</div>
         <div class="warning-text">
           <h4>IMPORTANTE: NO INGERIR</h4>
-          <p>Este es un objeto de diseño conceptual. El alivio es puramente mental, la pastilla es arte. Su dignidad es superior a su sabor. No la muerdas.</p>
+          <p>Este es un objeto de diseño conceptual. El alivio es puramente mental. Su dignidad es superior a su sabor.</p>
         </div>
       </div>
       <div class="warning-card warn-mint">
         <div class="warning-icon">📱</div>
         <div class="warning-text">
           <h4>Contraindicaciones Severas</h4>
-          <p>No usar mientras escucha audios de WhatsApp de más de 3 minutos o ante reuniones que evidentemente debieron ser un email.</p>
+          <p>No usar mientras escucha audios de WhatsApp de más de 3 minutos o ante reuniones que debieron ser un email.</p>
         </div>
       </div>
     </div>
 
     <div class="container slide-up delay-6" id="diary-container">
-      
       <div id="teaser-section" class="minimal-card">
         <h3>Diario Clínico Satírico</h3>
         <p>Archiva las actitudes exasperantes de hoy en un entorno seguro y protegido.</p>
         <button class="btn-minimal" onclick="showAuth()">Documentar Experiencia 🔒</button>
       </div>
-
       <div id="auth-section" class="minimal-card hidden">
         <h3>Seguridad del Lóbulo Nostálgico</h3>
         <p style="color: #D32F2F; display: none;" id="login-error">Código incorrecto.</p>
@@ -274,14 +269,12 @@
         <button class="btn-minimal" onclick="login()">Desbloquear Diario</button>
         <button class="btn-minimal" style="background: transparent; color: var(--text-muted); margin-top: 10px; box-shadow: none;" onclick="hideAuth()">Cancelar</button>
       </div>
-
       <div id="private-section" class="hidden">
         <div class="minimal-card">
           <h3>Nuevo Incidente 📝</h3>
           <textarea id="journal-input" placeholder="Desahógate aquí antes de que respondas mal..."></textarea>
           <button class="btn-minimal" onclick="saveJournalEntry()">Archivar y Olvidar</button>
         </div>
-
         <div class="minimal-card">
           <h3>Logros <span id="achievement-count" style="color: var(--text-muted); font-size: 14px; font-weight: normal;">0/4</span></h3>
           <div class="badges-grid">
@@ -291,7 +284,6 @@
             <div class="badge-item" id="badge-4"><div class="badge-emoji">🙄</div><div class="badge-label">Nirvana<br>Cínico</div></div>
           </div>
         </div>
-
         <div class="minimal-card" style="margin-bottom: 30px;">
           <h3>Historial 📂</h3>
           <div id="history-container"></div>
@@ -307,12 +299,11 @@
         <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
       </button>
     </div>
-
   </div>
 
 <script>
   /* =========================================
-     LA MAGIA DEL AUDIO Y EL BOTÓN DE 3 SEGUNDOS
+     SOLUCIÓN DEFINITIVA DE AUDIO IOS/ANDROID
   ========================================= */
   const syncBtn = document.getElementById('sync-btn');
   const btnText = document.getElementById('btn-text-content');
@@ -320,15 +311,19 @@
   let isAppReady = false;
   let isAppStarted = false;
 
+  // Forzamos a que las voces carguen de antemano si el móvil lo necesita
+  if ('speechSynthesis' in window) {
+      window.speechSynthesis.getVoices();
+  }
+
   function startHold(e) {
     if (isAppStarted) return;
-    if(e.type === 'touchstart') e.preventDefault(); 
     
+    // NOTA: NO hay e.preventDefault() aquí. Si lo ponemos, Apple nos bloquea.
     isAppReady = false;
     syncBtn.classList.add('holding'); 
     btnText.innerText = "Cargando dosis...";
 
-    // 1. A los 3 segundos, marcamos como "Listo" pero NO arrancamos la app todavía.
     holdTimer = setTimeout(() => {
       isAppReady = true;
       syncBtn.classList.add('ready');
@@ -339,26 +334,34 @@
   function endHold(e) {
     if (isAppStarted) return;
     
-    // Al soltar, cancelamos clases y timer visuales
     syncBtn.classList.remove('holding');
     clearTimeout(holdTimer);
 
-    // 2. Si soltó el botón DESPUÉS de los 3 segundos:
     if (isAppReady) {
       isAppStarted = true;
-      startApp(); // Esto arranca la app de forma SÍNCRONA con el movimiento del dedo del usuario.
+      
+      // ¡EL TRUCO! Lanzar el audio AQUÍ, en la función que detecta que soltaste el dedo.
+      // Al ser acción directa del usuario, Safari y Chrome lo permiten.
+      if (!isMuted && 'speechSynthesis' in window) {
+         let utterance = new SpeechSynthesisUtterance(phrases[currentIndex]);
+         utterance.lang = 'es-ES';
+         utterance.rate = 0.95;
+         window.speechSynthesis.speak(utterance);
+      }
+
+      startAppVisuals(); 
+
     } else {
-      // Si soltó antes de tiempo, reiniciamos el texto
       syncBtn.classList.remove('ready');
       btnText.innerText = "Mantén pulsado (3s) para cargar";
     }
   }
 
-  // Escuchamos todos los toques
+  // Escuchamos toques SIN prevenir el comportamiento por defecto
   syncBtn.addEventListener('mousedown', startHold);
   syncBtn.addEventListener('mouseup', endHold);
   syncBtn.addEventListener('mouseleave', endHold); 
-  syncBtn.addEventListener('touchstart', startHold, {passive: false});
+  syncBtn.addEventListener('touchstart', startHold);
   syncBtn.addEventListener('touchend', endHold);
   syncBtn.addEventListener('touchcancel', endHold);
 
@@ -379,32 +382,19 @@
     "Protocolo activo: Inhibiendo impulso destructivo al ver correos urgentes."
   ];
 
-  function startApp() {
-    // 3. COMO ESTO SE LLAMA DIRECTAMENTE AL SOLTAR EL DEDO, EL AUDIO NO SE BLOQUEA.
-    // Reproducimos la frase en el mismo instante, pero le ponemos un punto delante para que 
-    // haya una pausa de ~1 segundo mientras hace la animación del círculo.
-    if (!isMuted) {
-      window.speechSynthesis.cancel();
-      let pauseText = ". . . " + phrases[currentIndex]; 
-      let utterance = new SpeechSynthesisUtterance(pauseText);
-      utterance.lang = 'es-ES';
-      utterance.rate = 0.95;
-      window.speechSynthesis.speak(utterance);
-    }
-
-    // Arrancamos la animación
+  function startAppVisuals() {
     const mainApp = document.getElementById('main-app');
     mainApp.classList.remove('hidden');
     mainApp.classList.add('circle-reveal');
 
     setTimeout(() => {
       document.getElementById('splash-screen').style.display = 'none';
-      // Cargamos solo los visuales de la dosis, el audio ya se lanzó arriba
-      showDoseVisualsOnly(currentIndex); 
+      showDoseText(currentIndex); 
     }, 800); 
   }
 
-  function showDoseVisualsOnly(index) {
+  // Esta función SOLO actualiza lo visual porque el primer audio ya se disparó en endHold()
+  function showDoseText(index) {
     const textEl = document.getElementById('dose-text');
     const numberEl = document.getElementById('dose-number');
     numberEl.innerText = `DOSIS ${index + 1}/${phrases.length}`;
@@ -413,11 +403,12 @@
     setTimeout(() => {
       textEl.innerText = `"${phrases[index]}"`;
       textEl.style.opacity = 1;
-    }, 200); 
+    }, 100); 
 
     startProgressTimer();
   }
 
+  // Esta se usa a partir de la segunda dosis, porque ya estamos dentro
   function showDoseFull(index) {
     const textEl = document.getElementById('dose-text');
     const numberEl = document.getElementById('dose-number');
@@ -428,9 +419,7 @@
       textEl.innerText = `"${phrases[index]}"`;
       textEl.style.opacity = 1;
       
-      // En las siguientes rondas (15s), si el usuario no ha muteado, habla normal
-      if (!isMuted) {
-        window.speechSynthesis.cancel();
+      if (!isMuted && 'speechSynthesis' in window) {
         let utterance = new SpeechSynthesisUtterance(phrases[index]);
         utterance.lang = 'es-ES';
         utterance.rate = 0.95;
@@ -471,7 +460,6 @@
       btn.classList.remove('muted');
       btn.innerHTML = '🔊';
       
-      // Si desmutea, habla
       window.speechSynthesis.cancel();
       let utterance = new SpeechSynthesisUtterance(phrases[currentIndex]);
       utterance.lang = 'es-ES';
@@ -486,7 +474,6 @@
   function scrollToDiary() {
     const diaryContainer = document.getElementById('diary-container');
     diaryContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    
     if(!document.getElementById('auth-section').classList.contains('hidden')) {
       setTimeout(() => document.getElementById('password-input').focus(), 500);
     } else if(!document.getElementById('private-section').classList.contains('hidden')) {
@@ -497,18 +484,8 @@
   /* =========================================
      LÓGICA DE CONTRASEÑA Y DIARIO
   ========================================= */
-  function showAuth() {
-    document.getElementById('teaser-section').classList.add('hidden');
-    document.getElementById('auth-section').classList.remove('hidden');
-    document.getElementById('password-input').focus();
-  }
-
-  function hideAuth() {
-    document.getElementById('auth-section').classList.add('hidden');
-    document.getElementById('teaser-section').classList.remove('hidden');
-    document.getElementById('login-error').style.display = 'none';
-  }
-
+  function showAuth() { document.getElementById('teaser-section').classList.add('hidden'); document.getElementById('auth-section').classList.remove('hidden'); document.getElementById('password-input').focus(); }
+  function hideAuth() { document.getElementById('auth-section').classList.add('hidden'); document.getElementById('teaser-section').classList.remove('hidden'); document.getElementById('login-error').style.display = 'none'; }
   function login() {
     const input = document.getElementById('password-input').value;
     if (input === PASSWORD) {
@@ -522,7 +499,6 @@
   }
 
   let journalEntries = JSON.parse(localStorage.getItem("paciencia_journal_v81")) || [];
-
   function saveJournalEntry() {
     const text = document.getElementById('journal-input').value.trim();
     if (!text) return;
@@ -542,9 +518,7 @@
         container.innerHTML += `<div class="history-item"><div class="history-date">${entry.date}</div><div style="font-size: 14px;">${entry.text}</div></div>`;
       });
     }
-
-    const total = journalEntries.length;
-    let unlocked = 0;
+    const total = journalEntries.length; let unlocked = 0;
     if (total >= 1) { document.getElementById('badge-1').classList.add('active'); unlocked++; }
     if (total >= 3) { document.getElementById('badge-2').classList.add('active'); unlocked++; }
     if (total >= 5) { document.getElementById('badge-3').classList.add('active'); unlocked++; }
