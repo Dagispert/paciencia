@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>PACIENCIA-MAX™ — Fufu® Prospecto</title>
+<title>PACIENCIA-MAX™ — Fufu® Expediente</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   /* =========================================
@@ -51,7 +51,6 @@
 
   .splash-text { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 35px; max-width: 300px; }
 
-  /* BOTÓN "MANTENER PRESIONADO" */
   .hold-btn {
     background: var(--text-dark); color: var(--white);
     padding: 18px 30px; border-radius: 100px; border: none;
@@ -72,23 +71,53 @@
   @keyframes irisReveal { 0% { clip-path: circle(0% at 50% 50%); } 100% { clip-path: circle(150% at 50% 50%); } }
 
   .slide-up { opacity: 0; transform: translateY(20px); animation: slideUpIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
-  .delay-1 { animation-delay: 0.1s; }
-  .delay-2 { animation-delay: 0.2s; }
-  .delay-3 { animation-delay: 0.3s; }
-  .delay-4 { animation-delay: 0.4s; }
-  .delay-5 { animation-delay: 0.5s; }
+  .delay-1 { animation-delay: 0.15s; }
+  .delay-2 { animation-delay: 0.3s; }
+  .delay-3 { animation-delay: 0.45s; }
+  .delay-4 { animation-delay: 0.6s; }
+  .delay-5 { animation-delay: 0.75s; }
+  .delay-6 { animation-delay: 0.9s; }
   @keyframes slideUpIn { to { opacity: 1; transform: translateY(0); } }
 
   /* =========================================
-     HEADER
+     HEADER Y LOGO SUPERIOR (NUEVO LAYOUT)
   ========================================= */
-  header { padding: 40px 24px 20px; display: flex; justify-content: space-between; align-items: center; }
-  .header-left p { font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-  .header-left h1 { font-size: 28px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
-  .brand-logo { height: 35px; width: auto; }
+  .top-logo-bar {
+    display: flex; justify-content: center; align-items: center;
+    padding: 30px 0 10px;
+  }
+  .top-logo-bar img { height: 45px; width: auto; object-fit: contain; }
+
+  header { 
+    padding: 10px 24px 20px; 
+    display: flex; justify-content: center; align-items: center; text-align: center;
+  }
+  .header-content p { font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .header-content h1 { font-size: 28px; font-weight: 700; display: flex; align-items: center; gap: 8px; justify-content: center; }
 
   /* =========================================
-     NUEVO: PROSPECTO TÉCNICO Y ADVERTENCIAS
+     TARJETA DE DOSIS ÚNICA (15s) - MOVIDA ARRIBA
+  ========================================= */
+  .dose-section { margin: 10px 24px 35px; }
+  .active-dose-card {
+    background: var(--white); border-radius: var(--radius-lg); box-shadow: var(--shadow-soft);
+    padding: 30px 24px 0; display: flex; flex-direction: column; justify-content: space-between;
+    min-height: 240px; border: 1px solid rgba(0,0,0,0.02); position: relative; overflow: hidden;
+  }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+  .card-number { font-size: 12px; color: var(--text-muted); font-weight: 500; display: flex; align-items: center; gap: 6px; }
+  .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; display: inline-block; animation: pulseRed 2s infinite; }
+  
+  .mute-btn { background: #F0F0F0; border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; transition: 0.2s; color: var(--text-dark); }
+  .mute-btn.muted { background: #FFE5E5; color: #D32F2F; }
+  
+  .card-phrase { font-size: 22px; font-weight: 400; line-height: 1.4; color: var(--text-dark); transition: opacity 0.5s ease; padding-bottom: 40px; }
+
+  .dose-progress-bg { position: absolute; bottom: 0; left: 0; width: 100%; height: 6px; background: #E5E5EA; }
+  .dose-progress-fill { height: 100%; width: 0%; background: var(--accent); }
+
+  /* =========================================
+     PROSPECTO, ADVERTENCIAS Y DIARIO
   ========================================= */
   .section-title { padding: 0 24px; font-size: 14px; font-weight: 700; color: var(--text-dark); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
 
@@ -114,30 +143,6 @@
   .warning-text h4 { font-size: 14px; margin-bottom: 4px; font-weight: 700; }
   .warning-text p { font-size: 12px; opacity: 0.85; line-height: 1.4; }
 
-  /* =========================================
-     TARJETA DE DOSIS ÚNICA (15s)
-  ========================================= */
-  .dose-section { margin: 0 24px 35px; }
-  .active-dose-card {
-    background: var(--white); border-radius: var(--radius-lg); box-shadow: var(--shadow-soft);
-    padding: 30px 24px 0; display: flex; flex-direction: column; justify-content: space-between;
-    min-height: 240px; border: 1px solid rgba(0,0,0,0.02); position: relative; overflow: hidden;
-  }
-  .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
-  .card-number { font-size: 12px; color: var(--text-muted); font-weight: 500; display: flex; align-items: center; gap: 6px; }
-  .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; display: inline-block; animation: pulseRed 2s infinite; }
-  
-  .mute-btn { background: #F0F0F0; border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; transition: 0.2s; color: var(--text-dark); }
-  .mute-btn.muted { background: #FFE5E5; color: #D32F2F; }
-  
-  .card-phrase { font-size: 22px; font-weight: 400; line-height: 1.4; color: var(--text-dark); transition: opacity 0.5s ease; padding-bottom: 40px; }
-
-  .dose-progress-bg { position: absolute; bottom: 0; left: 0; width: 100%; height: 6px; background: #E5E5EA; }
-  .dose-progress-fill { height: 100%; width: 0%; background: var(--accent); }
-
-  /* =========================================
-     DIARIO, CONTRASEÑA, LOGROS
-  ========================================= */
   .container { padding: 0 24px; }
   .minimal-card { background: var(--white); padding: 24px; border-radius: var(--radius-lg); box-shadow: var(--shadow-soft); margin-bottom: 24px; border: 1px solid rgba(0,0,0,0.02); text-align: center; }
   .minimal-card h3 { font-size: 16px; margin-bottom: 8px; color: var(--text-dark); }
@@ -183,15 +188,30 @@
 
   <div id="main-app" class="hidden">
     
-    <header class="slide-up">
-      <div class="header-left">
+    <div class="top-logo-bar slide-up">
+      <img src="logooo.png" alt="Fufu Logo">
+    </div>
+
+    <header class="slide-up delay-1">
+      <div class="header-content">
         <p>Calibración Exitosa</p>
         <h1>Expediente 🙄</h1>
       </div>
-      <img src="logooo.png" alt="Fufu" class="brand-logo">
     </header>
 
-    <div class="hardware-card slide-up delay-1">
+    <div class="dose-section slide-up delay-2">
+      <div class="active-dose-card">
+        <div class="card-top">
+          <span class="card-number"><span class="dot"></span> <span id="dose-number">DOSIS 1/5</span></span>
+          <button class="mute-btn" id="mute-toggle" onclick="toggleMute()">🔊</button>
+        </div>
+        <div class="card-phrase" id="dose-text">"..."</div>
+        <div class="dose-progress-bg"><div class="dose-progress-fill" id="dose-progress"></div></div>
+      </div>
+    </div>
+
+    <div class="section-title slide-up delay-3">Prospecto Técnico</div>
+    <div class="hardware-card slide-up delay-3">
       <div class="hw-icon">💊</div>
       <div class="hw-text">
         <h3>Hardware PACIENCIA-MAX</h3>
@@ -199,14 +219,14 @@
       </div>
     </div>
 
-    <div class="info-grid slide-up delay-2">
+    <div class="info-grid slide-up delay-4">
       <div class="info-item"><label>Acción</label><strong>Filtro Anti-Tontos</strong></div>
       <div class="info-item"><label>Duración</label><strong>Ciclo Semanal</strong></div>
       <div class="info-item"><label>Dosis</label><strong>1g / Tolerancia</strong></div>
       <div class="info-item"><label>Efecto</label><strong>Zen Estable</strong></div>
     </div>
 
-    <div class="warnings-container slide-up delay-3">
+    <div class="warnings-container slide-up delay-5">
       <div class="warning-card warn-red">
         <div class="warning-icon">⚠️</div>
         <div class="warning-text">
@@ -223,19 +243,7 @@
       </div>
     </div>
 
-    <div class="section-title slide-up delay-4">Guía Activa (Tratamiento)</div>
-    <div class="dose-section slide-up delay-4">
-      <div class="active-dose-card">
-        <div class="card-top">
-          <span class="card-number"><span class="dot"></span> <span id="dose-number">DOSIS 1/5</span></span>
-          <button class="mute-btn" id="mute-toggle" onclick="toggleMute()">🔊</button>
-        </div>
-        <div class="card-phrase" id="dose-text">"..."</div>
-        <div class="dose-progress-bg"><div class="dose-progress-fill" id="dose-progress"></div></div>
-      </div>
-    </div>
-
-    <div class="container slide-up delay-5">
+    <div class="container slide-up delay-6">
       
       <div id="teaser-section" class="minimal-card">
         <h3>Diario Clínico Satírico</h3>
