@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>PACIENCIA-MAX™ — Fufu® Focus</title>
+<title>PACIENCIA-MAX™ — Fufu® Prospecto</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   /* =========================================
@@ -18,19 +18,15 @@
     --shadow-soft: 0 12px 30px rgba(0, 0, 0, 0.04);
     --radius-lg: 32px;
     --radius-md: 20px;
+    --radius-sm: 16px;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-dark);
-    overflow-x: hidden;
-  }
+  body { font-family: 'DM Sans', sans-serif; background-color: var(--bg-color); color: var(--text-dark); overflow-x: hidden; }
 
   /* =========================================
-     PANTALLA DE CALIBRACIÓN (SPLASH SCREEN)
+     PANTALLA DE CALIBRACIÓN (SPLASH)
   ========================================= */
   #splash-screen {
     position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
@@ -61,41 +57,26 @@
     padding: 18px 30px; border-radius: 100px; border: none;
     font-size: 15px; font-weight: 700; cursor: pointer;
     box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
-    position: relative; overflow: hidden;
-    width: 100%; max-width: 300px;
+    position: relative; overflow: hidden; width: 100%; max-width: 300px;
   }
-  
   .btn-text { position: relative; z-index: 2; pointer-events: none; }
-  
-  .btn-fill {
-    position: absolute; top: 0; left: 0; height: 100%; width: 0%;
-    background: var(--accent); z-index: 1; transition: width 0s;
-  }
-  
-  .hold-btn.holding .btn-fill {
-    width: 100%; transition: width 3s linear;
-  }
+  .btn-fill { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: var(--accent); z-index: 1; transition: width 0s; }
+  .hold-btn.holding .btn-fill { width: 100%; transition: width 3s linear; }
 
   /* =========================================
-     APP PRINCIPAL Y ANIMACIÓN CIRCULAR (IRIS)
+     APP PRINCIPAL Y ANIMACIONES
   ========================================= */
-  #main-app {
-    position: relative; z-index: 20;
-    background-color: var(--bg-color);
-    min-height: 100vh; padding-bottom: 80px;
-  }
-
+  #main-app { position: relative; z-index: 20; background-color: var(--bg-color); min-height: 100vh; padding-bottom: 80px; }
   .hidden { display: none !important; }
   .circle-reveal { display: block !important; animation: irisReveal 0.8s cubic-bezier(0.64, 0.04, 0.35, 1) forwards; }
-
-  @keyframes irisReveal {
-    0% { clip-path: circle(0% at 50% 50%); }
-    100% { clip-path: circle(150% at 50% 50%); }
-  }
+  @keyframes irisReveal { 0% { clip-path: circle(0% at 50% 50%); } 100% { clip-path: circle(150% at 50% 50%); } }
 
   .slide-up { opacity: 0; transform: translateY(20px); animation: slideUpIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
-  .delay-1 { animation-delay: 0.2s; }
-  .delay-2 { animation-delay: 0.4s; }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+  .delay-4 { animation-delay: 0.4s; }
+  .delay-5 { animation-delay: 0.5s; }
   @keyframes slideUpIn { to { opacity: 1; transform: translateY(0); } }
 
   /* =========================================
@@ -107,34 +88,55 @@
   .brand-logo { height: 35px; width: auto; }
 
   /* =========================================
-     TARJETA DE DOSIS ÚNICA (Reemplaza al carrusel)
+     NUEVO: PROSPECTO TÉCNICO Y ADVERTENCIAS
   ========================================= */
-  .dose-section { margin: 10px 24px 30px; }
-  .section-header { margin-bottom: 15px; font-size: 14px; font-weight: 700; color: var(--text-dark); display: flex; align-items: center; gap: 8px; }
-  .dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; display: inline-block; }
+  .section-title { padding: 0 24px; font-size: 14px; font-weight: 700; color: var(--text-dark); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
 
-  .active-dose-card {
-    background: var(--white); border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-soft); padding: 30px 24px 0; /* Padding inferior quitado para la barra */
-    display: flex; flex-direction: column; justify-content: space-between;
-    min-height: 240px; border: 1px solid rgba(0,0,0,0.02);
-    position: relative; overflow: hidden;
+  .hardware-card {
+    margin: 0 24px 20px; background: var(--white); padding: 20px;
+    border-radius: var(--radius-lg); box-shadow: var(--shadow-soft);
+    display: flex; align-items: center; gap: 16px; border: 1px solid rgba(0,0,0,0.02);
   }
-  
+  .hw-icon { font-size: 35px; background: #F0F4F4; width: 60px; height: 60px; border-radius: 20px; display: flex; justify-content: center; align-items: center; flex-shrink: 0; }
+  .hw-text h3 { font-size: 16px; color: var(--text-dark); margin-bottom: 2px; }
+  .hw-text p { font-size: 13px; color: var(--text-muted); }
+
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 0 24px 24px; }
+  .info-item { background: var(--white); padding: 16px; border-radius: var(--radius-sm); box-shadow: var(--shadow-soft); border: 1px solid rgba(0,0,0,0.02); }
+  .info-item label { font-size: 10px; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 4px; letter-spacing: 0.5px; }
+  .info-item strong { font-size: 14px; color: var(--accent); font-weight: 700; }
+
+  .warnings-container { margin: 0 24px 35px; }
+  .warning-card { display: flex; gap: 15px; padding: 16px; border-radius: var(--radius-sm); margin-bottom: 12px; align-items: flex-start; }
+  .warn-red { background: #FFF0F0; color: #D32F2F; }
+  .warn-mint { background: #E0F2F1; color: #004D40; }
+  .warning-icon { font-size: 20px; background: var(--white); width: 36px; height: 36px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .warning-text h4 { font-size: 14px; margin-bottom: 4px; font-weight: 700; }
+  .warning-text p { font-size: 12px; opacity: 0.85; line-height: 1.4; }
+
+  /* =========================================
+     TARJETA DE DOSIS ÚNICA (15s)
+  ========================================= */
+  .dose-section { margin: 0 24px 35px; }
+  .active-dose-card {
+    background: var(--white); border-radius: var(--radius-lg); box-shadow: var(--shadow-soft);
+    padding: 30px 24px 0; display: flex; flex-direction: column; justify-content: space-between;
+    min-height: 240px; border: 1px solid rgba(0,0,0,0.02); position: relative; overflow: hidden;
+  }
   .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
-  .card-number { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+  .card-number { font-size: 12px; color: var(--text-muted); font-weight: 500; display: flex; align-items: center; gap: 6px; }
+  .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; display: inline-block; animation: pulseRed 2s infinite; }
   
   .mute-btn { background: #F0F0F0; border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; transition: 0.2s; color: var(--text-dark); }
   .mute-btn.muted { background: #FFE5E5; color: #D32F2F; }
   
   .card-phrase { font-size: 22px; font-weight: 400; line-height: 1.4; color: var(--text-dark); transition: opacity 0.5s ease; padding-bottom: 40px; }
 
-  /* Barra de progreso de 15 segundos */
   .dose-progress-bg { position: absolute; bottom: 0; left: 0; width: 100%; height: 6px; background: #E5E5EA; }
   .dose-progress-fill { height: 100%; width: 0%; background: var(--accent); }
 
   /* =========================================
-     TEASER, CONTRASEÑA, DIARIO, LOGROS
+     DIARIO, CONTRASEÑA, LOGROS
   ========================================= */
   .container { padding: 0 24px; }
   .minimal-card { background: var(--white); padding: 24px; border-radius: var(--radius-lg); box-shadow: var(--shadow-soft); margin-bottom: 24px; border: 1px solid rgba(0,0,0,0.02); text-align: center; }
@@ -184,31 +186,60 @@
     <header class="slide-up">
       <div class="header-left">
         <p>Calibración Exitosa</p>
-        <h1>Dosis Activa 🙄</h1>
+        <h1>Expediente 🙄</h1>
       </div>
       <img src="logooo.png" alt="Fufu" class="brand-logo">
     </header>
 
-    <div class="dose-section slide-up delay-1">
-      <div class="section-header">
-        <span class="dot"></span> Guía Activa
+    <div class="hardware-card slide-up delay-1">
+      <div class="hw-icon">💊</div>
+      <div class="hw-text">
+        <h3>Hardware PACIENCIA-MAX</h3>
+        <p>Cerámica mate técnica (40mm). v4.1</p>
       </div>
-      <div class="active-dose-card">
-        <div class="card-top">
-          <span class="card-number" id="dose-number">DOSIS 1/5</span>
-          <button class="mute-btn" id="mute-toggle" onclick="toggleMute()">🔊</button>
+    </div>
+
+    <div class="info-grid slide-up delay-2">
+      <div class="info-item"><label>Acción</label><strong>Filtro Anti-Tontos</strong></div>
+      <div class="info-item"><label>Duración</label><strong>Ciclo Semanal</strong></div>
+      <div class="info-item"><label>Dosis</label><strong>1g / Tolerancia</strong></div>
+      <div class="info-item"><label>Efecto</label><strong>Zen Estable</strong></div>
+    </div>
+
+    <div class="warnings-container slide-up delay-3">
+      <div class="warning-card warn-red">
+        <div class="warning-icon">⚠️</div>
+        <div class="warning-text">
+          <h4>IMPORTANTE: NO INGERIR</h4>
+          <p>Este es un objeto de diseño conceptual. El alivio es puramente mental, la pastilla es arte. Su dignidad es superior a su sabor. No la muerdas.</p>
         </div>
-        <div class="card-phrase" id="dose-text">"..."</div>
-        <div class="dose-progress-bg">
-          <div class="dose-progress-fill" id="dose-progress"></div>
+      </div>
+      <div class="warning-card warn-mint">
+        <div class="warning-icon">📱</div>
+        <div class="warning-text">
+          <h4>Contraindicaciones Severas</h4>
+          <p>No usar mientras escucha audios de WhatsApp de más de 3 minutos o ante reuniones que evidentemente debieron ser un email.</p>
         </div>
       </div>
     </div>
 
-    <div class="container">
-      <div id="teaser-section" class="minimal-card slide-up delay-2">
+    <div class="section-title slide-up delay-4">Guía Activa (Tratamiento)</div>
+    <div class="dose-section slide-up delay-4">
+      <div class="active-dose-card">
+        <div class="card-top">
+          <span class="card-number"><span class="dot"></span> <span id="dose-number">DOSIS 1/5</span></span>
+          <button class="mute-btn" id="mute-toggle" onclick="toggleMute()">🔊</button>
+        </div>
+        <div class="card-phrase" id="dose-text">"..."</div>
+        <div class="dose-progress-bg"><div class="dose-progress-fill" id="dose-progress"></div></div>
+      </div>
+    </div>
+
+    <div class="container slide-up delay-5">
+      
+      <div id="teaser-section" class="minimal-card">
         <h3>Diario Clínico Satírico</h3>
-        <p>Archiva las actitudes exasperantes de hoy en un entorno seguro.</p>
+        <p>Archiva las actitudes exasperantes de hoy en un entorno seguro y protegido.</p>
         <button class="btn-minimal" onclick="showAuth()">Documentar Experiencia 🔒</button>
       </div>
 
@@ -243,6 +274,7 @@
         </div>
       </div>
     </div>
+
   </div>
 
 <script>
@@ -285,7 +317,7 @@
   let isMuted = false;
   let currentIndex = 0;
   let progressTimeout;
-  const DOSE_DURATION = 15000; // 15 segundos exactos
+  const DOSE_DURATION = 15000; 
 
   const phrases = [
     "Lorena, respira. Esa persona no sabe que es el protagonista de tu chiste interno.",
@@ -305,51 +337,34 @@
 
     setTimeout(() => {
       document.getElementById('splash-screen').style.display = 'none';
-      showDose(currentIndex); // Iniciar la primera dosis
+      showDose(currentIndex); 
     }, 800); 
   }
 
-  /* =========================================
-     LÓGICA DE LA TARJETA DE DOSIS (15 SEGUNDOS)
-  ========================================= */
   function showDose(index) {
     const textEl = document.getElementById('dose-text');
     const numberEl = document.getElementById('dose-number');
-    
-    // 1. Actualizar números
     numberEl.innerText = `DOSIS ${index + 1}/${phrases.length}`;
-    
-    // 2. Efecto de desvanecimiento para el texto
     textEl.style.opacity = 0;
     
     setTimeout(() => {
       textEl.innerText = `"${phrases[index]}"`;
       textEl.style.opacity = 1;
-      
-      // 3. Reproducir audio si no está silenciado
       if (!isMuted) speakPhrase(phrases[index]);
-    }, 500); // Esperar medio segundo para que el texto se desvanezca
+    }, 500); 
 
-    // 4. Iniciar la barra de progreso de 15 segundos
     startProgressTimer();
   }
 
   function startProgressTimer() {
     clearTimeout(progressTimeout);
     const bar = document.getElementById('dose-progress');
-    
-    // Resetear la barra instantáneamente
     bar.style.transition = 'none';
     bar.style.width = '0%';
-    
-    // Forzar reflow para que el navegador registre el 0% antes de animar
     void bar.offsetWidth; 
-    
-    // Animar hasta el 100% durante 15 segundos de forma lineal
     bar.style.transition = 'width 15s linear';
     bar.style.width = '100%';
 
-    // Programar la siguiente frase
     progressTimeout = setTimeout(() => {
       nextDose();
     }, DOSE_DURATION);
@@ -373,7 +388,6 @@
   function toggleMute() {
     isMuted = !isMuted;
     const btn = document.getElementById('mute-toggle');
-    
     if(isMuted) {
       btn.classList.add('muted');
       btn.innerHTML = '🔇';
@@ -381,7 +395,7 @@
     } else {
       btn.classList.remove('muted');
       btn.innerHTML = '🔊';
-      speakPhrase(phrases[currentIndex]); // Si desmutea, lee la frase actual
+      speakPhrase(phrases[currentIndex]);
     }
   }
 
@@ -412,13 +426,13 @@
     }
   }
 
-  let journalEntries = JSON.parse(localStorage.getItem("paciencia_journal_v8")) || [];
+  let journalEntries = JSON.parse(localStorage.getItem("paciencia_journal_v81")) || [];
 
   function saveJournalEntry() {
     const text = document.getElementById('journal-input').value.trim();
     if (!text) return;
     journalEntries.unshift({ date: new Date().toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' }), text: text });
-    localStorage.setItem("paciencia_journal_v8", JSON.stringify(journalEntries));
+    localStorage.setItem("paciencia_journal_v81", JSON.stringify(journalEntries));
     document.getElementById('journal-input').value = "";
     renderHistory();
   }
