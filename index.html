@@ -23,7 +23,23 @@
     --radius-sm: 16px;
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
+  /* BLOQUEO TOTAL DE SELECCIÓN DE TEXTO (FIX IOS) */
+  * { 
+    margin: 0; padding: 0; box-sizing: border-box; 
+    -webkit-tap-highlight-color: transparent; 
+    -webkit-touch-callout: none; /* Evita el menú contextual en iOS */
+    -webkit-user-select: none;   /* Safari */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* Internet Explorer/Edge */
+    user-select: none;           /* Estándar */
+  }
+
+  /* Permitir escribir en el diario y la contraseña */
+  input, textarea {
+    -webkit-user-select: auto;
+    user-select: auto;
+  }
 
   body { font-family: 'DM Sans', sans-serif; background-color: var(--bg-color); color: var(--text-dark); overflow-x: hidden; scroll-behavior: smooth; }
 
@@ -53,13 +69,14 @@
 
   .splash-text { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 35px; max-width: 300px; }
 
+  /* BOTÓN */
   .hold-btn {
     background: var(--text-dark); color: var(--white);
     padding: 18px 30px; border-radius: 100px; border: none;
     font-size: 15px; font-weight: 700; cursor: pointer;
     box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
     position: relative; overflow: hidden; width: 100%; max-width: 300px;
-    touch-action: none;
+    touch-action: manipulation; /* Fix de interacciones en móvil */
   }
   .btn-text { position: relative; z-index: 2; pointer-events: none; }
   .btn-fill { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: var(--accent); z-index: 1; transition: width 0s; }
@@ -302,75 +319,68 @@
 
 <script>
   /* =========================================
-     FIX DEFINITIVO PARA SAFARI / iOS / ANDROID
+     FIX DEFINITIVO TEXTO Y AUDIO IOS SAFARI
   ========================================= */
   
-  // 1. Limpiamos cualquier cola trabada en iOS apenas carga la página
-  if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-  }
-
   const syncBtn = document.getElementById('sync-btn');
   const btnText = document.getElementById('btn-text-content');
   let holdTimer;
   let isAppReady = false;
   let isAppStarted = false;
 
-  function startHold(e) {
-    if (isAppStarted) return;
-    
-    // 2. EL TRUCO FANTASMA: Lanzamos voz a volumen 0 exacto al tocar la pantalla.
-    // Esto "registra" el dominio en iOS como autorizado para hablar.
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      let ghost = new SpeechSynthesisUtterance('');
-      ghost.volume = 0;
-      window.speechSynthesis.speak(ghost);
-    }
+  // Evita que el menú de sistema de iOS salga al mantener presionado el botón
+  syncBtn.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+  });
 
-    isAppReady = false;
+  // Funciones para cargar (Mantener pulsado)
+  function startHold(e) {
+    if (isAppReady || isAppStarted) return; // Si ya cargó, ignoramos
+    
     syncBtn.classList.add('holding'); 
     btnText.innerText = "Cargando dosis...";
 
     holdTimer = setTimeout(() => {
       isAppReady = true;
+      syncBtn.classList.remove('holding');
       syncBtn.classList.add('ready');
-      btnText.innerText = "¡Completado! Suelta para entrar";
+      btnText.innerText = "¡Listo! TOCA para entrar";
     }, 3000);
   }
 
   function endHold(e) {
-    if (isAppStarted) return;
+    if (isAppReady || isAppStarted) return; // Si ya cargó, no reiniciamos
     
     syncBtn.classList.remove('holding');
     clearTimeout(holdTimer);
-
-    if (isAppReady) {
-      isAppStarted = true;
-      
-      // 3. LA ORDEN REAL: Lanzamos el texto al levantar el dedo.
-      if (!isMuted && 'speechSynthesis' in window) {
-         let utterance = new SpeechSynthesisUtterance(phrases[currentIndex]);
-         utterance.lang = 'es-ES';
-         // utterance.rate = 0.95; // A veces alterar el rate rompe iOS en el primer audio, lo dejamos normal
-         window.speechSynthesis.speak(utterance);
-      }
-
-      startAppVisuals(); 
-
-    } else {
-      syncBtn.classList.remove('ready');
-      btnText.innerText = "Mantén pulsado (3s) para cargar";
-    }
+    btnText.innerText = "Mantén pulsado (3s) para cargar";
   }
 
-  // Escuchamos toques (Sin preventDefault)
+  // Eventos de carga
   syncBtn.addEventListener('mousedown', startHold);
   syncBtn.addEventListener('mouseup', endHold);
   syncBtn.addEventListener('mouseleave', endHold); 
   syncBtn.addEventListener('touchstart', startHold);
   syncBtn.addEventListener('touchend', endHold);
   syncBtn.addEventListener('touchcancel', endHold);
+
+  // LA LLAVE MAESTRA: El evento "click". Apple SIEMPRE respeta el click.
+  syncBtn.addEventListener('click', function(e) {
+    if (isAppReady && !isAppStarted) {
+      isAppStarted = true;
+      
+      // EL AUDIO ENTRA DIRECTAMENTE AL HACER CLICK (No se puede bloquear)
+      if (!isMuted && 'speechSynthesis' in window) {
+         window.speechSynthesis.cancel();
+         let utterance = new SpeechSynthesisUtterance(phrases[currentIndex]);
+         utterance.lang = 'es-ES';
+         utterance.rate = 0.95;
+         window.speechSynthesis.speak(utterance);
+      }
+
+      startAppVisuals(); 
+    }
+  });
 
   /* =========================================
      CONFIGURACIÓN DE FRASES Y DOSIS
