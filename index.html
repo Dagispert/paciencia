@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>PACIENCIA-MAX™ — Lorena Edition</title>
+<title>PACIENCIA-MAX™ — Lorena Edition v4.0</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -34,112 +34,136 @@
   @keyframes fadeInPage { to { opacity: 1; } }
 
   /* --- HEADER v4.0 (LOGO Y BIENVENIDA) --- */
-  .brand-logo { height: 45px; margin: 30px auto; display: block; }
-  .welcome-header { padding: 0 24px 30px; }
-  .welcome-header h1 { font-size: 38px; font-weight: 700; color: var(--gray-dark); letter-spacing: -1px; }
+  .header-app {
+    padding: 30px 25px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .header-left h1 { font-size: 24px; font-weight: 700; color: var(--gray-dark); }
+  .header-left p { font-size: 14px; opacity: 0.6; color: var(--gray-mid); }
+  .user-avatar { width: 45px; height: 45px; background: #FFC107; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; box-shadow: 0 8px 15px rgba(0,0,0,0.05); }
 
   /* --- CASCADING ANIMATIONS --- */
   .slide-up { transform: translateY(30px); opacity: 0; animation: slideUpIn 0.7s var(--bezier) forwards; }
   @keyframes slideUpIn { to { transform: translateY(0); opacity: 1; } }
   .delay-1 { animation-delay: 0.1s; }
   .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+  .delay-4 { animation-delay: 0.4s; }
 
-  /* --- ONBOARDING CARD (EL PORTAL DE ACTIVACIÓN) --- */
-  main { padding: 0 16px; transition: opacity 0.5s; }
-  #main-dashboard { display: none; } /* Oculto inicialmente */
+  /* --- MAIN DASHBOARD (DATOS VISUALES v4.0) --- */
+  main { padding: 0 16px; transition: opacity 0.5s; display: none; } /* Oculto inicialmente */
 
+  /* --- HERO CARD (LA PASTILLA) --- */
   .hero-card {
-    background: linear-gradient(135deg, var(--mint-deep) 0%, #002D26 100%);
-    color: white; padding: 40px 24px; border-radius: 28px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.12); margin-bottom: 30px;
-    position: relative; overflow: hidden;
+    background: var(--white);
+    margin-bottom: 20px; padding: 24px;
+    border-radius: 32px;
+    box-shadow: var(--shadow-premium);
+    display: flex; align-items: center; gap: 20px;
+    overflow: hidden;
   }
-  .status-info { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; opacity: 0.8; margin-bottom: 24px; display: flex; align-items: center; }
+  .pill-avatar { width: 80px; height: 80px; border-radius: 20px; border: 4px solid var(--mint-light); border-top: 4px solid var(--mint-mid); display: flex; align-items: center; justify-content: center; font-size: 40px; flex-shrink: 0; }
+  .pill-meta h2 { font-size: 18px; font-weight: 700; margin-bottom: 4px; color: var(--mint-deep); }
+  .pill-meta p { font-size: 13px; color: var(--gray-mid); line-height: 1.4; }
+
+  /* --- STATUS BLOCK CON SONIDO Y PROGRESO (DIAL ZEN v4.0) --- */
+  .status-block {
+    background: linear-gradient(135deg, var(--mint-deep) 0%, #002D26 100%);
+    color: white; padding: 30px; border-radius: 35px;
+    margin-bottom: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+    position: relative; overflow: hidden;
+    text-align: center;
+  }
+  .status-label { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; opacity: 0.8; margin-bottom: 24px; display: flex; align-items: center; justify-content: center; }
   .status-dot { display: inline-block; width: 6px; height: 6px; background: #4ADE80; border-radius: 50%; margin-right: 10px; animation: pulse 1.5s infinite; }
-  
-  #phrase-text { font-size: 26px; font-weight: 300; line-height: 1.2; min-height: 120px; font-style: italic; transition: opacity 0.4s ease; }
-  .progress-bar { height: 3px; background: rgba(255,255,255,0.1); border-radius: 10px; margin: 30px 0; overflow: hidden; }
-  #progress-fill { height: 100%; background: var(--mint-light); width: 0%; }
+  @keyframes pulse { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); } 70% { transform: scale(1.2); box-shadow: 0 0 0 10px rgba(74, 222, 128, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); } }
 
-  /* --- DATOS VISUALES v4.0 --- */
-  .section-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--gray-mid); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
-  
-  .pill-meta-card { background: var(--white); padding: 24px; border-radius: 24px; box-shadow: var(--shadow-premium); display: flex; gap: 20px; align-items: center; margin-bottom: 24px; }
-  .pill-avatar { width: 70px; height: 70px; border-radius: 20px; border: 4px solid var(--mint-light); border-top: 4px solid var(--mint-mid); display: flex; align-items: center; justify-content: center; font-size: 35px; flex-shrink: 0; }
-  .pill-meta-card h2 { font-size: 18px; color: var(--mint-deep); }
+  #phrase-text { font-size: 26px; font-weight: 300; line-height: 1.2; min-height: 120px; font-style: italic; transition: opacity 0.4s ease; margin-bottom: 15px; }
 
-  /* --- PASSWORD BLOCK v4.0 --- */
-  .password-section { background: rgba(255, 255, 255, 0.7); backdrop-filter: var(--blur); padding: 24px; border-radius: 24px; border: 1px solid rgba(0,0,0,0.04); margin-bottom: 30px; text-align: center; }
-  .password-section label { display: block; font-size: 12px; color: var(--gray-mid); margin-bottom: 10px; line-height: 1.6; }
-  
-  #paciencia-password { width: 100%; padding: 16px; border-radius: 16px; border: 1px solid var(--mint-light); background: var(--white); text-align: center; font-size: 18px; margin-bottom: 16px; outline: none; transition: border-color 0.3s; }
-  #paciencia-password:focus { border-color: var(--mint-mid); }
-  
-  #password-error { display: none; color: #7F1D1D; font-size: 12px; font-weight: 600; background: #FFD2CC; padding: 10px; border-radius: 8px; margin-top: -10px; margin-bottom: 16px; }
+  .progress-container { height: 3px; background: rgba(255,255,255,0.1); border-radius: 10px; margin: 30px 0; overflow: hidden; }
+  #progress-bar { height: 100%; background: var(--mint-light); width: 0%; border-radius: 10px; }
 
-  /* --- BOTONES PREMIUM v4.0 --- */
-  .action-btn { background: var(--mint-mid); color: white; padding: 18px; border-radius: 20px; width: 100%; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 15px 30px rgba(38, 166, 154, 0.3); border: none; cursor: pointer; transition: all 0.2s; }
-  .action-btn:active { transform: scale(0.97); background: #00897B; }
+  /* --- INFO GRID (Kento Style) --- */
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 30px; }
+  .info-item { background: rgba(255, 255, 255, 0.7); backdrop-filter: var(--blur); padding: 20px; border-radius: 20px; border: 1px solid rgba(0,0,0,0.05); }
+  .info-item label { display: block; font-family: 'DM Mono', monospace; font-size: 8px; text-transform: uppercase; color: var(--gray-mid); margin-bottom: 6px; }
+  .info-item strong { color: var(--mint-deep); font-size: 13px; font-weight: 600; }
 
-  /* --- DIARIO v4.0 (Oculto) --- */
+  /* --- DIARIO (Oculto) v4.0 --- */
   .journal-section { background: rgba(255, 255, 255, 0.7); backdrop-filter: var(--blur); padding: 20px; border-radius: 24px; border: 1px solid rgba(0,0,0,0.04); margin-bottom: 24px; transition: opacity 0.5s; }
   textarea { width: 100%; height: 100px; background: var(--white); border: 1px solid var(--mint-light); border-radius: 16px; padding: 16px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--gray-dark); resize: none; outline: none; margin-bottom: 12px; transition: border-color 0.3s; }
   textarea:focus { border-color: var(--mint-mid); }
 
-  /* --- GAMIFICACIÓN v4.0 --- */
-  .achievements-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  /* --- GAMIFICACIÓN (Logros burbuja) --- */
+  .section-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--gray-mid); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; padding-left: 4px; }
+  .achievements-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 30px; }
   .badge { background: var(--white); min-width: 100px; padding: 18px 12px; border-radius: 20px; text-align: center; opacity: 0.4; filter: grayscale(1); transition: all 0.4s var(--bezier); border: 1px solid rgba(0,0,0,0.03); }
   .badge.unlocked { opacity: 1; filter: grayscale(0); background: var(--mint-pale); border-color: var(--mint-light); transform: scale(1.05); }
-  .badge-icon { font-size: 28px; margin-bottom: 8px; }
+  .badge-icon { font-size: 28px; margin-bottom: 8px; animation: float 3s ease-in-out infinite; }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
   .badge-name { font-size: 11px; font-weight: 700; color: var(--mint-deep); line-height: 1.2; }
+
+  /* --- BOTÓN FLOTANTE v4.0 --- */
+  .btn-voice {
+    position: fixed; bottom: 25px; left: 20px; right: 20px;
+    background: var(--mint-mid); color: white;
+    padding: 16px; border-radius: 16px; border: none;
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+    box-shadow: 0 15px 30px rgba(38, 166, 154, 0.3);
+    z-index: 1000;
+  }
+  .btn-voice:active { transform: scale(0.97); background: #00897B; }
 
 </style>
 </head>
 <body>
 
-<img src="logooo.png" alt="Fufu Logo" class="brand-logo">
+<header class="header-app">
+  <div class="header-left">
+    <p>Bienvenida,</p>
+    <h1>Lorena 🙄</h1>
+  </div>
+  <div class="user-avatar">🙄</div>
+</header>
 
-<div class="welcome-header">
-  <p>Bienvenida,</p>
-  <h1>Lorena 🙄</h1>
-</div>
-
-<main id="paciencia-portal">
-  <div class="pill-meta-card slide-up">
+<main id="main-dashboard" class="dashboard-lorena">
+  
+  <div class="hero-card slide-up">
     <div class="pill-avatar">🙄</div>
-    <div>
-      <h3 style="font-weight: 600;">Hardware PACIENCIA-MAX</h3>
-      <p style="font-size: 13px; color: var(--gray-mid);">Cerámica mate técnica. v4.1 satírica.</p>
+    <div class="pill-meta">
+      <h2>Paciencia-Max™ v4.0</h2>
+      <p>Diseño premium mate técnica.<br>Cápsula de calma de dosis secuencial.</p>
     </div>
   </div>
 
-  <div class="password-section slide-up delay-1">
-    <label>Este protocolo secuencial incluye tu Diario Clínico Satírico. Para asegurar la Dignidad de tus Secretos...</label>
-    <div id="password-error">Contraseña incorrecta. (Y si fuera correcta, tampoco te lo diría. Prueba de nuevo).</div>
-    <input type="password" id="paciencia-password" placeholder="Lóbulo Nostálgico">
-    <button class="action-btn" onclick="checkPassword()">Iniciar Protocolo Zen</button>
-  </div>
-</main>
-
-<main id="main-dashboard">
-  <div class="hero-card slide-up">
-    <div class="status-info"><span class="status-dot"></span>NFC SESSION: ACTIVE</div>
-    <div id="phrase-text">Iniciando protocolo de neutralización de irritantes...</div>
+  <div class="status-block slide-up delay-1">
+    <div class="status-label"><span class="status-dot"></span>NFC SESSION: ACTIVE</div>
+    <div id="phrase-text">Iniciando protocolo secuencial de audio para Lorena...</div>
     <div class="progress-container"><div id="progress-bar"></div></div>
     <p style="font-family: 'DM Mono', monospace; font-size: 9px; opacity: 0.5;">CAPÍTULO DE CURACIÓN</p>
   </div>
 
-  <div class="journal-section slide-up delay-1">
+  <div class="info-grid slide-up delay-2">
+    <div class="info-item"><label>Modo</label><strong>Voz Guía</strong></div>
+    <div class="info-item"><label>Status</label><strong>Zen Estable</strong></div>
+    <div class="info-item"><label>Dosis</label><strong>1g / Tolerance</strong></div>
+    <div class="info-item"><label>Lorena Zen</label><span>78%</span></div>
+  </div>
+
+  <div class="journal-section slide-up delay-3">
     <div class="section-label">Diario Clínico Satírico</div>
     <textarea id="journalInput" placeholder="¿Quién o qué ha puesto a prueba tu paciencia hoy? Desahógate, Lorena..."></textarea>
-    <button class="action-btn" style="box-shadow: none;" onclick="saveEntry()">Archivar Experiencia Zen</button>
+    <button class="next-btn" style="box-shadow: none;" onclick="saveEntry()">Archivar Experiencia Zen</button>
   </div>
 
   <div class="section-label" style="padding-left: 4px;">Logros Desbloqueados</div>
-  <div class="achievements-grid slide-up delay-2">
+  <div class="achievements-grid slide-up delay-4">
     <div class="badge" id="badge-1">
       <div class="badge-icon">🧘‍♀️</div>
-      <div class="badge-name">Mente<br>Fría</div>
+      <div class="badge-name">Paz<br>Interior</div>
     </div>
     <div class="badge" id="badge-2">
       <div class="badge-icon">🧊</div>
@@ -155,6 +179,8 @@
     </div>
   </div>
 </main>
+
+<button class="btn-voice slide-up delay-4" onclick="handleInteraction()">FORZAR DOSIS ZEN DE VOZ</button>
 
 <script>
   const VALID_PASSWORD = "FUFU2026";
@@ -174,33 +200,20 @@
   let current = phraseIndex % phrases.length;
   const duration = 7500;
   let startTime = Date.now();
+  let firstClick = false;
 
-  function checkPassword() {
-    const input = document.getElementById('paciencia-password');
-    const error = document.getElementById('password-error');
-    if (input.value === VALID_PASSWORD) {
-      localStorage.setItem('paciencia_auth_lorena', 'true');
-      unlockDashboard();
-    } else {
-      error.style.display = 'block';
-      input.value = '';
-    }
+  function speak(text) {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'es-ES';
+    utterance.rate = 0.9; 
+    utterance.pitch = 1.1; 
+    window.speechSynthesis.speak(utterance);
   }
 
-  function unlockDashboard() {
-    document.getElementById('paciencia-portal').style.display = 'none';
-    const dashboard = document.getElementById('main-dashboard');
-    dashboard.style.display = 'block';
-    // Mover triggers de cascada
-    dashboard.style.opacity = '1';
-    renderDashboardFeatures();
-  }
-
-  function renderDashboardFeatures() {
-    document.getElementById('phrase-text').textContent = phrases[current];
-    renderJournal();
-    checkAchievements();
-    update(); // Iniciar barra de progreso
+  function handleInteraction() {
+    if(!firstClick) firstClick = true;
+    triggerNext();
   }
 
   function triggerNext() {
@@ -208,8 +221,10 @@
     el.style.opacity = 0;
     setTimeout(() => {
       current = (current + 1) % phrases.length;
-      el.textContent = phrases[current];
+      const nextText = phrases[current];
+      el.textContent = nextText;
       el.style.opacity = 1;
+      if(firstClick) speak(nextText);
       startTime = Date.now();
       localStorage.setItem('phrase_index_lorena', current);
     }, 400);
@@ -244,9 +259,34 @@
 
   // Verificar sesión activa
   if (localStorage.getItem('paciencia_auth_lorena') === 'true') {
-    unlockDashboard();
+    document.getElementById('paciencia-portal').style.display = 'none';
+    document.getElementById('main-dashboard').style.display = 'block';
+    // Mover triggers de cascada
+    dashboard.style.opacity = '1';
+    renderDashboardFeatures();
   } else {
+    // Si no está logado, forzar la vista de portal y contraseña
+    document.getElementById('paciencia-portal').style.display = 'block';
+    document.getElementById('main-dashboard').style.display = 'none';
     document.getElementById('paciencia-password').focus();
+  }
+
+  function checkPassword() {
+    const input = document.getElementById('paciencia-password');
+    const error = document.getElementById('password-error');
+    if (input.value === VALID_PASSWORD) {
+      localStorage.setItem('paciencia_auth_lorena', 'true');
+      location.reload(); // Recarga para desbloquear
+    } else {
+      error.style.display = 'block';
+      input.value = '';
+    }
+  }
+
+  function renderDashboardFeatures() {
+    document.getElementById('phrase-text').textContent = phrases[current];
+    checkAchievements();
+    update(); // Iniciar barra de progreso
   }
 
 </script>
