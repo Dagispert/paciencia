@@ -27,8 +27,21 @@
     padding-bottom: 110px;
   }
 
+  /* --- BRAND LOGO --- */
+  .logo-container {
+    padding-top: 30px;
+    display: flex;
+    justify-content: center;
+    animation: fadeIn 1s ease forwards;
+  }
+
+  .brand-logo {
+    width: 120px; /* Ajusta el tamaño aquí */
+    height: auto;
+  }
+
   /* --- HEADER --- */
-  .welcome-header { padding: 50px 24px 20px; animation: slideDown 0.8s var(--bezier) forwards; }
+  .welcome-header { padding: 30px 24px 20px; animation: slideDown 0.8s var(--bezier) forwards; }
   .welcome-header p { font-size: 16px; color: var(--gray-mid); }
   .welcome-header h1 { font-size: 38px; font-weight: 700; color: var(--gray-dark); letter-spacing: -1px; }
 
@@ -55,6 +68,7 @@
   }
 
   @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
   .block-label { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; opacity: 0.5; margin-bottom: 15px; display: block; }
   #phrase-text { font-size: 20px; font-weight: 300; line-height: 1.4; font-style: italic; min-height: 90px; transition: opacity 0.3s; }
@@ -88,6 +102,10 @@
 </style>
 </head>
 <body>
+
+<div class="logo-container">
+  <img src="logooo.png" alt="Fufu Logo" class="brand-logo">
+</div>
 
 <div class="welcome-header">
   <p>Hola, Lorena,</p>
@@ -136,11 +154,10 @@
   let firstClick = false;
 
   function speak(text) {
-    // Cancela cualquier voz previa
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'es-ES';
-    utterance.rate = 0.9; // Un poco más lento para sonar profesional
+    utterance.rate = 0.9; 
     utterance.pitch = 1.1; 
     window.speechSynthesis.speak(utterance);
   }
@@ -177,7 +194,6 @@
     requestAnimationFrame(update);
   }
 
-  // Iniciar
   update();
 </script>
 
