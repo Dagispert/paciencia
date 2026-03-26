@@ -3,357 +3,179 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>PACIENCIA-MAX™ — Protocolo v3.0</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<title>PACIENCIA-MAX™ — Dashboard Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --mint-deep: #004D40;
-    --mint-mid: #26A69A;
-    --mint-light: #B2DFDB;
-    --mint-pale: #E0F2F1;
-    --gray-dark: #1C1C1E;
-    --gray-mid: #8E8E93;
+    --bg-soft: #FDF7F2;
+    --mint-main: #2D6A4F;
+    --mint-light: #D8F3DC;
     --white: #FFFFFF;
-    --glass: rgba(255, 255, 255, 0.7);
-    --blur: blur(12px);
-    --bezier: cubic-bezier(0.23, 1, 0.32, 1);
+    --text-dark: #1B4332;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
   body {
-    font-family: 'DM Sans', -apple-system, sans-serif;
-    background: #fbfbfd;
-    color: var(--gray-dark);
-    overflow-x: hidden;
-    opacity: 0;
-    animation: fadeInPage 0.8s ease forwards;
+    font-family: 'DM Sans', sans-serif;
+    background: linear-gradient(180deg, #FDE2E4 0%, #E2ECE9 100%); /* Fondo dividido como tu imagen */
+    color: var(--text-dark);
+    min-height: 100vh;
+    padding-bottom: 50px;
   }
 
-  @keyframes fadeInPage { to { opacity: 1; } }
-
-  /* --- MÓVIL OPTIMIZADO: HEADER v3.0 --- */
-  .top-bar {
-    background: rgba(240, 247, 246, 0.8);
-    backdrop-filter: var(--blur);
-    padding: 10px 20px;
-    font-family: 'DM Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 2px;
+  /* --- HEADER ESTILO APP --- */
+  .app-header {
+    padding: 30px 25px 10px;
     display: flex;
     justify-content: space-between;
-    position: sticky; top: 0; z-index: 100;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
+    align-items: center;
   }
+  .user-greeting h1 { font-size: 24px; font-weight: 700; }
+  .user-greeting p { font-size: 14px; opacity: 0.6; }
+  .avatar { width: 45px; height: 45px; background: var(--white); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 8px 15px rgba(0,0,0,0.05); }
 
-  header {
-    padding: 32px 24px 16px;
-    transform: translateY(20px);
-    opacity: 0;
-    animation: slideUpIn 0.7s var(--bezier) forwards;
-  }
-
-  @keyframes slideUpIn { to { transform: translateY(0); opacity: 1; } }
-
-  .logo {
-    font-family: 'DM Mono', monospace;
-    font-size: 20px;
-    font-weight: 500;
-    letter-spacing: 3px;
-    color: var(--mint-deep);
-  }
-
-  /* --- SECCIÓN NFC (HERO v3.0) --- */
-  .nfc-hero {
-    background: linear-gradient(135deg, var(--mint-deep) 0%, #002D26 100%);
-    color: white;
-    padding: 40px 24px;
-    margin: 0 16px;
-    border-radius: 28px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+  /* --- CARD PRINCIPAL (LA PASTILLA) --- */
+  .main-card {
+    background: var(--white);
+    margin: 20px;
+    padding: 30px;
+    border-radius: 35px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.04);
     position: relative;
     overflow: hidden;
-    transform: scale(0.95);
-    opacity: 0;
-    animation: heroPop 0.8s cubic-bezier(0.3, 1.5, 0.5, 1) 0.15s forwards;
-  }
-
-  @keyframes heroPop { to { transform: scale(1); opacity: 1; } }
-
-  .hero-bg-circle {
-    position: absolute;
-    width: 200px; height: 200px;
-    background: rgba(178, 223, 219, 0.1);
-    border-radius: 50%;
-    top: -50px; right: -80px;
-    animation: float 4s ease-in-out infinite;
-  }
-
-  .status-info {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    opacity: 0.8;
-    margin-bottom: 24px;
-    display: flex; align-items: center;
-  }
-
-  .status-dot {
-    display: inline-block;
-    width: 6px; height: 6px;
-    background: #4ADE80;
-    border-radius: 50%;
-    margin-right: 10px;
-    animation: pulse 1.5s infinite;
-  }
-
-  @keyframes pulse {
-    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); }
-    70% { transform: scale(1.2); box-shadow: 0 0 0 10px rgba(74, 222, 128, 0); }
-    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
-  }
-
-  #phrase-text {
-    font-size: 26px;
-    font-weight: 300;
-    line-height: 1.2;
-    min-height: 120px;
-    font-style: italic;
-    transition: opacity 0.4s ease, transform 0.4s ease;
-  }
-
-  .progress-container {
-    height: 3px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 10px;
-    margin: 30px 0;
-    overflow: hidden;
-  }
-
-  #progress-bar {
-    height: 100%;
-    background: var(--mint-light);
-    width: 0%;
-  }
-
-  /* --- BOTÓN PREMIUM v3.0 --- */
-  .next-btn {
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.15);
-    color: white;
-    padding: 16px;
-    border-radius: 16px;
-    width: 100%;
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.25s;
-    cursor: pointer;
-  }
-
-  .next-btn:active {
-    transform: scale(0.97);
-    background: rgba(255,255,255,0.15);
-  }
-
-  /* --- DATOS ULTRA-VISUALES --- */
-  main { padding: 40px 20px; }
-
-  .section-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    color: var(--mint-deep);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 12px;
-    padding-left: 4px;
-    opacity: 0.6;
-    animation: slideUpIn 0.6s ease 0.3s forwards;
-    opacity: 0;
-  }
-
-  .pill-card {
-    display: flex; align-items: center; gap: 24px;
-    background: var(--glass);
-    backdrop-filter: var(--blur);
-    padding: 24px; border-radius: 24px;
-    border: 1px solid rgba(0,0,0,0.04);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.02);
-    margin-bottom: 24px;
-    animation: slideUpIn 0.6s ease 0.4s forwards;
-    opacity: 0;
-  }
-
-  .pill-emoji {
-    font-size: 50px;
-    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
-    animation: float 3s ease-in-out infinite;
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-  }
-
-  /* --- INFO GRID v3.0 (Kento Style) --- */
-  .info-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-    margin-bottom: 32px;
-    animation: slideUpIn 0.6s ease 0.5s forwards;
-    opacity: 0;
-  }
-
-  .info-item {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: var(--blur);
-    padding: 20px; border-radius: 20px;
-    border: 1px solid rgba(0,0,0,0.05);
-  }
-
-  .info-item label {
-    display: block; font-family: 'DM Mono', monospace;
-    font-size: 8px; text-transform: uppercase;
-    color: var(--gray-mid); margin-bottom: 6px;
-  }
-
-  .info-item strong { color: var(--mint-deep); font-size: 13px; font-weight: 600; }
-
-  /* --- ADVERTENCIAS v3.0 --- */
-  .warning-section {
-    animation: slideUpIn 0.6s ease 0.6s forwards;
-    opacity: 0;
-  }
-
-  .warning-box {
-    background: var(--mint-pale);
-    border-left: 4px solid var(--mint-mid);
-    padding: 20px;
-    border-radius: 4px 16px 16px 4px;
-    margin-bottom: 12px;
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--mint-deep);
-  }
-
-  /* --- FOOTER v3.0 --- */
-  footer {
-    padding: 60px 24px;
     text-align: center;
-    font-family: 'DM Mono', monospace;
-    font-size: 9px;
-    color: var(--gray-mid);
-    line-height: 2;
-    border-top: 1px solid rgba(0,0,0,0.05);
   }
 
-  footer strong { color: var(--gray-dark); }
+  .pill-circle {
+    width: 120px; height: 120px;
+    border: 8px solid var(--mint-light);
+    border-top: 8px solid var(--mint-main);
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 50px;
+    animation: spin 10s linear infinite, float 3s ease-in-out infinite;
+  }
+
+  @keyframes spin { 100% { transform: rotate(360deg); } }
+  @keyframes float { 50% { margin-top: -10px; } }
+
+  .main-card h2 { font-size: 22px; margin-bottom: 5px; }
+  .main-card p { font-size: 14px; opacity: 0.5; margin-bottom: 20px; }
+
+  /* --- GRID DE DATOS (ESTILO LEADERBOARD) --- */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    padding: 0 20px;
+  }
+
+  .stat-box {
+    background: var(--white);
+    padding: 20px;
+    border-radius: 25px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.02);
+  }
+  .stat-box label { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.5; margin-bottom: 8px; }
+  .stat-box span { font-size: 18px; font-weight: 700; color: var(--mint-main); }
+
+  /* --- ADVERTENCIAS ESTILO "COURSES" --- */
+  .warnings-area {
+    margin: 30px 20px;
+  }
+  .warning-item {
+    background: #FFB3C1; /* Color rosa suave como tu imagen */
+    padding: 20px;
+    border-radius: 25px;
+    margin-bottom: 15px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    color: #590D22;
+  }
+  .warning-icon { background: white; width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .warning-text h4 { font-size: 14px; margin-bottom: 2px; }
+  .warning-text p { font-size: 12px; opacity: 0.8; }
+
+  /* --- BOTÓN FLOTANTE --- */
+  .action-btn {
+    position: fixed;
+    bottom: 30px;
+    left: 20px;
+    right: 20px;
+    background: var(--mint-main);
+    color: white;
+    padding: 20px;
+    border-radius: 20px;
+    text-align: center;
+    font-weight: 600;
+    box-shadow: 0 15px 30px rgba(45, 106, 79, 0.3);
+    border: none;
+    font-size: 16px;
+  }
+
+  /* --- ANIMACIONES AL CARGAR --- */
+  .stat-box, .warning-item, .main-card {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: appear 0.6s ease forwards;
+  }
+  .stat-box:nth-child(1) { animation-delay: 0.1s; }
+  .stat-box:nth-child(2) { animation-delay: 0.2s; }
+  .warning-item:nth-child(1) { animation-delay: 0.3s; }
+
+  @keyframes appear { to { opacity: 1; transform: translateY(0); } }
 
 </style>
 </head>
 <body>
 
-<div class="top-bar">
-  <div>ESTADO: NEUTRALIZANDO IRRITANTES</div>
-  <div>v3.0 Ultra-Visual</div>
-</div>
-
-<header>
-  <div class="logo">PACIENCIA-MAX™</div>
-  <p style="color: var(--gray-mid); font-size: 13px; margin-top: 4px;">Protocolo Zen Técnico de Tolerancia Profunda.</p>
+<header class="app-header">
+  <div class="user-greeting">
+    <p>Hola, Paciente,</p>
+    <h1>Paciencia-Max™</h1>
+  </div>
+  <div class="avatar">🧘‍♂️</div>
 </header>
 
-<section class="nfc-hero">
-  <div class="hero-bg-circle"></div>
-  <div class="status-info"><span class="status-dot"></span>NFC SESSION: ACTIVE</div>
-  <div id="phrase-text">Iniciando calibración de indiferencia...</div>
-  <div class="progress-container"><div id="progress-bar"></div></div>
-  <button class="next-btn" onclick="triggerNext()">FORZAR DOSIS DE ZEN</button>
-</section>
+<div class="main-card">
+  <div class="pill-circle">🙄</div>
+  <h2>Nivel de Zen: 78%</h2>
+  <p>Estado estable bajo presión.</p>
+  <div style="background: var(--mint-light); height: 6px; border-radius: 10px; width: 100%;"><div style="background: var(--mint-main); width: 78%; height: 100%; border-radius: 10px;"></div></div>
+</div>
 
-<main>
-  <div class="section-label">Dispositivo de Calma</div>
-  <div class="pill-card">
-    <div class="pill-emoji">🙄</div>
-    <div>
-      <h3 style="font-weight: 600;">Hardware PACIENCIA-MAX</h3>
-      <p style="font-size: 12px; color: var(--gray-mid);">Cerámica mate técnica de 40mm.</p>
+<div class="stats-grid">
+  <div class="stat-box">
+    <label>Acción</label>
+    <span>Anti-Tontos</span>
+  </div>
+  <div class="stat-box">
+    <label>Dosis</label>
+    <span>1g / Zen</span>
+  </div>
+</div>
+
+<div class="warnings-area">
+  <div class="warning-item">
+    <div class="warning-icon">⚠️</div>
+    <div class="warning-text">
+      <h4>No Ingerir</h4>
+      <p>Es arte conceptual, no comida.</p>
     </div>
   </div>
-
-  <div class="info-grid">
-    <div class="info-item"><label>Acción</label><strong>Filtro Anti-Tontos</strong></div>
-    <div class="info-item"><label>Efecto</label><strong>Zen Estable</strong></div>
-    <div class="info-item"><label>Status</label><strong>Dignidad ZEN</strong></div>
-    <div class="info-item"><label>Frecuencia</label><span>Ciclo Semanal</span></div>
-  </div>
-
-  <div class="section-label">Advertencias Clínicas</div>
-  <div class="warning-section">
-    <div class="warning-box">
-      <strong>Contraindicación Absoluta</strong>
-      No usar mientras escucha audios de WhatsApp de más de 3 minutos, ante la frase "¿puedo hacerte una pregunta rápida?" o si ve un 'Deadline' inminente.
-    </div>
-
-    <div class="warning-box">
-      <strong>Efecto Secundario Documentado</strong>
-      Puede causar que te importe todo un 85% menos. En casos graves, se reporta una sonrisa plácida ante el caos absoluto de la oficina. Normalizar.
-    </div>
-
-    <div class="warning-box">
-      <strong>IMPORTANTE: NO INGERIR</strong>
-      Este es un objeto de diseño conceptual. El alivio es puramente mental, la pastilla es arte. No la muerdas.
+  <div class="warning-item" style="background: #D8F3DC; color: #1B4332;">
+    <div class="warning-icon">📱</div>
+    <div class="warning-text">
+      <h4>Sin WhatsApp</h4>
+      <p>No abrir audios de +3 min.</p>
     </div>
   </div>
-</main>
+</div>
 
-<footer>
-  <strong>ANTI-EX™ LABORATORIOS EMOCIONALES S.L.</strong><br>
-  Este producto no es un medicamento real.<br>
-  CUIDA TU CEREBRO. ES EL ÚNICO QUE TIENES.<br>
-  <span style="opacity: 0.5;">© 2026 · ANTIPRODUCT DESIGN</span>
-</footer>
-
-<script>
-  const phrases = [
-    "No es falta de paciencia, es que te sobra gente tonta.",
-    "Respira. Esa persona no sabe que es tu chiste interno.",
-    "Activando modo: 'Sonreír y asentir mientras pienso en pizza'.",
-    "Niveles de tolerancia al 2%. No me preguntes nada obvio.",
-    "La paciencia es una virtud, pero esta pastilla es más rápida.",
-    "Si te dicen '¿Lo tienes ya?', escanea esto de nuevo.",
-    "Protocolo: Ignorar notificaciones irrelevantes activado."
-  ];
-
-  let current = 0;
-  const duration = 7000;
-  let startTime = Date.now();
-
-  function triggerNext() {
-    const el = document.getElementById('phrase-text');
-    el.style.opacity = 0;
-    
-    setTimeout(() => {
-      current = (current + 1) % phrases.length;
-      el.textContent = phrases[current];
-      el.style.opacity = 1;
-      startTime = Date.now();
-    }, 400);
-  }
-
-  function update() {
-    const elapsed = Date.now() - startTime;
-    const progress = Math.min((elapsed / duration) * 100, 100);
-    document.getElementById('progress-bar').style.width = progress + '%';
-    
-    if (elapsed >= duration) triggerNext();
-    requestAnimationFrame(update);
-  }
-
-  document.getElementById('phrase-text').textContent = phrases[0];
-  update();
-</script>
+<button class="action-btn">FORZAR DOSIS DE CALMA</button>
 
 </body>
 </html>
