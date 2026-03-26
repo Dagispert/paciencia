@@ -3,214 +3,212 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>PACIENCIA-MAX™ — Fufu®</title>
+<title>PACIENCIA-MAX™ — Fufu® Minimal</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   /* =========================================
-     VARIABLES Y RESET
+     VARIABLES - ESTILO MINIMALISTA
   ========================================= */
   :root {
-    --mint-deep: #004D40;
-    --mint-mid: #26A69A;
-    --mint-light: #B2DFDB;
-    --mint-pale: #E0F2F1;
-    --pink-pale: #FDE2E4;
-    --gray-dark: #1C1C1E;
-    --gray-mid: #8E8E93;
+    --bg-color: #F8F9FA;
+    --text-dark: #1A1A1A;
+    --text-muted: #8E8E93;
+    --accent: #26A69A;
     --white: #FFFFFF;
-    --glass-bg: rgba(255, 255, 255, 0.85);
-    --shadow-premium: 0 16px 40px rgba(0, 0, 0, 0.06);
-    --border-radius-lg: 32px;
-    --border-radius-md: 20px;
-    --bezier: cubic-bezier(0.23, 1, 0.32, 1);
+    --shadow-soft: 0 12px 30px rgba(0, 0, 0, 0.04);
+    --radius-lg: 32px;
+    --radius-md: 20px;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
   body {
     font-family: 'DM Sans', sans-serif;
-    background: linear-gradient(180deg, var(--pink-pale) 0%, #E2ECE9 100%);
-    color: var(--gray-dark);
+    background-color: var(--bg-color);
+    color: var(--text-dark);
     min-height: 100vh;
-    padding-bottom: 120px;
-    background-attachment: fixed;
+    padding-bottom: 80px;
+    overflow-x: hidden;
   }
 
-  /* =========================================
-     UTILIDADES DE ANIMACIÓN Y DISPLAY
-  ========================================= */
+  /* Animaciones */
   .fade-in { animation: fadeIn 0.6s ease forwards; }
-  .slide-up { opacity: 0; transform: translateY(40px); animation: slideUpIn 0.8s var(--bezier) forwards; }
-  .delay-1 { animation-delay: 0.1s; }
-  .delay-2 { animation-delay: 0.2s; }
-  .delay-3 { animation-delay: 0.3s; }
+  .slide-up { opacity: 0; transform: translateY(20px); animation: slideUpIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideUpIn { to { opacity: 1; transform: translateY(0); } }
+
+  /* =========================================
+     SPLASH INICIAL (Para desbloquear audio)
+  ========================================= */
+  #splash-screen {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--bg-color); z-index: 999;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    transition: opacity 0.5s, visibility 0.5s;
+  }
+  .splash-btn {
+    background: var(--text-dark); color: var(--white);
+    padding: 20px 40px; border-radius: 100px; border: none;
+    font-size: 16px; font-weight: 700; cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: transform 0.2s;
+  }
+  .splash-btn:active { transform: scale(0.95); }
+
+  /* =========================================
+     HEADER
+  ========================================= */
+  header { padding: 40px 24px 20px; display: flex; justify-content: space-between; align-items: center; }
+  .header-left p { font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .header-left h1 { font-size: 28px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+  .brand-logo { height: 35px; width: auto; }
+
+  /* =========================================
+     CARRUSEL (GUÍA ACTIVA)
+  ========================================= */
+  .carousel-wrapper {
+    margin: 10px 0 30px;
+  }
+  .carousel-header {
+    padding: 0 24px; margin-bottom: 15px;
+    font-size: 14px; font-weight: 700; color: var(--text-dark); display: flex; align-items: center; gap: 8px;
+  }
+  .dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; display: inline-block; }
+
+  .carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 0 24px 30px; /* Padding bottom for shadow */
+    gap: 16px;
+    scroll-behavior: smooth;
+  }
+  .carousel::-webkit-scrollbar { display: none; } /* Ocultar barra scroll */
+
+  .carousel-card {
+    scroll-snap-align: center;
+    flex: 0 0 85%; /* Ancho de la tarjeta */
+    background: var(--white);
+    padding: 30px 24px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    display: flex; flex-direction: column; justify-content: space-between;
+    min-height: 220px;
+    position: relative;
+    border: 1px solid rgba(0,0,0,0.02);
+  }
+  
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+  .card-number { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+  
+  .mute-btn {
+    background: #F0F0F0; border: none; width: 40px; height: 40px;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 16px; cursor: pointer; transition: 0.2s; color: var(--text-dark);
+  }
+  .mute-btn.muted { background: #FFE5E5; color: #D32F2F; }
+
+  .card-phrase { font-size: 22px; font-weight: 400; line-height: 1.4; color: var(--text-dark); }
+
+  /* =========================================
+     TEASER Y CONTRASEÑA
+  ========================================= */
+  .container { padding: 0 24px; }
+  
+  .minimal-card {
+    background: var(--white); padding: 24px; border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft); margin-bottom: 24px;
+    border: 1px solid rgba(0,0,0,0.02); text-align: center;
+  }
+  .minimal-card h3 { font-size: 16px; margin-bottom: 8px; color: var(--text-dark); }
+  .minimal-card p { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
+
+  .btn-minimal {
+    background: var(--text-dark); color: var(--white);
+    width: 100%; padding: 16px; border-radius: 16px; border: none;
+    font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.2s;
+  }
+  .btn-minimal:active { transform: scale(0.97); }
+
+  .input-minimal {
+    width: 100%; padding: 16px; border-radius: 16px;
+    border: 1px solid #E5E5EA; background: var(--bg-color);
+    font-size: 16px; text-align: center; margin-bottom: 15px; outline: none; transition: 0.3s;
+  }
+  .input-minimal:focus { border-color: var(--text-dark); }
   
   .hidden { display: none !important; }
 
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes slideUpIn { to { opacity: 1; transform: translateY(0); } }
-  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-
   /* =========================================
-     COMPONENTES GLOBALES (LOGO Y HEADER)
+     DIARIO Y LOGROS
   ========================================= */
-  .top-brand { display: flex; justify-content: center; padding: 30px 0 10px; }
-  .top-brand img { height: 45px; width: auto; object-fit: contain; }
-
-  .header-title { padding: 10px 24px 20px; }
-  .header-title p { font-size: 15px; color: var(--gray-mid); margin-bottom: 4px; }
-  .header-title h1 { font-size: 36px; font-weight: 700; color: var(--gray-dark); letter-spacing: -1px; display: flex; align-items: center; justify-content: space-between; }
-  
-  .lock-btn { background: none; border: none; font-size: 20px; cursor: pointer; opacity: 0.3; transition: opacity 0.3s; }
-  .lock-btn:hover { opacity: 1; }
-
-  /* =========================================
-     PANTALLA PRINCIPAL (DASHBOARD PÚBLICO)
-  ========================================= */
-  .main-container { padding: 0 20px; }
-
-  /* Tarjeta de Audio y Dosis (Siempre visible) */
-  .dose-card {
-    background: linear-gradient(135deg, var(--mint-deep) 0%, #002D26 100%);
-    color: var(--white); padding: 30px 24px; border-radius: var(--border-radius-lg);
-    box-shadow: 0 20px 40px rgba(0, 77, 64, 0.2); margin-bottom: 24px;
-    position: relative; overflow: hidden;
+  textarea {
+    width: 100%; height: 120px; background: var(--bg-color);
+    border: 1px solid #E5E5EA; border-radius: 16px;
+    padding: 16px; font-family: 'DM Sans', sans-serif; font-size: 15px;
+    resize: none; outline: none; margin-bottom: 15px;
   }
-  .dose-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; font-family: 'DM Mono', monospace; }
-  .dose-header .pulse { display: inline-block; width: 8px; height: 8px; background: #4ADE80; border-radius: 50%; margin-right: 8px; box-shadow: 0 0 10px #4ADE80; }
-  
-  .phrase-display { font-size: 24px; font-weight: 300; line-height: 1.3; font-style: italic; min-height: 100px; display: flex; align-items: center; transition: opacity 0.4s; }
-  
-  .progress-track { height: 4px; background: rgba(255,255,255,0.15); border-radius: 10px; margin-top: 25px; overflow: hidden; }
-  .progress-fill { height: 100%; background: #4ADE80; width: 0%; transition: width 0.3s linear; }
+  textarea:focus { border-color: var(--text-dark); }
 
-  /* Tarjetas Glassmorphism Generales */
-  .glass-card {
-    background: var(--glass-bg); backdrop-filter: blur(16px);
-    padding: 24px; border-radius: var(--border-radius-lg);
-    box-shadow: var(--shadow-premium); border: 1px solid rgba(255,255,255,0.6);
-    margin-bottom: 24px;
-  }
-  .card-title { font-size: 14px; font-weight: 700; color: var(--mint-deep); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+  .badges-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px; }
+  .badge-item { background: var(--bg-color); padding: 15px 5px; border-radius: 16px; text-align: center; opacity: 0.4; filter: grayscale(1); transition: 0.4s; }
+  .badge-item.active { opacity: 1; filter: grayscale(0); background: var(--white); box-shadow: 0 5px 15px rgba(0,0,0,0.05); transform: translateY(-3px); border: 1px solid var(--accent); }
+  .badge-emoji { font-size: 24px; margin-bottom: 5px; }
+  .badge-label { font-size: 9px; font-weight: 700; color: var(--text-dark); text-transform: uppercase; }
 
-  /* =========================================
-     SECCIÓN DE TEASER Y CONTRASEÑA
-  ========================================= */
-  .teaser-content { text-align: center; }
-  .teaser-content p { font-size: 14px; color: var(--gray-mid); margin-bottom: 20px; line-height: 1.5; }
-  .teaser-icon { font-size: 40px; margin-bottom: 10px; animation: float 3s infinite; }
+  .history-item { background: var(--bg-color); padding: 16px; border-radius: 16px; text-align: left; margin-top: 10px; }
+  .history-date { font-size: 11px; color: var(--text-muted); margin-bottom: 5px; }
 
-  .auth-input {
-    width: 100%; padding: 18px; border-radius: var(--border-radius-md);
-    border: 2px solid var(--mint-pale); background: var(--white);
-    font-size: 16px; text-align: center; margin-bottom: 15px; outline: none; transition: 0.3s;
-    font-family: 'DM Sans', sans-serif; font-weight: 500;
-  }
-  .auth-input:focus { border-color: var(--mint-mid); }
-  .error-msg { display: none; color: #D32F2F; font-size: 13px; font-weight: 700; margin-bottom: 15px; }
-
-  /* =========================================
-     DIARIO PRIVADO Y GAMIFICACIÓN
-  ========================================= */
-  .journal-textarea {
-    width: 100%; height: 120px; background: rgba(255,255,255,0.6);
-    border: 1px solid var(--mint-pale); border-radius: var(--border-radius-md);
-    padding: 16px; font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--gray-dark);
-    resize: none; outline: none; margin-bottom: 15px; transition: 0.3s;
-  }
-  .journal-textarea:focus { background: var(--white); border-color: var(--mint-mid); }
-
-  /* Tarjeta de Logros */
-  .badges-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-  .badge-item {
-    background: var(--white); padding: 15px 5px; border-radius: 16px;
-    text-align: center; opacity: 0.4; filter: grayscale(1); transition: 0.4s;
-    border: 1px solid rgba(0,0,0,0.05); display: flex; flex-direction: column; align-items: center;
-  }
-  .badge-item.active { opacity: 1; filter: grayscale(0); background: var(--mint-pale); border-color: var(--mint-light); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(38,166,154,0.15); }
-  .badge-emoji { font-size: 26px; margin-bottom: 5px; }
-  .badge-label { font-size: 9px; font-weight: 700; color: var(--mint-deep); line-height: 1.1; text-transform: uppercase; }
-
-  /* Historial */
-  .history-list { display: flex; flex-direction: column; gap: 12px; max-height: 300px; overflow-y: auto; padding-right: 5px; }
-  .history-item { background: var(--white); padding: 16px; border-radius: 16px; border-left: 4px solid var(--mint-mid); box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
-  .history-date { font-size: 11px; color: var(--gray-mid); margin-bottom: 5px; font-weight: 500; }
-  .history-text { font-size: 14px; color: var(--gray-dark); line-height: 1.5; }
-  .empty-history { text-align: center; color: var(--gray-mid); font-size: 14px; padding: 20px; font-style: italic; }
-
-  /* =========================================
-     BOTONES GLOBALES
-  ========================================= */
-  .btn-primary {
-    background: var(--mint-deep); color: var(--white);
-    width: 100%; padding: 18px; border-radius: var(--border-radius-md);
-    border: none; font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
-    cursor: pointer; transition: 0.2s; box-shadow: 0 10px 20px rgba(0,77,64,0.2);
-  }
-  .btn-primary:active { transform: scale(0.96); background: #00332A; }
-
-  .btn-secondary { background: var(--white); color: var(--mint-deep); border: 2px solid var(--mint-pale); box-shadow: none; }
-  .btn-secondary:active { background: var(--mint-pale); }
-
-  .btn-floating {
-    position: fixed; bottom: 30px; left: 20px; right: 20px;
-    background: var(--mint-mid); box-shadow: 0 15px 30px rgba(38,166,154,0.3); z-index: 100;
-  }
 </style>
 </head>
 <body>
 
-  <div class="top-brand fade-in">
-    <img src="logooo.png" alt="Fufu Logo">
-  </div>
-  
-  <div class="header-title fade-in">
-    <p>Bienvenida al Sistema,</p>
-    <h1>Lorena 🙄 <button id="logout-btn" class="lock-btn hidden" onclick="logout()" title="Cerrar sesión">🔓</button></h1>
+  <div id="splash-screen">
+    <img src="logooo.png" alt="Fufu Logo" style="height: 50px; margin-bottom: 30px;">
+    <button class="splash-btn" onclick="startApp()">Tocar para iniciar calibración</button>
   </div>
 
-  <div class="main-container">
+  <header class="slide-up">
+    <div class="header-left">
+      <p>Hola, Lorena</p>
+      <h1>Paciencia-Max 🙄</h1>
+    </div>
+    <img src="logooo.png" alt="Fufu" class="brand-logo">
+  </header>
+
+  <div class="carousel-wrapper slide-up delay-1">
+    <div class="carousel-header">
+      <span class="dot"></span> Guía Activa
+    </div>
+    <div class="carousel" id="carousel-container">
+      </div>
+  </div>
+
+  <div class="container">
     
-    <div class="dose-card slide-up">
-      <div class="dose-header">
-        <div><span class="pulse"></span> Guía Activa</div>
-        <div id="dose-counter">Dosis 1/8</div>
-      </div>
-      <div class="phrase-display" id="phrase-text">
-        Preparando protocolo de neutralización...
-      </div>
-      <div class="progress-track"><div class="progress-fill" id="progress-bar"></div></div>
+    <div id="teaser-section" class="minimal-card slide-up delay-2">
+      <h3>Diario Clínico Satírico</h3>
+      <p>Archiva las actitudes exasperantes de hoy en un entorno seguro.</p>
+      <button class="btn-minimal" onclick="showAuth()">Documentar Experiencia 🔒</button>
     </div>
 
-    <div id="teaser-section" class="glass-card slide-up delay-1">
-      <div class="teaser-content">
-        <div class="teaser-icon">📓</div>
-        <h3 style="color: var(--mint-deep); margin-bottom: 8px;">Diario Clínico Satírico</h3>
-        <p>¿Alguien ha puesto a prueba tu paciencia hoy? Archívalo en tu registro seguro.</p>
-        <button class="btn-primary btn-secondary" onclick="showPasswordPrompt()">Documentar Experiencia 🔒</button>
-      </div>
-    </div>
-
-    <div id="auth-section" class="glass-card slide-up hidden">
-      <div class="teaser-content">
-        <h3 style="color: var(--mint-deep); margin-bottom: 15px;">Seguridad del Lóbulo Nostálgico</h3>
-        <div class="error-msg" id="login-error">Código incorrecto. Tu dignidad sigue a salvo.</div>
-        <input type="password" id="password-input" class="auth-input" placeholder="Introduce tu contraseña">
-        <button class="btn-primary" onclick="login()">Desbloquear Diario</button>
-        <button class="btn-primary btn-secondary" style="margin-top: 10px; padding: 12px;" onclick="cancelLogin()">Cancelar</button>
-      </div>
+    <div id="auth-section" class="minimal-card hidden">
+      <h3>Seguridad del Lóbulo Nostálgico</h3>
+      <p style="color: #D32F2F; display: none;" id="login-error">Código incorrecto.</p>
+      <input type="password" id="password-input" class="input-minimal" placeholder="Contraseña">
+      <button class="btn-minimal" onclick="login()">Desbloquear Diario</button>
+      <button class="btn-minimal" style="background: transparent; color: var(--text-muted); margin-top: 10px; box-shadow: none;" onclick="hideAuth()">Cancelar</button>
     </div>
 
     <div id="private-section" class="hidden">
       
-      <div class="glass-card slide-up">
-        <div class="card-title">Nuevo Incidente <span>📝</span></div>
-        <textarea id="journal-input" class="journal-textarea" placeholder="Desahógate aquí antes de que respondas mal a ese correo..."></textarea>
-        <button class="btn-primary" style="box-shadow: none;" onclick="saveJournalEntry()">Archivar y Olvidar</button>
+      <div class="minimal-card slide-up">
+        <h3>Nuevo Incidente 📝</h3>
+        <textarea id="journal-input" placeholder="Desahógate aquí antes de que respondas mal..."></textarea>
+        <button class="btn-minimal" onclick="saveJournalEntry()">Archivar y Olvidar</button>
       </div>
 
-      <div class="glass-card slide-up delay-1">
-        <div class="card-title">Logros de Curación <span id="achievement-count">0/4</span></div>
+      <div class="minimal-card slide-up delay-1">
+        <h3>Logros <span id="achievement-count" style="color: var(--text-muted); font-size: 14px; font-weight: normal;">0/4</span></h3>
         <div class="badges-grid">
           <div class="badge-item" id="badge-1"><div class="badge-emoji">🧘‍♀️</div><div class="badge-label">Mente<br>Fría</div></div>
           <div class="badge-item" id="badge-2"><div class="badge-emoji">🧊</div><div class="badge-label">Dignidad<br>Intacta</div></div>
@@ -219,189 +217,171 @@
         </div>
       </div>
 
-      <div class="glass-card slide-up delay-2" style="margin-bottom: 80px;">
-        <div class="card-title">Historial Clínico <span>📂</span></div>
-        <div class="history-list" id="history-container"></div>
+      <div class="minimal-card slide-up delay-2" style="margin-bottom: 80px;">
+        <h3>Historial 📂</h3>
+        <div id="history-container"></div>
       </div>
 
-    </div> <button class="btn-primary btn-floating fade-in" onclick="playNextDose()">🔊 FORZAR DOSIS DE AUDIO</button>
-
+    </div>
   </div>
 
 <script>
   /* =========================================
-     CONFIGURACIÓN Y DATOS
+     CONFIGURACIÓN
   ========================================= */
-  const PASSWORD = "FUFU2026";
-  const DB_KEY_AUTH = "paciencia_auth_lorena_v61";
-  const DB_KEY_JOURNAL = "paciencia_journal_lorena_v61";
-  const DB_KEY_PHRASE = "paciencia_phrase_lorena_v61";
+  const PASSWORD = "FUFU"; // Contraseña simplificada para pruebas
+  let isMuted = false;
+  let currentlyPlayingIndex = -1;
 
   const phrases = [
     "Lorena, respira. Esa persona no sabe que es el protagonista de tu chiste interno.",
     "No es falta de paciencia, es que te sobra gente tonta alrededor.",
     "Activando modo: Sonreír, asentir y bloquear mentalmente.",
     "Niveles de tolerancia al 2%. Por favor, que nadie pregunte cosas obvias.",
-    "Protocolo activo: Inhibiendo impulso destructivo al ver correos urgentes.",
-    "La paciencia es una virtud, pero revirar los ojos es una necesidad.",
-    "Sincronizando chakra del sarcasmo... Listo. Puedes continuar tu día.",
-    "Si te vuelven a decir '¿Lo tienes ya?', pulsa el botón otra vez."
+    "Protocolo activo: Inhibiendo impulso destructivo al ver correos urgentes."
   ];
 
-  let currentPhraseIndex = parseInt(localStorage.getItem(DB_KEY_PHRASE)) || 0;
-  let journalEntries = JSON.parse(localStorage.getItem(DB_KEY_JOURNAL)) || [];
-  
-  // Variables de control de audio y barra
-  let progressInterval;
-  const DOSE_DURATION = 8000;
-  let doseStartTime;
-
   /* =========================================
-     INICIALIZACIÓN DE LA APP
+     INICIO Y CARRUSEL
   ========================================= */
-  window.onload = function() {
-    // 1. Iniciar las frases inmediatamente
-    loadDoseText(false); 
-    
-    // 2. Comprobar si ya puso la contraseña antes
-    checkAuthState();
-  };
+  function startApp() {
+    // Ocultar splash
+    const splash = document.getElementById('splash-screen');
+    splash.style.opacity = '0';
+    setTimeout(() => splash.style.visibility = 'hidden', 500);
 
-  /* =========================================
-     LÓGICA DE AUDIO Y DOSIS (PÚBLICA)
-  ========================================= */
-  function loadDoseText(playAudio = false) {
-    const phraseEl = document.getElementById('phrase-text');
-    const counterEl = document.getElementById('dose-counter');
-    const text = phrases[currentPhraseIndex];
-    
-    phraseEl.style.opacity = 0;
-    
-    setTimeout(() => {
-      phraseEl.textContent = text;
-      counterEl.textContent = `Dosis ${currentPhraseIndex + 1}/${phrases.length}`;
-      phraseEl.style.opacity = 1;
+    // Inicializar síntesis de voz vacía para desbloquearla en iOS/Android
+    const unlockAudio = new SpeechSynthesisUtterance("");
+    window.speechSynthesis.speak(unlockAudio);
+
+    buildCarousel();
+    setupIntersectionObserver();
+  }
+
+  function buildCarousel() {
+    const container = document.getElementById('carousel-container');
+    container.innerHTML = ''; // Limpiar
+
+    phrases.forEach((phrase, index) => {
+      const card = document.createElement('div');
+      card.className = 'carousel-card';
+      card.dataset.index = index;
       
-      if(playAudio) speak(text);
-      startProgressBar();
-    }, 300);
+      card.innerHTML = `
+        <div class="card-top">
+          <span class="card-number">DOSIS ${index + 1}/${phrases.length}</span>
+          <button class="mute-btn" onclick="toggleMute(this)">🔊</button>
+        </div>
+        <div class="card-phrase">"${phrase}"</div>
+      `;
+      container.appendChild(card);
+    });
   }
 
-  function playNextDose() {
-    currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length;
-    localStorage.setItem(DB_KEY_PHRASE, currentPhraseIndex);
-    loadDoseText(true); // Al pulsar el botón, sí suena la voz
+  /* =========================================
+     LÓGICA DE AUDIO AUTOMÁTICO AL DESLIZAR
+  ========================================= */
+  function setupIntersectionObserver() {
+    const options = {
+      root: document.getElementById('carousel-container'),
+      rootMargin: '0px',
+      threshold: 0.6 // Cuando la tarjeta esté 60% visible
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const index = parseInt(entry.target.dataset.index);
+          
+          // Solo reproducir si es una tarjeta nueva y no está silenciado
+          if (index !== currentlyPlayingIndex) {
+            currentlyPlayingIndex = index;
+            if (!isMuted) {
+              speakPhrase(phrases[index]);
+            }
+          }
+        }
+      });
+    }, options);
+
+    // Observar todas las tarjetas
+    document.querySelectorAll('.carousel-card').forEach(card => {
+      observer.observe(card);
+    });
   }
 
-  function speak(text) {
+  function speakPhrase(text) {
     if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
+      window.speechSynthesis.cancel(); // Detener audio anterior
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'es-ES';
-      utterance.rate = 0.95; 
-      utterance.pitch = 1.1; 
+      utterance.rate = 0.95;
       window.speechSynthesis.speak(utterance);
     }
   }
 
-  function startProgressBar() {
-    clearInterval(progressInterval);
-    const bar = document.getElementById('progress-bar');
-    doseStartTime = Date.now();
+  function toggleMute(btnElement) {
+    isMuted = !isMuted;
     
-    progressInterval = setInterval(() => {
-      const elapsed = Date.now() - doseStartTime;
-      const progress = Math.min((elapsed / DOSE_DURATION) * 100, 100);
-      bar.style.width = progress + '%';
-      
-      if (progress >= 100) {
-        clearInterval(progressInterval);
+    // Cambiar icono en TODOS los botones de mute para mantener coherencia
+    const allMuteBtns = document.querySelectorAll('.mute-btn');
+    allMuteBtns.forEach(btn => {
+      if(isMuted) {
+        btn.classList.add('muted');
+        btn.innerHTML = '🔇';
+      } else {
+        btn.classList.remove('muted');
+        btn.innerHTML = '🔊';
       }
-    }, 50);
-  }
+    });
 
-  /* =========================================
-     LÓGICA DE AUTENTICACIÓN Y VISTAS
-  ========================================= */
-  function checkAuthState() {
-    const isAuth = localStorage.getItem(DB_KEY_AUTH);
-    if (isAuth === "true") {
-      unlockPrivateSection();
+    if (isMuted) {
+      window.speechSynthesis.cancel(); // Callar inmediatamente
     } else {
-      lockPrivateSection();
+      speakPhrase(phrases[currentlyPlayingIndex]); // Reproducir la actual
     }
   }
 
-  function showPasswordPrompt() {
+  /* =========================================
+     LÓGICA DE CONTRASEÑA Y DIARIO
+  ========================================= */
+  function showAuth() {
     document.getElementById('teaser-section').classList.add('hidden');
     document.getElementById('auth-section').classList.remove('hidden');
     document.getElementById('password-input').focus();
   }
 
-  function cancelLogin() {
+  function hideAuth() {
     document.getElementById('auth-section').classList.add('hidden');
     document.getElementById('teaser-section').classList.remove('hidden');
     document.getElementById('login-error').style.display = 'none';
-    document.getElementById('password-input').value = "";
   }
 
   function login() {
     const input = document.getElementById('password-input').value;
-    const errorMsg = document.getElementById('login-error');
-    
     if (input === PASSWORD) {
-      localStorage.setItem(DB_KEY_AUTH, "true");
-      errorMsg.style.display = 'none';
-      unlockPrivateSection();
+      document.getElementById('auth-section').classList.add('hidden');
+      document.getElementById('private-section').classList.remove('hidden');
+      renderHistory(); // Cargar datos
     } else {
-      errorMsg.style.display = 'block';
+      document.getElementById('login-error').style.display = 'block';
       document.getElementById('password-input').value = "";
     }
   }
 
-  function logout() {
-    localStorage.removeItem(DB_KEY_AUTH);
-    location.reload();
-  }
+  let journalEntries = JSON.parse(localStorage.getItem("paciencia_journal_v7")) || [];
 
-  function unlockPrivateSection() {
-    document.getElementById('teaser-section').classList.add('hidden');
-    document.getElementById('auth-section').classList.add('hidden');
-    document.getElementById('private-section').classList.remove('hidden');
-    document.getElementById('logout-btn').classList.remove('hidden'); // Mostrar candado abierto
-    updateDashboardUI();
-  }
-
-  function lockPrivateSection() {
-    document.getElementById('teaser-section').classList.remove('hidden');
-    document.getElementById('auth-section').classList.add('hidden');
-    document.getElementById('private-section').classList.add('hidden');
-    document.getElementById('logout-btn').classList.add('hidden');
-  }
-
-  /* =========================================
-     LÓGICA DEL DIARIO Y GAMIFICACIÓN
-  ========================================= */
   function saveJournalEntry() {
-    const inputEl = document.getElementById('journal-input');
-    const text = inputEl.value.trim();
-    if (text === "") return;
+    const text = document.getElementById('journal-input').value.trim();
+    if (!text) return;
 
-    const newEntry = {
-      date: new Date().toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute:'2-digit' }),
+    journalEntries.unshift({
+      date: new Date().toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' }),
       text: text
-    };
-
-    journalEntries.unshift(newEntry);
-    localStorage.setItem(DB_KEY_JOURNAL, JSON.stringify(journalEntries));
-    
-    inputEl.value = "";
-    updateDashboardUI();
-  }
-
-  function updateDashboardUI() {
+    });
+    localStorage.setItem("paciencia_journal_v7", JSON.stringify(journalEntries));
+    document.getElementById('journal-input').value = "";
     renderHistory();
-    updateAchievements();
   }
 
   function renderHistory() {
@@ -409,33 +389,27 @@
     container.innerHTML = "";
 
     if (journalEntries.length === 0) {
-      container.innerHTML = "<div class='empty-history'>Aún no hay registros en tu lóbulo nostálgico.</div>";
-      return;
+      container.innerHTML = "<p style='color: var(--text-muted); font-size: 14px;'>Aún no hay registros.</p>";
+    } else {
+      journalEntries.forEach(entry => {
+        container.innerHTML += `
+          <div class="history-item">
+            <div class="history-date">${entry.date}</div>
+            <div style="font-size: 14px;">${entry.text}</div>
+          </div>
+        `;
+      });
     }
 
-    journalEntries.forEach(entry => {
-      const div = document.createElement('div');
-      div.className = 'history-item';
-      div.innerHTML = `
-        <div class="history-date">${entry.date}</div>
-        <div class="history-text">${entry.text}</div>
-      `;
-      container.appendChild(div);
-    });
-  }
-
-  function updateAchievements() {
+    // Logros
     const total = journalEntries.length;
     let unlocked = 0;
-
     if (total >= 1) { document.getElementById('badge-1').classList.add('active'); unlocked++; }
     if (total >= 3) { document.getElementById('badge-2').classList.add('active'); unlocked++; }
     if (total >= 5) { document.getElementById('badge-3').classList.add('active'); unlocked++; }
     if (total >= 8) { document.getElementById('badge-4').classList.add('active'); unlocked++; }
-
     document.getElementById('achievement-count').textContent = `${unlocked}/4`;
   }
-
 </script>
 </body>
 </html>
