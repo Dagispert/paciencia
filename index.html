@@ -3,20 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>PACIENCIA-MAX™ — Dashboard Zen</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<title>PACIENCIA-MAX™ — Lorena</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg-main: #FDF7F2;
     --mint-deep: #004D40;
     --mint-mid: #26A69A;
     --mint-light: #B2DFDB;
-    --mint-pale: #E0F2F1;
     --gray-dark: #1C1C1E;
     --gray-mid: #8E8E93;
     --white: #FFFFFF;
     --shadow-premium: 0 20px 40px rgba(0,0,0,0.06);
-    --blur: blur(12px);
     --bezier: cubic-bezier(0.23, 1, 0.32, 1);
   }
 
@@ -24,179 +22,192 @@
 
   body {
     font-family: 'DM Sans', sans-serif;
-    background: linear-gradient(180deg, #FDE2E4 0%, #E2ECE9 100%); /* Fondo dividido como tu imagen */
+    background: linear-gradient(180deg, #FDE2E4 0%, #E2ECE9 100%);
     color: var(--gray-dark);
-    overflow-x: hidden;
     min-height: 100vh;
-    padding-bottom: 80px;
+    padding-bottom: 100px;
     opacity: 0;
     animation: fadeInPage 0.8s ease forwards;
   }
 
   @keyframes fadeInPage { to { opacity: 1; } }
 
-  /* --- MÓVIL OPTIMIZADO: HEADER --- */
-  .top-bar {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: var(--blur);
-    padding: 12px 20px;
-    display: flex; justify-content: space-between; align-items: center;
-    position: sticky; top: 0; z-index: 100;
-    border-bottom: 1px solid rgba(0,0,0,0.03);
+  /* --- ENCABEZADO PERSONALIZADO LORENA --- */
+  .welcome-header {
+    padding: 50px 24px 30px;
+    animation: slideDown 0.8s var(--bezier) forwards;
   }
-  .app-header h1 { font-size: 20px; font-weight: 700; color: var(--mint-deep); }
-  .user-badge { width: 32px; height: 32px; background: #FFC107; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; }
 
-  /* --- CASCADING ANIMATIONS --- */
-  .slide-up { transform: translateY(30px); opacity: 0; animation: slideUpIn 0.7s var(--bezier) forwards; }
-  @keyframes slideUpIn { to { transform: translateY(0); opacity: 1; } }
-  .delay-1 { animation-delay: 0.1s; }
-  .delay-2 { animation-delay: 0.2s; }
-  .delay-3 { animation-delay: 0.3s; }
-  .delay-4 { animation-delay: 0.4s; }
+  @keyframes slideDown {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
 
-  /* --- HERO CARD (LA PASTILLA) --- */
-  .hero-card {
+  .welcome-header p {
+    font-size: 16px;
+    color: var(--gray-mid);
+    margin-bottom: 4px;
+    font-weight: 400;
+  }
+
+  .welcome-header h1 {
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--gray-dark);
+    letter-spacing: -1px;
+  }
+
+  .welcome-header h1 span {
+    color: var(--mint-mid);
+  }
+
+  /* --- BLOQUES DE CONTENIDO --- */
+  main { padding: 0 20px; }
+
+  .card-main {
     background: var(--white);
-    margin: 20px 16px; padding: 24px;
+    padding: 24px;
     border-radius: 32px;
     box-shadow: var(--shadow-premium);
-    display: flex; align-items: center; gap: 20px;
-    overflow: hidden;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transform: translateY(30px); opacity: 0;
+    animation: slideUpIn 0.7s var(--bezier) 0.2s forwards;
   }
-  .pill-avatar { width: 80px; height: 80px; border-radius: 20px; border: 4px solid var(--mint-light); border-top: 4px solid var(--mint-mid); display: flex; align-items: center; justify-content: center; font-size: 40px; }
-  .pill-meta h2 { font-size: 18px; font-weight: 700; margin-bottom: 4px; color: var(--mint-deep); }
-  .pill-meta p { font-size: 13px; color: var(--gray-mid); line-height: 1.4; }
 
-  /* --- DATOS (ESTILO BLOQUES REFERENCIA) --- */
-  main { padding: 0 16px; }
+  .pill-icon {
+    width: 70px; height: 70px;
+    background: var(--mint-pale);
+    border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 35px;
+    border: 1px solid var(--mint-light);
+    animation: float 3s ease-in-out infinite;
+  }
 
+  @keyframes float { 50% { transform: translateY(-8px); } }
+
+  .pill-info h2 { font-size: 18px; color: var(--mint-deep); }
+  .pill-info p { font-size: 13px; color: var(--gray-mid); }
+
+  /* --- ESTADO ZEN --- */
   .status-block {
     background: var(--mint-deep);
-    color: white; padding: 24px; border-radius: 24px;
-    display: flex; flex-direction: column; gap: 12px;
+    color: white;
+    padding: 24px;
+    border-radius: 28px;
     margin-bottom: 20px;
+    box-shadow: 0 15px 30px rgba(0,77,64,0.2);
+    transform: translateY(30px); opacity: 0;
+    animation: slideUpIn 0.7s var(--bezier) 0.3s forwards;
   }
-  .block-header { display: flex; justify-content: space-between; align-items: center; }
-  .block-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.6; }
-  #phrase-text { font-size: 18px; font-weight: 300; line-height: 1.4; transition: opacity 0.4s ease; font-style: italic; }
 
-  .progress-bar { height: 4px; background: rgba(255,255,255,0.1); border-radius: 10px; position: relative; }
+  .block-label { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; opacity: 0.5; margin-bottom: 15px; }
+  #phrase-text { font-size: 20px; font-weight: 300; line-height: 1.4; font-style: italic; min-height: 80px; }
+
+  .progress-container { height: 4px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-top: 20px; overflow: hidden; }
   #progress-fill { height: 100%; background: var(--mint-light); width: 0%; border-radius: 10px; }
 
-  /* --- INFO GRID (Referencia Style) --- */
-  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-  .info-box { background: rgba(255, 255, 255, 0.7); backdrop-filter: var(--blur); padding: 16px; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); }
-  .info-box label { display: block; font-size: 9px; text-transform: uppercase; color: var(--gray-mid); margin-bottom: 4px; }
-  .info-box strong { color: var(--mint-deep); font-size: 14px; font-weight: 600; }
-
-  /* --- ADVERTENCIAS --- */
-  .warning-box {
-    background: #FFD2CC; color: #7F1D1D; /* Color rosa suave como tu imagen */
-    padding: 16px; border-radius: 20px;
-    margin-bottom: 12px; display: flex; gap: 12px; align-items: flex-start;
+  /* --- GRID DE DATOS --- */
+  .info-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
+    margin-bottom: 20px;
+    transform: translateY(30px); opacity: 0;
+    animation: slideUpIn 0.7s var(--bezier) 0.4s forwards;
   }
-  .warning-icon { width: 36px; height: 36px; background: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; margin-top: 2px; }
-  .warning-text h4 { font-size: 14px; margin-bottom: 2px; }
-  .warning-text p { font-size: 12px; line-height: 1.5; opacity: 0.9; }
+
+  .info-box { background: rgba(255,255,255,0.6); backdrop-filter: blur(10px); padding: 18px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.4); }
+  .info-box label { display: block; font-size: 9px; text-transform: uppercase; color: var(--gray-mid); margin-bottom: 5px; }
+  .info-box span { font-size: 15px; font-weight: 600; color: var(--mint-deep); }
+
+  /* --- ADVERTENCIA --- */
+  .warning-card {
+    background: #FFD2CC; color: #7F1D1D;
+    padding: 20px; border-radius: 28px;
+    display: flex; gap: 15px;
+    transform: translateY(30px); opacity: 0;
+    animation: slideUpIn 0.7s var(--bezier) 0.5s forwards;
+  }
+  .warn-icon { width: 40px; height: 40px; background: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .warn-text h4 { font-size: 15px; margin-bottom: 3px; }
+  .warn-text p { font-size: 12px; line-height: 1.5; opacity: 0.8; }
+
+  @keyframes slideUpIn { to { transform: translateY(0); opacity: 1; } }
 
   /* --- BOTÓN FLOTANTE --- */
-  .action-btn {
-    position: fixed; bottom: 20px; left: 16px; right: 16px;
-    background: var(--mint-mid);
-    color: white; padding: 18px;
-    border-radius: 20px; text-align: center;
-    font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;
+  .btn-fixed {
+    position: fixed; bottom: 25px; left: 20px; right: 20px;
+    background: var(--mint-mid); color: white;
+    padding: 20px; border-radius: 20px; border: none;
+    font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
     box-shadow: 0 15px 30px rgba(38, 166, 154, 0.3);
-    border: none; cursor: pointer; transition: all 0.2s;
+    z-index: 1000;
   }
-  .action-btn:active { transform: scale(0.97); background: #00897B; }
-
-  /* --- CLINICAL DATA --- */
-  .clinical-section { margin-top: 24px; padding-left: 4px; }
-  .clinical-box { background: rgba(0, 0, 0, 0.02); padding: 16px; border-radius: 16px; font-size: 12px; color: var(--gray-mid); line-height: 1.6; }
+  .btn-fixed:active { transform: scale(0.96); }
 
 </style>
 </head>
 <body>
 
-<div class="top-bar">
-  <header class="app-header"><h1>Paciencia-Max™</h1></header>
-  <div class="user-badge">🙄</div>
+<div class="welcome-header">
+  <p>Hola,</p>
+  <h1>Lorena <span>🙄</span></h1>
 </div>
 
 <main>
-  <div class="hero-card slide-up">
-    <div class="pill-avatar">🙄</div>
-    <div class="pill-meta">
-      <h2>Dosis Única v4.0</h2>
-      <p>Cápsula de calma emocional<br>Hardware técnico 40mm.</p>
+  <div class="card-main">
+    <div class="pill-icon">🙄</div>
+    <div class="pill-info">
+      <h2>Paciencia-Max™</h2>
+      <p>Sincronización NFC exitosa.<br>Estado: Calibrando calma.</p>
     </div>
   </div>
 
-  <div class="status-block slide-up delay-1">
-    <div class="block-header">
-      <div class="block-label">Efecto Zen Activo</div>
-      <div style="font-size: 12px; font-weight: 600;">v3.1</div>
-    </div>
-    <div id="phrase-text">Iniciando calibración de tolerancia profunda...</div>
-    <div class="progress-bar"><div id="progress-fill"></div></div>
+  <div class="status-block">
+    <div class="block-label">Mecanismo de Acción</div>
+    <div id="phrase-text">Iniciando protocolo de neutralización de irritantes...</div>
+    <div class="progress-container"><div id="progress-fill"></div></div>
   </div>
 
-  <div class="info-grid slide-up delay-2">
-    <div class="info-box"><label>Acción</label><strong>Filtro Anti-Tontos</strong></div>
-    <div class="info-box"><label>Duración</label><strong>Ciclo Semanal Zen</strong></div>
-    <div class="info-box"><label>Status</label><strong>Zen Estable</strong></div>
-    <div class="info-box"><label>Dosis</label><strong>1g / Tolerance</strong></div>
+  <div class="info-grid">
+    <div class="info-box"><label>Lorena Zen</label><span>78%</span></div>
+    <div class="info-box"><label>Dosis</label><span>1g / Semanal</span></div>
+    <div class="info-box"><label>Status</label><span>Estable</span></div>
+    <div class="info-box"><label>NFC</label><span>Verified</span></div>
   </div>
 
-  <div class="warning-box slide-up delay-3">
-    <div class="warning-icon">⚠️</div>
-    <div class="warning-text">
-      <h4>IMPORTANTE: NO INGERIR</h4>
-      <p>Este es un objeto de diseño conceptual. El alivio es puramente mental, la pastilla es arte. No la muerdas, su dignidad es superior.</p>
-    </div>
-  </div>
-  
-  <div class="warning-box slide-up delay-3" style="background: #D8F3DC; color: #1B4332;">
-    <div class="warning-icon">📱</div>
-    <div class="warning-text">
-      <h4>Contraindicación</h4>
-      <p>No usar mientras escucha audios de WhatsApp de más de 3 minutos o ante la frase "¿puedo hacerte una pregunta rápida?".</p>
-    </div>
-  </div>
-
-  <div class="clinical-section slide-up delay-4">
-    <div class="clinical-box">
-      <strong>Nota clínica Laboratorios Emocionales S.L.</strong><br>
-      © 2026 · ANTIPRODUCT DESIGN<br>
-      CUIDA TU CEREBRO. ES EL ÚNICO QUE TIENES.<br>
-      Uso exclusivo emocional · No apto para hipersensibles
+  <div class="warning-card">
+    <div class="warn-icon">⚠️</div>
+    <div class="warn-text">
+      <h4>Uso clínico exclusivo</h4>
+      <p>No ingerir. Esta pastilla de diseño está optimizada para que Lorena ignore audios de más de 3 min.</p>
     </div>
   </div>
 </main>
 
-<button class="action-btn slide-up delay-4" onclick="triggerNext()">FORZAR DOSIS ZEN 🙄</button>
+<button class="btn-fixed" onclick="triggerNext()">FORZAR DOSIS ZEN</button>
 
 <script>
   const phrases = [
-    "No es falta de paciencia, es que te sobra gente tonta alrededor.",
-    "Respira. Esa persona no sabe que es tu chiste interno.",
-    "Activando modo: 'Sonreír y asentir mientras pienso en pizza'.",
-    "Niveles de tolerancia al 2%. No me preguntes nada obvio.",
+    "Lorena, respira. Esa persona no sabe que es tu chiste interno.",
+    "No es que te falte paciencia, es que te sobra gente tonta alrededor.",
+    "Activando modo: 'Sonreír y asentir mientras pienso en otra cosa'.",
+    "Protocolo Lorena: Niveles de tolerancia al 2%. No preguntar nada obvio.",
     "La paciencia es una virtud, pero esta pastilla es más rápida.",
     "Si te dicen '¿Lo tienes ya?', escanea esto de nuevo.",
-    "Protocolo: Ignorar notificaciones irrelevantes activado."
+    "Sistema activo: Ignorando notificaciones irrelevantes..."
   ];
 
   let current = 0;
-  const duration = 7000;
+  const duration = 6500;
   let startTime = Date.now();
 
   function triggerNext() {
     const el = document.getElementById('phrase-text');
     el.style.opacity = 0;
-    
     setTimeout(() => {
       current = (current + 1) % phrases.length;
       el.textContent = phrases[current];
