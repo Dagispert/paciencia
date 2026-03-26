@@ -3,17 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>PACIENCIA-MAX™ — Voice Protocol</title>
+<title>PACIENCIA-MAX™ — Diario Clínico</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --mint-deep: #004D40;
     --mint-mid: #26A69A;
     --mint-light: #B2DFDB;
+    --mint-pale: #E0F2F1;
     --gray-dark: #1C1C1E;
     --gray-mid: #8E8E93;
     --white: #FFFFFF;
-    --shadow-premium: 0 20px 40px rgba(0,0,0,0.06);
+    --shadow-premium: 0 15px 35px rgba(0,0,0,0.05);
     --bezier: cubic-bezier(0.23, 1, 0.32, 1);
   }
 
@@ -24,7 +25,7 @@
     background: linear-gradient(180deg, #FDE2E4 0%, #E2ECE9 100%);
     color: var(--gray-dark);
     min-height: 100vh;
-    padding-bottom: 110px;
+    padding-bottom: 40px;
   }
 
   /* --- BRAND LOGO --- */
@@ -34,71 +35,92 @@
     justify-content: center;
     animation: fadeIn 1s ease forwards;
   }
-
-  .brand-logo {
-    width: 120px; /* Ajusta el tamaño aquí */
-    height: auto;
-  }
+  .brand-logo { height: 40px; width: auto; }
 
   /* --- HEADER --- */
-  .welcome-header { padding: 30px 24px 20px; animation: slideDown 0.8s var(--bezier) forwards; }
+  .welcome-header { padding: 20px 24px 10px; animation: slideDown 0.8s var(--bezier) forwards; }
   .welcome-header p { font-size: 16px; color: var(--gray-mid); }
-  .welcome-header h1 { font-size: 38px; font-weight: 700; color: var(--gray-dark); letter-spacing: -1px; }
+  .welcome-header h1 { font-size: 34px; font-weight: 700; color: var(--gray-dark); letter-spacing: -1px; }
 
-  /* --- STATUS BLOCK CON SONIDO --- */
+  /* --- INFO PRINCIPAL --- */
   main { padding: 0 20px; }
   
-  .status-block {
-    background: var(--mint-deep);
-    color: white;
-    padding: 24px;
-    border-radius: 32px;
-    box-shadow: 0 15px 30px rgba(0,77,64,0.2);
+  .hero-card {
+    background: var(--white);
+    padding: 24px; border-radius: 28px;
+    box-shadow: var(--shadow-premium);
     margin-bottom: 20px;
-    position: relative;
-    overflow: hidden;
+    display: flex; gap: 15px; align-items: center;
+    animation: slideUpIn 0.6s var(--bezier) forwards;
   }
-
-  .voice-indicator {
-    position: absolute;
-    top: 20px; right: 20px;
-    font-size: 14px;
-    opacity: 0.5;
-    animation: pulse 1.5s infinite;
+  .pill-icon {
+    font-size: 45px; background: var(--mint-pale);
+    width: 70px; height: 70px; border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
   }
+  .hero-text h2 { font-size: 18px; color: var(--mint-deep); margin-bottom: 4px; }
+  .hero-text p { font-size: 13px; color: var(--gray-mid); line-height: 1.4; }
 
-  @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-  .block-label { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; opacity: 0.5; margin-bottom: 15px; display: block; }
-  #phrase-text { font-size: 20px; font-weight: 300; line-height: 1.4; font-style: italic; min-height: 90px; transition: opacity 0.3s; }
-
-  .progress-container { height: 4px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-top: 20px; overflow: hidden; }
-  #progress-fill { height: 100%; background: var(--mint-light); width: 0%; border-radius: 10px; }
-
-  /* --- INFO GRID --- */
-  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-  .info-box { background: rgba(255,255,255,0.6); backdrop-filter: blur(10px); padding: 18px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.3); }
-  .info-box label { display: block; font-size: 9px; text-transform: uppercase; color: var(--gray-mid); margin-bottom: 4px; }
-  .info-box span { font-size: 15px; font-weight: 600; color: var(--mint-deep); }
-
-  /* --- WARNING --- */
-  .warning-card { background: #FFD2CC; color: #7F1D1D; padding: 20px; border-radius: 28px; display: flex; gap: 15px; }
-  .warn-icon { width: 40px; height: 40px; background: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-  .warn-text p { font-size: 12px; line-height: 1.5; opacity: 0.8; }
-
-  /* --- BOTÓN --- */
-  .btn-voice {
-    position: fixed; bottom: 25px; left: 20px; right: 20px;
-    background: var(--mint-mid); color: white;
-    padding: 22px; border-radius: 24px; border: none;
+  /* --- ZONA DE DIARIO (INPUT) --- */
+  .journal-section {
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(12px);
+    padding: 20px; border-radius: 28px;
+    border: 1px solid rgba(255,255,255,0.5);
+    margin-bottom: 20px;
+    animation: slideUpIn 0.6s var(--bezier) 0.2s forwards;
+    opacity: 0;
+  }
+  .section-title { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--mint-deep); margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+  
+  textarea {
+    width: 100%; height: 100px;
+    background: var(--white);
+    border: 1px solid var(--mint-light);
+    border-radius: 16px; padding: 16px;
+    font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--gray-dark);
+    resize: none; outline: none; margin-bottom: 12px;
+    transition: all 0.3s ease;
+  }
+  textarea:focus { border-color: var(--mint-mid); box-shadow: 0 0 0 4px rgba(38,166,154,0.1); }
+  
+  .btn-save {
+    background: var(--mint-deep); color: white;
+    width: 100%; padding: 16px; border-radius: 16px; border: none;
     font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
-    box-shadow: 0 15px 30px rgba(38, 166, 154, 0.3);
-    z-index: 1000;
+    cursor: pointer; transition: all 0.2s;
   }
-  .btn-voice:active { transform: scale(0.96); }
+  .btn-save:active { transform: scale(0.97); background: #00332A; }
+
+  /* --- LOGROS (GAMIFICACIÓN) --- */
+  .achievements-grid { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
+  .achievements-grid::-webkit-scrollbar { display: none; }
+  
+  .badge {
+    background: var(--white); min-width: 100px; padding: 15px 10px;
+    border-radius: 20px; text-align: center; opacity: 0.4; filter: grayscale(1);
+    transition: all 0.4s ease; border: 1px solid rgba(0,0,0,0.05);
+  }
+  .badge.unlocked { opacity: 1; filter: grayscale(0); background: var(--mint-pale); border-color: var(--mint-light); transform: scale(1.05); }
+  .badge-icon { font-size: 28px; margin-bottom: 8px; }
+  .badge-name { font-size: 11px; font-weight: 700; color: var(--mint-deep); line-height: 1.2; }
+
+  /* --- HISTORIAL (CAPÍTULOS) --- */
+  .history-list { display: flex; flex-direction: column; gap: 10px; }
+  .entry-card {
+    background: var(--white); padding: 16px; border-radius: 20px;
+    border-left: 4px solid var(--mint-mid);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+  }
+  .entry-date { font-size: 11px; color: var(--gray-mid); margin-bottom: 6px; font-weight: 500; }
+  .entry-text { font-size: 14px; line-height: 1.5; color: var(--gray-dark); }
+  .empty-state { text-align: center; padding: 20px; font-size: 13px; color: var(--gray-mid); font-style: italic; }
 
   @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  @keyframes slideUpIn { to { transform: translateY(0); opacity: 1; } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
 </style>
 </head>
 <body>
@@ -109,92 +131,119 @@
 
 <div class="welcome-header">
   <p>Hola, Lorena,</p>
-  <h1>Paciencia-Max™ 🙄</h1>
+  <h1>Tu Clínica Zen 🙄</h1>
 </div>
 
 <main>
-  <div class="status-block">
-    <div class="voice-indicator">🔊 Audio Activo</div>
-    <span class="block-label">Mecanismo de Acción</span>
-    <div id="phrase-text">Iniciando protocolo de audio para Lorena...</div>
-    <div class="progress-container"><div id="progress-fill"></div></div>
-  </div>
-
-  <div class="info-grid">
-    <div class="info-box"><label>Modo</label><span>Voz Guía</span></div>
-    <div class="info-box"><label>Lorena Zen</label><span>82%</span></div>
-    <div class="info-box"><label>NFC</label><span>Verificado</span></div>
-    <div class="info-box"><label>Idioma</label><span>Español</span></div>
-  </div>
-
-  <div class="warning-card">
-    <div class="warn-icon">⚠️</div>
-    <div class="warn-text">
-      <h4 style="font-size: 14px; margin-bottom: 2px;">Nota de seguridad</h4>
-      <p>Asegúrate de tener el volumen activo. El sistema leerá las dosis de calma automáticamente.</p>
+  <div class="hero-card">
+    <div class="pill-icon">🙄</div>
+    <div class="hero-text">
+      <h2>Paciencia-Max™</h2>
+      <p>Diseñada para tolerar reuniones que podían ser un email, preguntas obvias y audios de 5 minutos. Dosis infinita.</p>
     </div>
+  </div>
+
+  <div class="journal-section">
+    <div class="section-title">Archivar Incidente <span>📝</span></div>
+    <textarea id="journalInput" placeholder="¿Quién o qué ha puesto a prueba tu paciencia hoy? Desahógate, es terapéutico..."></textarea>
+    <button class="btn-save" onclick="saveEntry()">Capsular Experiencia</button>
+  </div>
+
+  <div class="journal-section" style="animation-delay: 0.3s;">
+    <div class="section-title">Logros Desbloqueados <span id="logros-count">0/3</span></div>
+    <div class="achievements-grid">
+      <div class="badge" id="badge-1">
+        <div class="badge-icon">🧘‍♀️</div>
+        <div class="badge-name">Paz<br>Interior</div>
+      </div>
+      <div class="badge" id="badge-2">
+        <div class="badge-icon">🧊</div>
+        <div class="badge-name">Mente<br>Fría</div>
+      </div>
+      <div class="badge" id="badge-3">
+        <div class="badge-icon">👑</div>
+        <div class="badge-name">Buda de<br>Oficina</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="journal-section" style="animation-delay: 0.4s;">
+    <div class="section-title">Historial Clínico <span>📂</span></div>
+    <div class="history-list" id="historyList">
+      </div>
   </div>
 </main>
 
-<button class="btn-voice" onclick="handleInteraction()">FORZAR DOSIS CON VOZ</button>
-
 <script>
-  const phrases = [
-    "Lorena, respira. Esa persona no sabe que es tu chiste interno.",
-    "No es que te falte paciencia, es que te sobra gente tonta alrededor.",
-    "Activando modo: Sonreír y asentir mientras pienso en otra cosa.",
-    "Protocolo Lorena: Niveles de tolerancia al dos por ciento. No preguntar nada obvio.",
-    "La paciencia es una virtud, pero esta pastilla es más rápida.",
-    "Sistema activo: Ignorando notificaciones irrelevantes..."
-  ];
+  // 1. Cargar datos guardados en el móvil (o crear array vacío)
+  let entries = JSON.parse(localStorage.getItem('paciencia_journal_lorena')) || [];
 
-  let current = 0;
-  const duration = 7500;
-  let startTime = Date.now();
-  let firstClick = false;
-
-  function speak(text) {
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'es-ES';
-    utterance.rate = 0.9; 
-    utterance.pitch = 1.1; 
-    window.speechSynthesis.speak(utterance);
-  }
-
-  function handleInteraction() {
-    if(!firstClick) firstClick = true;
-    triggerNext();
-  }
-
-  function triggerNext() {
-    const el = document.getElementById('phrase-text');
-    el.style.opacity = 0;
+  // 2. Función para guardar una nueva experiencia
+  function saveEntry() {
+    const input = document.getElementById('journalInput');
+    const text = input.value.trim();
     
-    setTimeout(() => {
-      current = (current + 1) % phrases.length;
-      const nextText = phrases[current];
-      el.textContent = nextText;
-      el.style.opacity = 1;
-      
-      if(firstClick) speak(nextText);
-      
-      startTime = Date.now();
-    }, 400);
+    if (text === "") return; // No guarda si está vacío
+
+    // Crear objeto con fecha y texto
+    const newEntry = {
+      date: new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute:'2-digit' }),
+      text: text
+    };
+
+    // Añadir al principio de la lista
+    entries.unshift(newEntry);
+    
+    // Guardar en el navegador
+    localStorage.setItem('paciencia_journal_lorena', JSON.stringify(entries));
+    
+    // Limpiar caja de texto
+    input.value = "";
+    
+    // Actualizar pantalla
+    renderEntries();
+    checkAchievements();
   }
 
-  function update() {
-    const elapsed = Date.now() - startTime;
-    const progress = Math.min((elapsed / duration) * 100, 100);
-    document.getElementById('progress-fill').style.width = progress + '%';
-    
-    if (elapsed >= duration) {
-      triggerNext();
+  // 3. Función para pintar el historial en pantalla
+  function renderEntries() {
+    const list = document.getElementById('historyList');
+    list.innerHTML = "";
+
+    if (entries.length === 0) {
+      list.innerHTML = "<div class='empty-state'>Aún no hay registros. Se ve que hoy la gente se ha portado bien.</div>";
+      return;
     }
-    requestAnimationFrame(update);
+
+    entries.forEach(entry => {
+      const card = document.createElement('div');
+      card.className = 'entry-card';
+      card.innerHTML = `
+        <div class="entry-date">${entry.date}</div>
+        <div class="entry-text">${entry.text}</div>
+      `;
+      list.appendChild(card);
+    });
   }
 
-  update();
+  // 4. Función de Gamificación (Logros)
+  function checkAchievements() {
+    const total = entries.length;
+    let unlocked = 0;
+
+    // Logro 1: 1 registro
+    if (total >= 1) { document.getElementById('badge-1').classList.add('unlocked'); unlocked++; }
+    // Logro 2: 3 registros
+    if (total >= 3) { document.getElementById('badge-2').classList.add('unlocked'); unlocked++; }
+    // Logro 3: 5 registros
+    if (total >= 5) { document.getElementById('badge-3').classList.add('unlocked'); unlocked++; }
+
+    document.getElementById('logros-count').textContent = `${unlocked}/3`;
+  }
+
+  // Inicializar al cargar la página
+  renderEntries();
+  checkAchievements();
 </script>
 
 </body>
