@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>PACIENCIA-MAX™ — Fufu® Minimal</title>
+<title>PACIENCIA-MAX™ — Fufu® Focus</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   /* =========================================
@@ -55,7 +55,7 @@
 
   .splash-text { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 35px; max-width: 300px; }
 
-  /* BOTÓN "MANTENER PRESIONADO" (NUEVO) */
+  /* BOTÓN "MANTENER PRESIONADO" */
   .hold-btn {
     background: var(--text-dark); color: var(--white);
     padding: 18px 30px; border-radius: 100px; border: none;
@@ -67,17 +67,13 @@
   
   .btn-text { position: relative; z-index: 2; pointer-events: none; }
   
-  /* La barra que se llena */
   .btn-fill {
     position: absolute; top: 0; left: 0; height: 100%; width: 0%;
-    background: var(--accent); z-index: 1;
-    transition: width 0s; /* Regresa a cero de golpe */
+    background: var(--accent); z-index: 1; transition: width 0s;
   }
   
-  /* Cuando el usuario lo está presionando */
   .hold-btn.holding .btn-fill {
-    width: 100%;
-    transition: width 3s linear; /* Tarda exactamente 3 segundos en llenarse */
+    width: 100%; transition: width 3s linear;
   }
 
   /* =========================================
@@ -103,28 +99,43 @@
   @keyframes slideUpIn { to { opacity: 1; transform: translateY(0); } }
 
   /* =========================================
-     RESTO DEL ESTILO (HEADER, CARRUSEL, DIARIO)
+     HEADER
   ========================================= */
   header { padding: 40px 24px 20px; display: flex; justify-content: space-between; align-items: center; }
   .header-left p { font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
   .header-left h1 { font-size: 28px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
   .brand-logo { height: 35px; width: auto; }
 
-  .carousel-wrapper { margin: 10px 0 30px; }
-  .carousel-header { padding: 0 24px; margin-bottom: 15px; font-size: 14px; font-weight: 700; color: var(--text-dark); display: flex; align-items: center; gap: 8px; }
+  /* =========================================
+     TARJETA DE DOSIS ÚNICA (Reemplaza al carrusel)
+  ========================================= */
+  .dose-section { margin: 10px 24px 30px; }
+  .section-header { margin-bottom: 15px; font-size: 14px; font-weight: 700; color: var(--text-dark); display: flex; align-items: center; gap: 8px; }
   .dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; display: inline-block; }
 
-  .carousel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 24px 30px; gap: 16px; scroll-behavior: smooth; }
-  .carousel::-webkit-scrollbar { display: none; }
-  .carousel-card { scroll-snap-align: center; flex: 0 0 85%; background: var(--white); padding: 30px 24px; border-radius: var(--radius-lg); box-shadow: var(--shadow-soft); display: flex; flex-direction: column; justify-content: space-between; min-height: 220px; position: relative; border: 1px solid rgba(0,0,0,0.02); }
+  .active-dose-card {
+    background: var(--white); border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft); padding: 30px 24px 0; /* Padding inferior quitado para la barra */
+    display: flex; flex-direction: column; justify-content: space-between;
+    min-height: 240px; border: 1px solid rgba(0,0,0,0.02);
+    position: relative; overflow: hidden;
+  }
   
   .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
   .card-number { font-size: 12px; color: var(--text-muted); font-weight: 500; }
   
   .mute-btn { background: #F0F0F0; border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; transition: 0.2s; color: var(--text-dark); }
   .mute-btn.muted { background: #FFE5E5; color: #D32F2F; }
-  .card-phrase { font-size: 22px; font-weight: 400; line-height: 1.4; color: var(--text-dark); }
+  
+  .card-phrase { font-size: 22px; font-weight: 400; line-height: 1.4; color: var(--text-dark); transition: opacity 0.5s ease; padding-bottom: 40px; }
 
+  /* Barra de progreso de 15 segundos */
+  .dose-progress-bg { position: absolute; bottom: 0; left: 0; width: 100%; height: 6px; background: #E5E5EA; }
+  .dose-progress-fill { height: 100%; width: 0%; background: var(--accent); }
+
+  /* =========================================
+     TEASER, CONTRASEÑA, DIARIO, LOGROS
+  ========================================= */
   .container { padding: 0 24px; }
   .minimal-card { background: var(--white); padding: 24px; border-radius: var(--radius-lg); box-shadow: var(--shadow-soft); margin-bottom: 24px; border: 1px solid rgba(0,0,0,0.02); text-align: center; }
   .minimal-card h3 { font-size: 16px; margin-bottom: 8px; color: var(--text-dark); }
@@ -154,18 +165,14 @@
 
   <div id="splash-screen">
     <img src="logooo.png" alt="Fufu Logo" class="splash-logo">
-    
     <h1 class="splash-title">Hola, Lorena. 👋</h1>
-    
     <div class="scan-card">
       <label>Sustancia Digital Detectada</label>
       <h2><span class="pulse-dot"></span> PACIENCIA-MAX™</h2>
     </div>
-
     <p class="splash-text">
       Por favor, mantén la calma. Estamos escaneando tus signos vitales y preparando el filtro anti-frustración para sincronizarlo con tu córtex prefrontal.
     </p>
-
     <button class="hold-btn" id="sync-btn">
       <div class="btn-fill"></div>
       <span class="btn-text">Mantén pulsado (3s) para Sincronizar</span>
@@ -182,12 +189,20 @@
       <img src="logooo.png" alt="Fufu" class="brand-logo">
     </header>
 
-    <div class="carousel-wrapper slide-up delay-1">
-      <div class="carousel-header">
+    <div class="dose-section slide-up delay-1">
+      <div class="section-header">
         <span class="dot"></span> Guía Activa
       </div>
-      <div class="carousel" id="carousel-container">
+      <div class="active-dose-card">
+        <div class="card-top">
+          <span class="card-number" id="dose-number">DOSIS 1/5</span>
+          <button class="mute-btn" id="mute-toggle" onclick="toggleMute()">🔊</button>
         </div>
+        <div class="card-phrase" id="dose-text">"..."</div>
+        <div class="dose-progress-bg">
+          <div class="dose-progress-fill" id="dose-progress"></div>
+        </div>
+      </div>
     </div>
 
     <div class="container">
@@ -240,46 +255,37 @@
 
   function startHold(e) {
     if (isAppStarted) return;
-    
-    // Previene cosas raras en móviles (como que se seleccione texto)
     if(e.type === 'touchstart') e.preventDefault(); 
-    
-    syncBtn.classList.add('holding'); // Activa la animación CSS de la barra
-    
-    // Inicia el temporizador de 3 segundos
+    syncBtn.classList.add('holding'); 
     holdTimer = setTimeout(() => {
       isAppStarted = true;
       syncBtn.classList.remove('holding');
-      startApp(); // Si pasan los 3 segundos, arranca la app
+      startApp(); 
     }, 3000);
   }
 
   function endHold(e) {
     if (isAppStarted) return;
     if(e.type === 'touchend' || e.type === 'touchcancel') e.preventDefault();
-    
-    // Si suelta antes de tiempo, se cancela todo
     syncBtn.classList.remove('holding');
     clearTimeout(holdTimer);
   }
 
-  // Eventos para ordenador (Ratón)
   syncBtn.addEventListener('mousedown', startHold);
   syncBtn.addEventListener('mouseup', endHold);
-  syncBtn.addEventListener('mouseleave', endHold); // Si saca el ratón del botón
-
-  // Eventos para móvil (Táctil)
+  syncBtn.addEventListener('mouseleave', endHold); 
   syncBtn.addEventListener('touchstart', startHold, {passive: false});
   syncBtn.addEventListener('touchend', endHold);
   syncBtn.addEventListener('touchcancel', endHold);
 
-
   /* =========================================
-     RESTO DE LA LÓGICA (NO HA CAMBIADO)
+     CONFIGURACIÓN DE FRASES Y AUDIO
   ========================================= */
   const PASSWORD = "FUFU"; 
   let isMuted = false;
-  let currentlyPlayingIndex = -1;
+  let currentIndex = 0;
+  let progressTimeout;
+  const DOSE_DURATION = 15000; // 15 segundos exactos
 
   const phrases = [
     "Lorena, respira. Esa persona no sabe que es el protagonista de tu chiste interno.",
@@ -299,43 +305,59 @@
 
     setTimeout(() => {
       document.getElementById('splash-screen').style.display = 'none';
-      buildCarousel();
-      setupIntersectionObserver();
+      showDose(currentIndex); // Iniciar la primera dosis
     }, 800); 
   }
 
-  function buildCarousel() {
-    const container = document.getElementById('carousel-container');
-    container.innerHTML = ''; 
-    phrases.forEach((phrase, index) => {
-      const card = document.createElement('div');
-      card.className = 'carousel-card';
-      card.dataset.index = index;
-      card.innerHTML = `
-        <div class="card-top">
-          <span class="card-number">DOSIS ${index + 1}/${phrases.length}</span>
-          <button class="mute-btn" onclick="toggleMute(this)">🔊</button>
-        </div>
-        <div class="card-phrase">"${phrase}"</div>
-      `;
-      container.appendChild(card);
-    });
+  /* =========================================
+     LÓGICA DE LA TARJETA DE DOSIS (15 SEGUNDOS)
+  ========================================= */
+  function showDose(index) {
+    const textEl = document.getElementById('dose-text');
+    const numberEl = document.getElementById('dose-number');
+    
+    // 1. Actualizar números
+    numberEl.innerText = `DOSIS ${index + 1}/${phrases.length}`;
+    
+    // 2. Efecto de desvanecimiento para el texto
+    textEl.style.opacity = 0;
+    
+    setTimeout(() => {
+      textEl.innerText = `"${phrases[index]}"`;
+      textEl.style.opacity = 1;
+      
+      // 3. Reproducir audio si no está silenciado
+      if (!isMuted) speakPhrase(phrases[index]);
+    }, 500); // Esperar medio segundo para que el texto se desvanezca
+
+    // 4. Iniciar la barra de progreso de 15 segundos
+    startProgressTimer();
   }
 
-  function setupIntersectionObserver() {
-    const options = { root: document.getElementById('carousel-container'), rootMargin: '0px', threshold: 0.6 };
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const index = parseInt(entry.target.dataset.index);
-          if (index !== currentlyPlayingIndex) {
-            currentlyPlayingIndex = index;
-            if (!isMuted) speakPhrase(phrases[index]);
-          }
-        }
-      });
-    }, options);
-    document.querySelectorAll('.carousel-card').forEach(card => observer.observe(card));
+  function startProgressTimer() {
+    clearTimeout(progressTimeout);
+    const bar = document.getElementById('dose-progress');
+    
+    // Resetear la barra instantáneamente
+    bar.style.transition = 'none';
+    bar.style.width = '0%';
+    
+    // Forzar reflow para que el navegador registre el 0% antes de animar
+    void bar.offsetWidth; 
+    
+    // Animar hasta el 100% durante 15 segundos de forma lineal
+    bar.style.transition = 'width 15s linear';
+    bar.style.width = '100%';
+
+    // Programar la siguiente frase
+    progressTimeout = setTimeout(() => {
+      nextDose();
+    }, DOSE_DURATION);
+  }
+
+  function nextDose() {
+    currentIndex = (currentIndex + 1) % phrases.length;
+    showDose(currentIndex);
   }
 
   function speakPhrase(text) {
@@ -348,17 +370,24 @@
     }
   }
 
-  function toggleMute(btnElement) {
+  function toggleMute() {
     isMuted = !isMuted;
-    const allMuteBtns = document.querySelectorAll('.mute-btn');
-    allMuteBtns.forEach(btn => {
-      if(isMuted) { btn.classList.add('muted'); btn.innerHTML = '🔇'; } 
-      else { btn.classList.remove('muted'); btn.innerHTML = '🔊'; }
-    });
-    if (isMuted) window.speechSynthesis.cancel();
-    else speakPhrase(phrases[currentlyPlayingIndex]);
+    const btn = document.getElementById('mute-toggle');
+    
+    if(isMuted) {
+      btn.classList.add('muted');
+      btn.innerHTML = '🔇';
+      window.speechSynthesis.cancel();
+    } else {
+      btn.classList.remove('muted');
+      btn.innerHTML = '🔊';
+      speakPhrase(phrases[currentIndex]); // Si desmutea, lee la frase actual
+    }
   }
 
+  /* =========================================
+     LÓGICA DE CONTRASEÑA Y DIARIO
+  ========================================= */
   function showAuth() {
     document.getElementById('teaser-section').classList.add('hidden');
     document.getElementById('auth-section').classList.remove('hidden');
@@ -383,13 +412,13 @@
     }
   }
 
-  let journalEntries = JSON.parse(localStorage.getItem("paciencia_journal_v7")) || [];
+  let journalEntries = JSON.parse(localStorage.getItem("paciencia_journal_v8")) || [];
 
   function saveJournalEntry() {
     const text = document.getElementById('journal-input').value.trim();
     if (!text) return;
     journalEntries.unshift({ date: new Date().toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' }), text: text });
-    localStorage.setItem("paciencia_journal_v7", JSON.stringify(journalEntries));
+    localStorage.setItem("paciencia_journal_v8", JSON.stringify(journalEntries));
     document.getElementById('journal-input').value = "";
     renderHistory();
   }
