@@ -87,8 +87,8 @@
   .top-logo-bar img { height: 45px; width: auto; object-fit: contain; }
 
   header { padding: 10px 24px 20px; display: flex; justify-content: center; align-items: center; text-align: center; }
-  .header-content p { font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-  .header-content h1 { font-size: 28px; font-weight: 700; display: flex; align-items: center; gap: 8px; justify-content: center; }
+  .header-content p { font-size: 13px; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .header-content h1 { font-size: 26px; font-weight: 700; display: flex; align-items: center; gap: 8px; justify-content: center; }
 
   /* =========================================
      TARJETA DE DOSIS ÚNICA (15s)
@@ -157,7 +157,7 @@
   .history-date { font-size: 11px; color: var(--text-muted); margin-bottom: 5px; }
 
   /* =========================================
-     NUEVO: BURBUJAS DE NAVEGACIÓN FLOTANTES
+     NUEVO: BURBUJAS DE NAVEGACIÓN (ICONOS SVG)
   ========================================= */
   .floating-nav {
     position: fixed; bottom: 24px; right: 24px;
@@ -167,11 +167,14 @@
     width: 50px; height: 50px; border-radius: 50%;
     background: var(--text-dark); color: var(--white);
     display: flex; align-items: center; justify-content: center;
-    font-size: 20px; box-shadow: var(--shadow-float);
+    box-shadow: var(--shadow-float);
     text-decoration: none; border: none; cursor: pointer;
     transition: transform 0.2s, background 0.2s;
   }
   .nav-bubble:active { transform: scale(0.9); background: var(--accent); }
+  
+  /* Los SVG heredan el color blanco de la burbuja */
+  .nav-bubble svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
 </style>
 </head>
@@ -201,8 +204,8 @@
 
     <header class="slide-up delay-1">
       <div class="header-content">
-        <p>Calibración Exitosa</p>
-        <h1>Expediente 🙄</h1>
+        <p>Nivel de Hartazgo: Crítico</p>
+        <h1>Expediente de Lorena 🙄</h1>
       </div>
     </header>
 
@@ -291,8 +294,15 @@
     </div>
 
     <div class="floating-nav slide-up delay-6">
-      <a href="https://tutiendaonline.com" target="_blank" class="nav-bubble" title="Comprar más en Farmacia Fufu">🛒</a>
-      <button class="nav-bubble" onclick="scrollToDiary()" title="Ir al Diario">📓</button>
+      
+      <a href="https://fufuestudio.com/" target="_blank" class="nav-bubble" title="Farmacia Fufu">
+        <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </a>
+
+      <button class="nav-bubble" onclick="scrollToDiary()" title="Ir al Diario">
+        <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      </button>
+
     </div>
 
   </div>
@@ -304,13 +314,12 @@
   const syncBtn = document.getElementById('sync-btn');
   let holdTimer;
   let isAppStarted = false;
-  let audioUnlocked = false; // Variable para saber si ya dimos permiso de voz
+  let audioUnlocked = false; 
 
   function startHold(e) {
     if (isAppStarted) return;
     if(e.type === 'touchstart') e.preventDefault(); 
     
-    // TRUCO DE AUDIO: Desbloquear el audio EXACTAMENTE al tocar el botón
     if (!audioUnlocked && 'speechSynthesis' in window) {
       window.speechSynthesis.speak(new SpeechSynthesisUtterance(""));
       audioUnlocked = true;
@@ -376,7 +385,6 @@
       textEl.innerText = `"${phrases[index]}"`;
       textEl.style.opacity = 1;
       
-      // Ahora el audio debería sonar porque se desbloqueó al presionar el botón
       if (!isMuted) speakPhrase(phrases[index]);
     }, 500); 
 
@@ -433,7 +441,6 @@
     const diaryContainer = document.getElementById('diary-container');
     diaryContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
     
-    // Si el cuadro de contraseña o el diario están abiertos, hacemos focus
     if(!document.getElementById('auth-section').classList.contains('hidden')) {
       setTimeout(() => document.getElementById('password-input').focus(), 500);
     } else if(!document.getElementById('private-section').classList.contains('hidden')) {
