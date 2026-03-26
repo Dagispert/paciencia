@@ -53,14 +53,13 @@
 
   .splash-text { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 35px; max-width: 300px; }
 
-  /* BOTÓN - AÑADIDO TOUCH-ACTION PARA EVITAR BLOQUEOS DE IOS */
   .hold-btn {
     background: var(--text-dark); color: var(--white);
     padding: 18px 30px; border-radius: 100px; border: none;
     font-size: 15px; font-weight: 700; cursor: pointer;
     box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
     position: relative; overflow: hidden; width: 100%; max-width: 300px;
-    touch-action: none; /* TRUCO MAGICO: Evita scroll sin romper el audio */
+    touch-action: none;
   }
   .btn-text { position: relative; z-index: 2; pointer-events: none; }
   .btn-fill { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: var(--accent); z-index: 1; transition: width 0s; }
@@ -303,23 +302,32 @@
 
 <script>
   /* =========================================
-     SOLUCIÓN DEFINITIVA DE AUDIO IOS/ANDROID
+     FIX DEFINITIVO PARA SAFARI / iOS / ANDROID
   ========================================= */
+  
+  // 1. Limpiamos cualquier cola trabada en iOS apenas carga la página
+  if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+  }
+
   const syncBtn = document.getElementById('sync-btn');
   const btnText = document.getElementById('btn-text-content');
   let holdTimer;
   let isAppReady = false;
   let isAppStarted = false;
 
-  // Forzamos a que las voces carguen de antemano si el móvil lo necesita
-  if ('speechSynthesis' in window) {
-      window.speechSynthesis.getVoices();
-  }
-
   function startHold(e) {
     if (isAppStarted) return;
     
-    // NOTA: NO hay e.preventDefault() aquí. Si lo ponemos, Apple nos bloquea.
+    // 2. EL TRUCO FANTASMA: Lanzamos voz a volumen 0 exacto al tocar la pantalla.
+    // Esto "registra" el dominio en iOS como autorizado para hablar.
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      let ghost = new SpeechSynthesisUtterance('');
+      ghost.volume = 0;
+      window.speechSynthesis.speak(ghost);
+    }
+
     isAppReady = false;
     syncBtn.classList.add('holding'); 
     btnText.innerText = "Cargando dosis...";
@@ -340,12 +348,11 @@
     if (isAppReady) {
       isAppStarted = true;
       
-      // ¡EL TRUCO! Lanzar el audio AQUÍ, en la función que detecta que soltaste el dedo.
-      // Al ser acción directa del usuario, Safari y Chrome lo permiten.
+      // 3. LA ORDEN REAL: Lanzamos el texto al levantar el dedo.
       if (!isMuted && 'speechSynthesis' in window) {
          let utterance = new SpeechSynthesisUtterance(phrases[currentIndex]);
          utterance.lang = 'es-ES';
-         utterance.rate = 0.95;
+         // utterance.rate = 0.95; // A veces alterar el rate rompe iOS en el primer audio, lo dejamos normal
          window.speechSynthesis.speak(utterance);
       }
 
@@ -357,7 +364,7 @@
     }
   }
 
-  // Escuchamos toques SIN prevenir el comportamiento por defecto
+  // Escuchamos toques (Sin preventDefault)
   syncBtn.addEventListener('mousedown', startHold);
   syncBtn.addEventListener('mouseup', endHold);
   syncBtn.addEventListener('mouseleave', endHold); 
@@ -393,7 +400,6 @@
     }, 800); 
   }
 
-  // Esta función SOLO actualiza lo visual porque el primer audio ya se disparó en endHold()
   function showDoseText(index) {
     const textEl = document.getElementById('dose-text');
     const numberEl = document.getElementById('dose-number');
@@ -408,7 +414,6 @@
     startProgressTimer();
   }
 
-  // Esta se usa a partir de la segunda dosis, porque ya estamos dentro
   function showDoseFull(index) {
     const textEl = document.getElementById('dose-text');
     const numberEl = document.getElementById('dose-number');
@@ -420,6 +425,7 @@
       textEl.style.opacity = 1;
       
       if (!isMuted && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
         let utterance = new SpeechSynthesisUtterance(phrases[index]);
         utterance.lang = 'es-ES';
         utterance.rate = 0.95;
