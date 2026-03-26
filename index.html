@@ -37,14 +37,15 @@
   }
 
   /* =========================================
-     UTILIDADES DE ANIMACIÓN
+     UTILIDADES DE ANIMACIÓN Y DISPLAY
   ========================================= */
   .fade-in { animation: fadeIn 0.6s ease forwards; }
   .slide-up { opacity: 0; transform: translateY(40px); animation: slideUpIn 0.8s var(--bezier) forwards; }
   .delay-1 { animation-delay: 0.1s; }
   .delay-2 { animation-delay: 0.2s; }
   .delay-3 { animation-delay: 0.3s; }
-  .delay-4 { animation-delay: 0.4s; }
+  
+  .hidden { display: none !important; }
 
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   @keyframes slideUpIn { to { opacity: 1; transform: translateY(0); } }
@@ -53,9 +54,7 @@
   /* =========================================
      COMPONENTES GLOBALES (LOGO Y HEADER)
   ========================================= */
-  .top-brand {
-    display: flex; justify-content: center; padding: 30px 0 10px;
-  }
+  .top-brand { display: flex; justify-content: center; padding: 30px 0 10px; }
   .top-brand img { height: 45px; width: auto; object-fit: contain; }
 
   .header-title { padding: 10px 24px 20px; }
@@ -66,35 +65,11 @@
   .lock-btn:hover { opacity: 1; }
 
   /* =========================================
-     PANTALLA DE LOGIN (PORTAL)
+     PANTALLA PRINCIPAL (DASHBOARD PÚBLICO)
   ========================================= */
-  #auth-screen { padding: 0 20px; }
-  .auth-card {
-    background: var(--glass-bg); backdrop-filter: blur(16px);
-    padding: 30px 24px; border-radius: var(--border-radius-lg);
-    box-shadow: var(--shadow-premium); border: 1px solid rgba(255,255,255,0.6);
-    text-align: center;
-  }
-  .auth-icon { font-size: 50px; margin-bottom: 15px; animation: float 3s infinite; }
-  .auth-card h2 { color: var(--mint-deep); font-size: 22px; margin-bottom: 10px; }
-  .auth-card p { font-size: 14px; color: var(--gray-mid); line-height: 1.5; margin-bottom: 25px; }
+  .main-container { padding: 0 20px; }
 
-  .auth-input {
-    width: 100%; padding: 18px; border-radius: var(--border-radius-md);
-    border: 2px solid var(--mint-pale); background: var(--white);
-    font-size: 16px; text-align: center; margin-bottom: 20px; outline: none; transition: 0.3s;
-    font-family: 'DM Sans', sans-serif; font-weight: 500;
-  }
-  .auth-input:focus { border-color: var(--mint-mid); }
-  
-  .error-msg { display: none; color: #D32F2F; font-size: 13px; font-weight: 700; margin-top: -10px; margin-bottom: 15px; }
-
-  /* =========================================
-     PANTALLA PRINCIPAL (DASHBOARD)
-  ========================================= */
-  #dashboard-screen { display: none; padding: 0 20px; }
-
-  /* Tarjeta de Audio y Dosis */
+  /* Tarjeta de Audio y Dosis (Siempre visible) */
   .dose-card {
     background: linear-gradient(135deg, var(--mint-deep) 0%, #002D26 100%);
     color: var(--white); padding: 30px 24px; border-radius: var(--border-radius-lg);
@@ -109,7 +84,7 @@
   .progress-track { height: 4px; background: rgba(255,255,255,0.15); border-radius: 10px; margin-top: 25px; overflow: hidden; }
   .progress-fill { height: 100%; background: #4ADE80; width: 0%; transition: width 0.3s linear; }
 
-  /* Tarjeta de Diario */
+  /* Tarjetas Glassmorphism Generales */
   .glass-card {
     background: var(--glass-bg); backdrop-filter: blur(16px);
     padding: 24px; border-radius: var(--border-radius-lg);
@@ -118,6 +93,25 @@
   }
   .card-title { font-size: 14px; font-weight: 700; color: var(--mint-deep); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
 
+  /* =========================================
+     SECCIÓN DE TEASER Y CONTRASEÑA
+  ========================================= */
+  .teaser-content { text-align: center; }
+  .teaser-content p { font-size: 14px; color: var(--gray-mid); margin-bottom: 20px; line-height: 1.5; }
+  .teaser-icon { font-size: 40px; margin-bottom: 10px; animation: float 3s infinite; }
+
+  .auth-input {
+    width: 100%; padding: 18px; border-radius: var(--border-radius-md);
+    border: 2px solid var(--mint-pale); background: var(--white);
+    font-size: 16px; text-align: center; margin-bottom: 15px; outline: none; transition: 0.3s;
+    font-family: 'DM Sans', sans-serif; font-weight: 500;
+  }
+  .auth-input:focus { border-color: var(--mint-mid); }
+  .error-msg { display: none; color: #D32F2F; font-size: 13px; font-weight: 700; margin-bottom: 15px; }
+
+  /* =========================================
+     DIARIO PRIVADO Y GAMIFICACIÓN
+  ========================================= */
   .journal-textarea {
     width: 100%; height: 120px; background: rgba(255,255,255,0.6);
     border: 1px solid var(--mint-pale); border-radius: var(--border-radius-md);
@@ -144,12 +138,6 @@
   .history-text { font-size: 14px; color: var(--gray-dark); line-height: 1.5; }
   .empty-history { text-align: center; color: var(--gray-mid); font-size: 14px; padding: 20px; font-style: italic; }
 
-  /* Advertencias */
-  .warning-item { display: flex; gap: 15px; background: #FFE0E0; padding: 16px; border-radius: 20px; color: #8B0000; margin-bottom: 10px; }
-  .warning-icon { font-size: 24px; background: white; width: 45px; height: 45px; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .warning-text h4 { font-size: 14px; margin-bottom: 2px; }
-  .warning-text p { font-size: 12px; opacity: 0.8; line-height: 1.4; }
-
   /* =========================================
      BOTONES GLOBALES
   ========================================= */
@@ -160,6 +148,9 @@
     cursor: pointer; transition: 0.2s; box-shadow: 0 10px 20px rgba(0,77,64,0.2);
   }
   .btn-primary:active { transform: scale(0.96); background: #00332A; }
+
+  .btn-secondary { background: var(--white); color: var(--mint-deep); border: 2px solid var(--mint-pale); box-shadow: none; }
+  .btn-secondary:active { background: var(--mint-pale); }
 
   .btn-floating {
     position: fixed; bottom: 30px; left: 20px; right: 20px;
@@ -175,27 +166,14 @@
   
   <div class="header-title fade-in">
     <p>Bienvenida al Sistema,</p>
-    <h1>Lorena 🙄 <button class="lock-btn" onclick="logout()" title="Cerrar sesión">🔒</button></h1>
+    <h1>Lorena 🙄 <button id="logout-btn" class="lock-btn hidden" onclick="logout()" title="Cerrar sesión">🔓</button></h1>
   </div>
 
-  <div id="auth-screen">
-    <div class="auth-card slide-up">
-      <div class="auth-icon">💊</div>
-      <h2>Protocolo Cerrado</h2>
-      <p>Este es tu espacio clínico y satírico. Introduce el código del Lóbulo Nostálgico para acceder a tu diario y activar las dosis de calma.</p>
-      
-      <div class="error-msg" id="login-error">Código incorrecto. Tu dignidad sigue a salvo.</div>
-      
-      <input type="password" id="password-input" class="auth-input" placeholder="Contraseña">
-      <button class="btn-primary" onclick="login()">Desbloquear Paciencia</button>
-    </div>
-  </div>
-
-  <div id="dashboard-screen">
+  <div class="main-container">
     
-    <div class="dose-card slide-up delay-1">
+    <div class="dose-card slide-up">
       <div class="dose-header">
-        <div><span class="pulse"></span> Audio Guía Activa</div>
+        <div><span class="pulse"></span> Guía Activa</div>
         <div id="dose-counter">Dosis 1/8</div>
       </div>
       <div class="phrase-display" id="phrase-text">
@@ -204,46 +182,49 @@
       <div class="progress-track"><div class="progress-fill" id="progress-bar"></div></div>
     </div>
 
-    <div class="glass-card slide-up delay-2">
-      <div class="card-title">Diario Satírico <span>📝</span></div>
-      <textarea id="journal-input" class="journal-textarea" placeholder="¿Qué ha puesto a prueba tu paciencia hoy? Archívalo aquí antes de que respondas mal..."></textarea>
-      <button class="btn-primary" style="box-shadow: none;" onclick="saveJournalEntry()">Archivar Experiencia</button>
-    </div>
-
-    <div class="glass-card slide-up delay-3">
-      <div class="card-title">Logros de Curación <span id="achievement-count">0/4</span></div>
-      <div class="badges-grid">
-        <div class="badge-item" id="badge-1"><div class="badge-emoji">🧘‍♀️</div><div class="badge-label">Mente<br>Fría</div></div>
-        <div class="badge-item" id="badge-2"><div class="badge-emoji">🧊</div><div class="badge-label">Dignidad<br>Intacta</div></div>
-        <div class="badge-item" id="badge-3"><div class="badge-emoji">👑</div><div class="badge-label">Buda de<br>Oficina</div></div>
-        <div class="badge-item" id="badge-4"><div class="badge-emoji">🙄</div><div class="badge-label">Nirvana<br>Cínico</div></div>
+    <div id="teaser-section" class="glass-card slide-up delay-1">
+      <div class="teaser-content">
+        <div class="teaser-icon">📓</div>
+        <h3 style="color: var(--mint-deep); margin-bottom: 8px;">Diario Clínico Satírico</h3>
+        <p>¿Alguien ha puesto a prueba tu paciencia hoy? Archívalo en tu registro seguro.</p>
+        <button class="btn-primary btn-secondary" onclick="showPasswordPrompt()">Documentar Experiencia 🔒</button>
       </div>
     </div>
 
-    <div class="glass-card slide-up delay-4">
-      <div class="card-title">Historial Clínico <span>📂</span></div>
-      <div class="history-list" id="history-container">
-        </div>
-    </div>
-
-    <div class="slide-up delay-4" style="margin-bottom: 80px;">
-      <div class="warning-item">
-        <div class="warning-icon">⚠️</div>
-        <div class="warning-text">
-          <h4>No Ingerir</h4>
-          <p>Producto de diseño conceptual. El alivio es puramente mental. Su dignidad es superior a su sabor.</p>
-        </div>
-      </div>
-      <div class="warning-item" style="background: #E0F2F1; color: #004D40;">
-        <div class="warning-icon">📱</div>
-        <div class="warning-text">
-          <h4>Contraindicaciones</h4>
-          <p>No usar mientras escucha audios de WhatsApp de más de 3 min o ante reuniones que debieron ser un mail.</p>
-        </div>
+    <div id="auth-section" class="glass-card slide-up hidden">
+      <div class="teaser-content">
+        <h3 style="color: var(--mint-deep); margin-bottom: 15px;">Seguridad del Lóbulo Nostálgico</h3>
+        <div class="error-msg" id="login-error">Código incorrecto. Tu dignidad sigue a salvo.</div>
+        <input type="password" id="password-input" class="auth-input" placeholder="Introduce tu contraseña">
+        <button class="btn-primary" onclick="login()">Desbloquear Diario</button>
+        <button class="btn-primary btn-secondary" style="margin-top: 10px; padding: 12px;" onclick="cancelLogin()">Cancelar</button>
       </div>
     </div>
 
-    <button class="btn-primary btn-floating fade-in" onclick="playNextDose()">🔊 FORZAR DOSIS DE AUDIO</button>
+    <div id="private-section" class="hidden">
+      
+      <div class="glass-card slide-up">
+        <div class="card-title">Nuevo Incidente <span>📝</span></div>
+        <textarea id="journal-input" class="journal-textarea" placeholder="Desahógate aquí antes de que respondas mal a ese correo..."></textarea>
+        <button class="btn-primary" style="box-shadow: none;" onclick="saveJournalEntry()">Archivar y Olvidar</button>
+      </div>
+
+      <div class="glass-card slide-up delay-1">
+        <div class="card-title">Logros de Curación <span id="achievement-count">0/4</span></div>
+        <div class="badges-grid">
+          <div class="badge-item" id="badge-1"><div class="badge-emoji">🧘‍♀️</div><div class="badge-label">Mente<br>Fría</div></div>
+          <div class="badge-item" id="badge-2"><div class="badge-emoji">🧊</div><div class="badge-label">Dignidad<br>Intacta</div></div>
+          <div class="badge-item" id="badge-3"><div class="badge-emoji">👑</div><div class="badge-label">Buda de<br>Oficina</div></div>
+          <div class="badge-item" id="badge-4"><div class="badge-emoji">🙄</div><div class="badge-label">Nirvana<br>Cínico</div></div>
+        </div>
+      </div>
+
+      <div class="glass-card slide-up delay-2" style="margin-bottom: 80px;">
+        <div class="card-title">Historial Clínico <span>📂</span></div>
+        <div class="history-list" id="history-container"></div>
+      </div>
+
+    </div> <button class="btn-primary btn-floating fade-in" onclick="playNextDose()">🔊 FORZAR DOSIS DE AUDIO</button>
 
   </div>
 
@@ -252,9 +233,9 @@
      CONFIGURACIÓN Y DATOS
   ========================================= */
   const PASSWORD = "FUFU2026";
-  const DB_KEY_AUTH = "paciencia_auth_lorena_v6";
-  const DB_KEY_JOURNAL = "paciencia_journal_lorena_v6";
-  const DB_KEY_PHRASE = "paciencia_phrase_lorena_v6";
+  const DB_KEY_AUTH = "paciencia_auth_lorena_v61";
+  const DB_KEY_JOURNAL = "paciencia_journal_lorena_v61";
+  const DB_KEY_PHRASE = "paciencia_phrase_lorena_v61";
 
   const phrases = [
     "Lorena, respira. Esa persona no sabe que es el protagonista de tu chiste interno.",
@@ -272,47 +253,22 @@
   
   // Variables de control de audio y barra
   let progressInterval;
-  const DOSE_DURATION = 8000; // 8 segundos por dosis
+  const DOSE_DURATION = 8000;
   let doseStartTime;
 
   /* =========================================
-     LÓGICA DE AUTENTICACIÓN
+     INICIALIZACIÓN DE LA APP
   ========================================= */
-  function initApp() {
-    const isAuth = localStorage.getItem(DB_KEY_AUTH);
-    if (isAuth === "true") {
-      document.getElementById('auth-screen').style.display = 'none';
-      document.getElementById('dashboard-screen').style.display = 'block';
-      updateDashboardUI();
-      // Inicia la primera dosis sin audio automáticamente al cargar
-      loadDoseText(false); 
-    } else {
-      document.getElementById('auth-screen').style.display = 'block';
-      document.getElementById('dashboard-screen').style.display = 'none';
-    }
-  }
-
-  function login() {
-    const input = document.getElementById('password-input').value;
-    const errorMsg = document.getElementById('login-error');
+  window.onload = function() {
+    // 1. Iniciar las frases inmediatamente
+    loadDoseText(false); 
     
-    if (input === PASSWORD) {
-      localStorage.setItem(DB_KEY_AUTH, "true");
-      errorMsg.style.display = 'none';
-      initApp();
-    } else {
-      errorMsg.style.display = 'block';
-      document.getElementById('password-input').value = "";
-    }
-  }
-
-  function logout() {
-    localStorage.removeItem(DB_KEY_AUTH);
-    location.reload();
-  }
+    // 2. Comprobar si ya puso la contraseña antes
+    checkAuthState();
+  };
 
   /* =========================================
-     LÓGICA DE AUDIO Y DOSIS
+     LÓGICA DE AUDIO Y DOSIS (PÚBLICA)
   ========================================= */
   function loadDoseText(playAudio = false) {
     const phraseEl = document.getElementById('phrase-text');
@@ -327,7 +283,6 @@
       phraseEl.style.opacity = 1;
       
       if(playAudio) speak(text);
-      
       startProgressBar();
     }, 300);
   }
@@ -335,12 +290,12 @@
   function playNextDose() {
     currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length;
     localStorage.setItem(DB_KEY_PHRASE, currentPhraseIndex);
-    loadDoseText(true); // Forzado por el usuario, sí suena.
+    loadDoseText(true); // Al pulsar el botón, sí suena la voz
   }
 
   function speak(text) {
     if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel(); // Detiene cualquier audio previo
+      window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'es-ES';
       utterance.rate = 0.95; 
@@ -366,12 +321,70 @@
   }
 
   /* =========================================
+     LÓGICA DE AUTENTICACIÓN Y VISTAS
+  ========================================= */
+  function checkAuthState() {
+    const isAuth = localStorage.getItem(DB_KEY_AUTH);
+    if (isAuth === "true") {
+      unlockPrivateSection();
+    } else {
+      lockPrivateSection();
+    }
+  }
+
+  function showPasswordPrompt() {
+    document.getElementById('teaser-section').classList.add('hidden');
+    document.getElementById('auth-section').classList.remove('hidden');
+    document.getElementById('password-input').focus();
+  }
+
+  function cancelLogin() {
+    document.getElementById('auth-section').classList.add('hidden');
+    document.getElementById('teaser-section').classList.remove('hidden');
+    document.getElementById('login-error').style.display = 'none';
+    document.getElementById('password-input').value = "";
+  }
+
+  function login() {
+    const input = document.getElementById('password-input').value;
+    const errorMsg = document.getElementById('login-error');
+    
+    if (input === PASSWORD) {
+      localStorage.setItem(DB_KEY_AUTH, "true");
+      errorMsg.style.display = 'none';
+      unlockPrivateSection();
+    } else {
+      errorMsg.style.display = 'block';
+      document.getElementById('password-input').value = "";
+    }
+  }
+
+  function logout() {
+    localStorage.removeItem(DB_KEY_AUTH);
+    location.reload();
+  }
+
+  function unlockPrivateSection() {
+    document.getElementById('teaser-section').classList.add('hidden');
+    document.getElementById('auth-section').classList.add('hidden');
+    document.getElementById('private-section').classList.remove('hidden');
+    document.getElementById('logout-btn').classList.remove('hidden'); // Mostrar candado abierto
+    updateDashboardUI();
+  }
+
+  function lockPrivateSection() {
+    document.getElementById('teaser-section').classList.remove('hidden');
+    document.getElementById('auth-section').classList.add('hidden');
+    document.getElementById('private-section').classList.add('hidden');
+    document.getElementById('logout-btn').classList.add('hidden');
+  }
+
+  /* =========================================
      LÓGICA DEL DIARIO Y GAMIFICACIÓN
   ========================================= */
   function saveJournalEntry() {
     const inputEl = document.getElementById('journal-input');
     const text = inputEl.value.trim();
-    
     if (text === "") return;
 
     const newEntry = {
@@ -422,11 +435,6 @@
 
     document.getElementById('achievement-count').textContent = `${unlocked}/4`;
   }
-
-  /* =========================================
-     ARRANQUE DE LA APLICACIÓN
-  ========================================= */
-  window.onload = initApp;
 
 </script>
 </body>
