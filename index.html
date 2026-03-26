@@ -3,18 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>PACIENCIA-MAX™ — Lorena Edition v4.0</title>
+<title>PACIENCIA-MAX™ — Fufu®</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
+  /* =========================================
+     VARIABLES Y RESET
+  ========================================= */
   :root {
     --mint-deep: #004D40;
     --mint-mid: #26A69A;
     --mint-light: #B2DFDB;
     --mint-pale: #E0F2F1;
+    --pink-pale: #FDE2E4;
     --gray-dark: #1C1C1E;
     --gray-mid: #8E8E93;
     --white: #FFFFFF;
-    --shadow-premium: 0 20px 40px rgba(0,0,0,0.06);
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --shadow-premium: 0 16px 40px rgba(0, 0, 0, 0.06);
+    --border-radius-lg: 32px;
+    --border-radius-md: 20px;
     --bezier: cubic-bezier(0.23, 1, 0.32, 1);
   }
 
@@ -22,274 +29,405 @@
 
   body {
     font-family: 'DM Sans', sans-serif;
-    background: linear-gradient(180deg, #FDE2E4 0%, #E2ECE9 100%); /* Fondo dividido como tu imagen */
+    background: linear-gradient(180deg, var(--pink-pale) 0%, #E2ECE9 100%);
     color: var(--gray-dark);
-    overflow-x: hidden;
     min-height: 100vh;
-    padding-bottom: 110px;
-    opacity: 0;
-    animation: fadeInPage 0.8s ease forwards;
+    padding-bottom: 120px;
+    background-attachment: fixed;
   }
 
-  @keyframes fadeInPage { to { opacity: 1; } }
-
-  /* --- HEADER v4.0 (LOGO Y BIENVENIDA) --- */
-  .header-app {
-    padding: 30px 25px 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky; top: 0; z-index: 100;
-  }
-  .header-left h1 { font-size: 24px; font-weight: 700; color: var(--gray-dark); }
-  .header-left p { font-size: 14px; opacity: 0.6; color: var(--gray-mid); }
-  .user-avatar { width: 45px; height: 45px; background: #FFC107; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; box-shadow: 0 8px 15px rgba(0,0,0,0.05); }
-
-  /* --- CASCADING ANIMATIONS --- */
-  .slide-up { transform: translateY(30px); opacity: 0; animation: slideUpIn 0.7s var(--bezier) forwards; }
-  @keyframes slideUpIn { to { transform: translateY(0); opacity: 1; } }
+  /* =========================================
+     UTILIDADES DE ANIMACIÓN
+  ========================================= */
+  .fade-in { animation: fadeIn 0.6s ease forwards; }
+  .slide-up { opacity: 0; transform: translateY(40px); animation: slideUpIn 0.8s var(--bezier) forwards; }
   .delay-1 { animation-delay: 0.1s; }
   .delay-2 { animation-delay: 0.2s; }
   .delay-3 { animation-delay: 0.3s; }
   .delay-4 { animation-delay: 0.4s; }
 
-  /* --- MAIN DASHBOARD (DATOS VISUALES v4.0) --- */
-  main { padding: 0 16px; transition: opacity 0.5s; display: none; } /* Oculto inicialmente */
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideUpIn { to { opacity: 1; transform: translateY(0); } }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
-  /* --- HERO CARD (LA PASTILLA) --- */
-  .hero-card {
-    background: var(--white);
-    margin-bottom: 20px; padding: 24px;
-    border-radius: 32px;
-    box-shadow: var(--shadow-premium);
-    display: flex; align-items: center; gap: 20px;
-    overflow: hidden;
+  /* =========================================
+     COMPONENTES GLOBALES (LOGO Y HEADER)
+  ========================================= */
+  .top-brand {
+    display: flex; justify-content: center; padding: 30px 0 10px;
   }
-  .pill-avatar { width: 80px; height: 80px; border-radius: 20px; border: 4px solid var(--mint-light); border-top: 4px solid var(--mint-mid); display: flex; align-items: center; justify-content: center; font-size: 40px; flex-shrink: 0; }
-  .pill-meta h2 { font-size: 18px; font-weight: 700; margin-bottom: 4px; color: var(--mint-deep); }
-  .pill-meta p { font-size: 13px; color: var(--gray-mid); line-height: 1.4; }
+  .top-brand img { height: 45px; width: auto; object-fit: contain; }
 
-  /* --- STATUS BLOCK CON SONIDO Y PROGRESO (DIAL ZEN v4.0) --- */
-  .status-block {
-    background: linear-gradient(135deg, var(--mint-deep) 0%, #002D26 100%);
-    color: white; padding: 30px; border-radius: 35px;
-    margin-bottom: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.12);
-    position: relative; overflow: hidden;
+  .header-title { padding: 10px 24px 20px; }
+  .header-title p { font-size: 15px; color: var(--gray-mid); margin-bottom: 4px; }
+  .header-title h1 { font-size: 36px; font-weight: 700; color: var(--gray-dark); letter-spacing: -1px; display: flex; align-items: center; justify-content: space-between; }
+  
+  .lock-btn { background: none; border: none; font-size: 20px; cursor: pointer; opacity: 0.3; transition: opacity 0.3s; }
+  .lock-btn:hover { opacity: 1; }
+
+  /* =========================================
+     PANTALLA DE LOGIN (PORTAL)
+  ========================================= */
+  #auth-screen { padding: 0 20px; }
+  .auth-card {
+    background: var(--glass-bg); backdrop-filter: blur(16px);
+    padding: 30px 24px; border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-premium); border: 1px solid rgba(255,255,255,0.6);
     text-align: center;
   }
-  .status-label { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; opacity: 0.8; margin-bottom: 24px; display: flex; align-items: center; justify-content: center; }
-  .status-dot { display: inline-block; width: 6px; height: 6px; background: #4ADE80; border-radius: 50%; margin-right: 10px; animation: pulse 1.5s infinite; }
-  @keyframes pulse { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); } 70% { transform: scale(1.2); box-shadow: 0 0 0 10px rgba(74, 222, 128, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); } }
+  .auth-icon { font-size: 50px; margin-bottom: 15px; animation: float 3s infinite; }
+  .auth-card h2 { color: var(--mint-deep); font-size: 22px; margin-bottom: 10px; }
+  .auth-card p { font-size: 14px; color: var(--gray-mid); line-height: 1.5; margin-bottom: 25px; }
 
-  #phrase-text { font-size: 26px; font-weight: 300; line-height: 1.2; min-height: 120px; font-style: italic; transition: opacity 0.4s ease; margin-bottom: 15px; }
-
-  .progress-container { height: 3px; background: rgba(255,255,255,0.1); border-radius: 10px; margin: 30px 0; overflow: hidden; }
-  #progress-bar { height: 100%; background: var(--mint-light); width: 0%; border-radius: 10px; }
-
-  /* --- INFO GRID (Kento Style) --- */
-  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 30px; }
-  .info-item { background: rgba(255, 255, 255, 0.7); backdrop-filter: var(--blur); padding: 20px; border-radius: 20px; border: 1px solid rgba(0,0,0,0.05); }
-  .info-item label { display: block; font-family: 'DM Mono', monospace; font-size: 8px; text-transform: uppercase; color: var(--gray-mid); margin-bottom: 6px; }
-  .info-item strong { color: var(--mint-deep); font-size: 13px; font-weight: 600; }
-
-  /* --- DIARIO (Oculto) v4.0 --- */
-  .journal-section { background: rgba(255, 255, 255, 0.7); backdrop-filter: var(--blur); padding: 20px; border-radius: 24px; border: 1px solid rgba(0,0,0,0.04); margin-bottom: 24px; transition: opacity 0.5s; }
-  textarea { width: 100%; height: 100px; background: var(--white); border: 1px solid var(--mint-light); border-radius: 16px; padding: 16px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--gray-dark); resize: none; outline: none; margin-bottom: 12px; transition: border-color 0.3s; }
-  textarea:focus { border-color: var(--mint-mid); }
-
-  /* --- GAMIFICACIÓN (Logros burbuja) --- */
-  .section-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--gray-mid); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; padding-left: 4px; }
-  .achievements-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 30px; }
-  .badge { background: var(--white); min-width: 100px; padding: 18px 12px; border-radius: 20px; text-align: center; opacity: 0.4; filter: grayscale(1); transition: all 0.4s var(--bezier); border: 1px solid rgba(0,0,0,0.03); }
-  .badge.unlocked { opacity: 1; filter: grayscale(0); background: var(--mint-pale); border-color: var(--mint-light); transform: scale(1.05); }
-  .badge-icon { font-size: 28px; margin-bottom: 8px; animation: float 3s ease-in-out infinite; }
-  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-  .badge-name { font-size: 11px; font-weight: 700; color: var(--mint-deep); line-height: 1.2; }
-
-  /* --- BOTÓN FLOTANTE v4.0 --- */
-  .btn-voice {
-    position: fixed; bottom: 25px; left: 20px; right: 20px;
-    background: var(--mint-mid); color: white;
-    padding: 16px; border-radius: 16px; border: none;
-    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
-    box-shadow: 0 15px 30px rgba(38, 166, 154, 0.3);
-    z-index: 1000;
+  .auth-input {
+    width: 100%; padding: 18px; border-radius: var(--border-radius-md);
+    border: 2px solid var(--mint-pale); background: var(--white);
+    font-size: 16px; text-align: center; margin-bottom: 20px; outline: none; transition: 0.3s;
+    font-family: 'DM Sans', sans-serif; font-weight: 500;
   }
-  .btn-voice:active { transform: scale(0.97); background: #00897B; }
+  .auth-input:focus { border-color: var(--mint-mid); }
+  
+  .error-msg { display: none; color: #D32F2F; font-size: 13px; font-weight: 700; margin-top: -10px; margin-bottom: 15px; }
 
+  /* =========================================
+     PANTALLA PRINCIPAL (DASHBOARD)
+  ========================================= */
+  #dashboard-screen { display: none; padding: 0 20px; }
+
+  /* Tarjeta de Audio y Dosis */
+  .dose-card {
+    background: linear-gradient(135deg, var(--mint-deep) 0%, #002D26 100%);
+    color: var(--white); padding: 30px 24px; border-radius: var(--border-radius-lg);
+    box-shadow: 0 20px 40px rgba(0, 77, 64, 0.2); margin-bottom: 24px;
+    position: relative; overflow: hidden;
+  }
+  .dose-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; font-family: 'DM Mono', monospace; }
+  .dose-header .pulse { display: inline-block; width: 8px; height: 8px; background: #4ADE80; border-radius: 50%; margin-right: 8px; box-shadow: 0 0 10px #4ADE80; }
+  
+  .phrase-display { font-size: 24px; font-weight: 300; line-height: 1.3; font-style: italic; min-height: 100px; display: flex; align-items: center; transition: opacity 0.4s; }
+  
+  .progress-track { height: 4px; background: rgba(255,255,255,0.15); border-radius: 10px; margin-top: 25px; overflow: hidden; }
+  .progress-fill { height: 100%; background: #4ADE80; width: 0%; transition: width 0.3s linear; }
+
+  /* Tarjeta de Diario */
+  .glass-card {
+    background: var(--glass-bg); backdrop-filter: blur(16px);
+    padding: 24px; border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-premium); border: 1px solid rgba(255,255,255,0.6);
+    margin-bottom: 24px;
+  }
+  .card-title { font-size: 14px; font-weight: 700; color: var(--mint-deep); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+
+  .journal-textarea {
+    width: 100%; height: 120px; background: rgba(255,255,255,0.6);
+    border: 1px solid var(--mint-pale); border-radius: var(--border-radius-md);
+    padding: 16px; font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--gray-dark);
+    resize: none; outline: none; margin-bottom: 15px; transition: 0.3s;
+  }
+  .journal-textarea:focus { background: var(--white); border-color: var(--mint-mid); }
+
+  /* Tarjeta de Logros */
+  .badges-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .badge-item {
+    background: var(--white); padding: 15px 5px; border-radius: 16px;
+    text-align: center; opacity: 0.4; filter: grayscale(1); transition: 0.4s;
+    border: 1px solid rgba(0,0,0,0.05); display: flex; flex-direction: column; align-items: center;
+  }
+  .badge-item.active { opacity: 1; filter: grayscale(0); background: var(--mint-pale); border-color: var(--mint-light); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(38,166,154,0.15); }
+  .badge-emoji { font-size: 26px; margin-bottom: 5px; }
+  .badge-label { font-size: 9px; font-weight: 700; color: var(--mint-deep); line-height: 1.1; text-transform: uppercase; }
+
+  /* Historial */
+  .history-list { display: flex; flex-direction: column; gap: 12px; max-height: 300px; overflow-y: auto; padding-right: 5px; }
+  .history-item { background: var(--white); padding: 16px; border-radius: 16px; border-left: 4px solid var(--mint-mid); box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+  .history-date { font-size: 11px; color: var(--gray-mid); margin-bottom: 5px; font-weight: 500; }
+  .history-text { font-size: 14px; color: var(--gray-dark); line-height: 1.5; }
+  .empty-history { text-align: center; color: var(--gray-mid); font-size: 14px; padding: 20px; font-style: italic; }
+
+  /* Advertencias */
+  .warning-item { display: flex; gap: 15px; background: #FFE0E0; padding: 16px; border-radius: 20px; color: #8B0000; margin-bottom: 10px; }
+  .warning-icon { font-size: 24px; background: white; width: 45px; height: 45px; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .warning-text h4 { font-size: 14px; margin-bottom: 2px; }
+  .warning-text p { font-size: 12px; opacity: 0.8; line-height: 1.4; }
+
+  /* =========================================
+     BOTONES GLOBALES
+  ========================================= */
+  .btn-primary {
+    background: var(--mint-deep); color: var(--white);
+    width: 100%; padding: 18px; border-radius: var(--border-radius-md);
+    border: none; font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+    cursor: pointer; transition: 0.2s; box-shadow: 0 10px 20px rgba(0,77,64,0.2);
+  }
+  .btn-primary:active { transform: scale(0.96); background: #00332A; }
+
+  .btn-floating {
+    position: fixed; bottom: 30px; left: 20px; right: 20px;
+    background: var(--mint-mid); box-shadow: 0 15px 30px rgba(38,166,154,0.3); z-index: 100;
+  }
 </style>
 </head>
 <body>
 
-<header class="header-app">
-  <div class="header-left">
-    <p>Bienvenida,</p>
-    <h1>Lorena 🙄</h1>
+  <div class="top-brand fade-in">
+    <img src="logooo.png" alt="Fufu Logo">
   </div>
-  <div class="user-avatar">🙄</div>
-</header>
-
-<main id="main-dashboard" class="dashboard-lorena">
   
-  <div class="hero-card slide-up">
-    <div class="pill-avatar">🙄</div>
-    <div class="pill-meta">
-      <h2>Paciencia-Max™ v4.0</h2>
-      <p>Diseño premium mate técnica.<br>Cápsula de calma de dosis secuencial.</p>
+  <div class="header-title fade-in">
+    <p>Bienvenida al Sistema,</p>
+    <h1>Lorena 🙄 <button class="lock-btn" onclick="logout()" title="Cerrar sesión">🔒</button></h1>
+  </div>
+
+  <div id="auth-screen">
+    <div class="auth-card slide-up">
+      <div class="auth-icon">💊</div>
+      <h2>Protocolo Cerrado</h2>
+      <p>Este es tu espacio clínico y satírico. Introduce el código del Lóbulo Nostálgico para acceder a tu diario y activar las dosis de calma.</p>
+      
+      <div class="error-msg" id="login-error">Código incorrecto. Tu dignidad sigue a salvo.</div>
+      
+      <input type="password" id="password-input" class="auth-input" placeholder="Contraseña">
+      <button class="btn-primary" onclick="login()">Desbloquear Paciencia</button>
     </div>
   </div>
 
-  <div class="status-block slide-up delay-1">
-    <div class="status-label"><span class="status-dot"></span>NFC SESSION: ACTIVE</div>
-    <div id="phrase-text">Iniciando protocolo secuencial de audio para Lorena...</div>
-    <div class="progress-container"><div id="progress-bar"></div></div>
-    <p style="font-family: 'DM Mono', monospace; font-size: 9px; opacity: 0.5;">CAPÍTULO DE CURACIÓN</p>
-  </div>
-
-  <div class="info-grid slide-up delay-2">
-    <div class="info-item"><label>Modo</label><strong>Voz Guía</strong></div>
-    <div class="info-item"><label>Status</label><strong>Zen Estable</strong></div>
-    <div class="info-item"><label>Dosis</label><strong>1g / Tolerance</strong></div>
-    <div class="info-item"><label>Lorena Zen</label><span>78%</span></div>
-  </div>
-
-  <div class="journal-section slide-up delay-3">
-    <div class="section-label">Diario Clínico Satírico</div>
-    <textarea id="journalInput" placeholder="¿Quién o qué ha puesto a prueba tu paciencia hoy? Desahógate, Lorena..."></textarea>
-    <button class="next-btn" style="box-shadow: none;" onclick="saveEntry()">Archivar Experiencia Zen</button>
-  </div>
-
-  <div class="section-label" style="padding-left: 4px;">Logros Desbloqueados</div>
-  <div class="achievements-grid slide-up delay-4">
-    <div class="badge" id="badge-1">
-      <div class="badge-icon">🧘‍♀️</div>
-      <div class="badge-name">Paz<br>Interior</div>
+  <div id="dashboard-screen">
+    
+    <div class="dose-card slide-up delay-1">
+      <div class="dose-header">
+        <div><span class="pulse"></span> Audio Guía Activa</div>
+        <div id="dose-counter">Dosis 1/8</div>
+      </div>
+      <div class="phrase-display" id="phrase-text">
+        Preparando protocolo de neutralización...
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progress-bar"></div></div>
     </div>
-    <div class="badge" id="badge-2">
-      <div class="badge-icon">🧊</div>
-      <div class="badge-name">Dignidad de<br>Hierro</div>
-    </div>
-    <div class="badge" id="badge-3">
-      <div class="badge-icon">👑</div>
-      <div class="badge-name">Buda de<br>Oficina</div>
-    </div>
-    <div class="badge" id="badge-4">
-      <div class="badge-icon">🙄</div>
-      <div class="badge-name">Nirvana<br>Cínico</div>
-    </div>
-  </div>
-</main>
 
-<button class="btn-voice slide-up delay-4" onclick="handleInteraction()">FORZAR DOSIS ZEN DE VOZ</button>
+    <div class="glass-card slide-up delay-2">
+      <div class="card-title">Diario Satírico <span>📝</span></div>
+      <textarea id="journal-input" class="journal-textarea" placeholder="¿Qué ha puesto a prueba tu paciencia hoy? Archívalo aquí antes de que respondas mal..."></textarea>
+      <button class="btn-primary" style="box-shadow: none;" onclick="saveJournalEntry()">Archivar Experiencia</button>
+    </div>
+
+    <div class="glass-card slide-up delay-3">
+      <div class="card-title">Logros de Curación <span id="achievement-count">0/4</span></div>
+      <div class="badges-grid">
+        <div class="badge-item" id="badge-1"><div class="badge-emoji">🧘‍♀️</div><div class="badge-label">Mente<br>Fría</div></div>
+        <div class="badge-item" id="badge-2"><div class="badge-emoji">🧊</div><div class="badge-label">Dignidad<br>Intacta</div></div>
+        <div class="badge-item" id="badge-3"><div class="badge-emoji">👑</div><div class="badge-label">Buda de<br>Oficina</div></div>
+        <div class="badge-item" id="badge-4"><div class="badge-emoji">🙄</div><div class="badge-label">Nirvana<br>Cínico</div></div>
+      </div>
+    </div>
+
+    <div class="glass-card slide-up delay-4">
+      <div class="card-title">Historial Clínico <span>📂</span></div>
+      <div class="history-list" id="history-container">
+        </div>
+    </div>
+
+    <div class="slide-up delay-4" style="margin-bottom: 80px;">
+      <div class="warning-item">
+        <div class="warning-icon">⚠️</div>
+        <div class="warning-text">
+          <h4>No Ingerir</h4>
+          <p>Producto de diseño conceptual. El alivio es puramente mental. Su dignidad es superior a su sabor.</p>
+        </div>
+      </div>
+      <div class="warning-item" style="background: #E0F2F1; color: #004D40;">
+        <div class="warning-icon">📱</div>
+        <div class="warning-text">
+          <h4>Contraindicaciones</h4>
+          <p>No usar mientras escucha audios de WhatsApp de más de 3 min o ante reuniones que debieron ser un mail.</p>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-primary btn-floating fade-in" onclick="playNextDose()">🔊 FORZAR DOSIS DE AUDIO</button>
+
+  </div>
 
 <script>
-  const VALID_PASSWORD = "FUFU2026";
+  /* =========================================
+     CONFIGURACIÓN Y DATOS
+  ========================================= */
+  const PASSWORD = "FUFU2026";
+  const DB_KEY_AUTH = "paciencia_auth_lorena_v6";
+  const DB_KEY_JOURNAL = "paciencia_journal_lorena_v6";
+  const DB_KEY_PHRASE = "paciencia_phrase_lorena_v6";
+
   const phrases = [
-    "Lorena, respira. Esa persona no sabe que es tu chiste interno.",
+    "Lorena, respira. Esa persona no sabe que es el protagonista de tu chiste interno.",
     "No es falta de paciencia, es que te sobra gente tonta alrededor.",
-    "Activando modo: 'Sonreír y asentir mientras pienso en otra cosa'.",
-    "Niveles de tolerancia al 2%. No me preguntes nada obvio.",
-    "Protocolo Lorena: Neutralizando impulso de audios de WhatsApp.",
-    "La paciencia es una virtud, pero esta pastilla es más rápida.",
-    "Si te dicen '¿Lo tienes ya?', escanea esto de nuevo.",
-    "Sistema activo: Ignorando notificaciones irrelevantes activado."
+    "Activando modo: Sonreír, asentir y bloquear mentalmente.",
+    "Niveles de tolerancia al 2%. Por favor, que nadie pregunte cosas obvias.",
+    "Protocolo activo: Inhibiendo impulso destructivo al ver correos urgentes.",
+    "La paciencia es una virtud, pero revirar los ojos es una necesidad.",
+    "Sincronizando chakra del sarcasmo... Listo. Puedes continuar tu día.",
+    "Si te vuelven a decir '¿Lo tienes ya?', pulsa el botón otra vez."
   ];
 
-  let entries = JSON.parse(localStorage.getItem('journal_lorena_v4')) || [];
-  let phraseIndex = parseInt(localStorage.getItem('phrase_index_lorena')) || 0;
-  let current = phraseIndex % phrases.length;
-  const duration = 7500;
-  let startTime = Date.now();
-  let firstClick = false;
+  let currentPhraseIndex = parseInt(localStorage.getItem(DB_KEY_PHRASE)) || 0;
+  let journalEntries = JSON.parse(localStorage.getItem(DB_KEY_JOURNAL)) || [];
+  
+  // Variables de control de audio y barra
+  let progressInterval;
+  const DOSE_DURATION = 8000; // 8 segundos por dosis
+  let doseStartTime;
 
-  function speak(text) {
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'es-ES';
-    utterance.rate = 0.9; 
-    utterance.pitch = 1.1; 
-    window.speechSynthesis.speak(utterance);
-  }
-
-  function handleInteraction() {
-    if(!firstClick) firstClick = true;
-    triggerNext();
-  }
-
-  function triggerNext() {
-    const el = document.getElementById('phrase-text');
-    el.style.opacity = 0;
-    setTimeout(() => {
-      current = (current + 1) % phrases.length;
-      const nextText = phrases[current];
-      el.textContent = nextText;
-      el.style.opacity = 1;
-      if(firstClick) speak(nextText);
-      startTime = Date.now();
-      localStorage.setItem('phrase_index_lorena', current);
-    }, 400);
-  }
-
-  function update() {
-    const elapsed = Date.now() - startTime;
-    const progress = Math.min((elapsed / duration) * 100, 100);
-    document.getElementById('progress-bar').style.width = progress + '%';
-    if (elapsed >= duration) triggerNext();
-    requestAnimationFrame(update);
-  }
-
-  function saveEntry() {
-    const input = document.getElementById('journalInput');
-    const text = input.value.trim();
-    if (text === "") return;
-    const newEntry = { date: new Date().toLocaleDateString('es-ES'), text: text };
-    entries.unshift(newEntry);
-    localStorage.setItem('journal_lorena_v4', JSON.stringify(entries));
-    input.value = "";
-    checkAchievements();
-  }
-
-  function checkAchievements() {
-    const total = entries.length;
-    if (total >= 1) document.getElementById('badge-1').classList.add('unlocked');
-    if (total >= 3) document.getElementById('badge-2').classList.add('unlocked');
-    if (total >= 5) document.getElementById('badge-3').classList.add('unlocked');
-    if (total >= 8) document.getElementById('badge-4').classList.add('unlocked');
-  }
-
-  // Verificar sesión activa
-  if (localStorage.getItem('paciencia_auth_lorena') === 'true') {
-    document.getElementById('paciencia-portal').style.display = 'none';
-    document.getElementById('main-dashboard').style.display = 'block';
-    // Mover triggers de cascada
-    dashboard.style.opacity = '1';
-    renderDashboardFeatures();
-  } else {
-    // Si no está logado, forzar la vista de portal y contraseña
-    document.getElementById('paciencia-portal').style.display = 'block';
-    document.getElementById('main-dashboard').style.display = 'none';
-    document.getElementById('paciencia-password').focus();
-  }
-
-  function checkPassword() {
-    const input = document.getElementById('paciencia-password');
-    const error = document.getElementById('password-error');
-    if (input.value === VALID_PASSWORD) {
-      localStorage.setItem('paciencia_auth_lorena', 'true');
-      location.reload(); // Recarga para desbloquear
+  /* =========================================
+     LÓGICA DE AUTENTICACIÓN
+  ========================================= */
+  function initApp() {
+    const isAuth = localStorage.getItem(DB_KEY_AUTH);
+    if (isAuth === "true") {
+      document.getElementById('auth-screen').style.display = 'none';
+      document.getElementById('dashboard-screen').style.display = 'block';
+      updateDashboardUI();
+      // Inicia la primera dosis sin audio automáticamente al cargar
+      loadDoseText(false); 
     } else {
-      error.style.display = 'block';
-      input.value = '';
+      document.getElementById('auth-screen').style.display = 'block';
+      document.getElementById('dashboard-screen').style.display = 'none';
     }
   }
 
-  function renderDashboardFeatures() {
-    document.getElementById('phrase-text').textContent = phrases[current];
-    checkAchievements();
-    update(); // Iniciar barra de progreso
+  function login() {
+    const input = document.getElementById('password-input').value;
+    const errorMsg = document.getElementById('login-error');
+    
+    if (input === PASSWORD) {
+      localStorage.setItem(DB_KEY_AUTH, "true");
+      errorMsg.style.display = 'none';
+      initApp();
+    } else {
+      errorMsg.style.display = 'block';
+      document.getElementById('password-input').value = "";
+    }
   }
 
-</script>
+  function logout() {
+    localStorage.removeItem(DB_KEY_AUTH);
+    location.reload();
+  }
 
+  /* =========================================
+     LÓGICA DE AUDIO Y DOSIS
+  ========================================= */
+  function loadDoseText(playAudio = false) {
+    const phraseEl = document.getElementById('phrase-text');
+    const counterEl = document.getElementById('dose-counter');
+    const text = phrases[currentPhraseIndex];
+    
+    phraseEl.style.opacity = 0;
+    
+    setTimeout(() => {
+      phraseEl.textContent = text;
+      counterEl.textContent = `Dosis ${currentPhraseIndex + 1}/${phrases.length}`;
+      phraseEl.style.opacity = 1;
+      
+      if(playAudio) speak(text);
+      
+      startProgressBar();
+    }, 300);
+  }
+
+  function playNextDose() {
+    currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length;
+    localStorage.setItem(DB_KEY_PHRASE, currentPhraseIndex);
+    loadDoseText(true); // Forzado por el usuario, sí suena.
+  }
+
+  function speak(text) {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel(); // Detiene cualquier audio previo
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'es-ES';
+      utterance.rate = 0.95; 
+      utterance.pitch = 1.1; 
+      window.speechSynthesis.speak(utterance);
+    }
+  }
+
+  function startProgressBar() {
+    clearInterval(progressInterval);
+    const bar = document.getElementById('progress-bar');
+    doseStartTime = Date.now();
+    
+    progressInterval = setInterval(() => {
+      const elapsed = Date.now() - doseStartTime;
+      const progress = Math.min((elapsed / DOSE_DURATION) * 100, 100);
+      bar.style.width = progress + '%';
+      
+      if (progress >= 100) {
+        clearInterval(progressInterval);
+      }
+    }, 50);
+  }
+
+  /* =========================================
+     LÓGICA DEL DIARIO Y GAMIFICACIÓN
+  ========================================= */
+  function saveJournalEntry() {
+    const inputEl = document.getElementById('journal-input');
+    const text = inputEl.value.trim();
+    
+    if (text === "") return;
+
+    const newEntry = {
+      date: new Date().toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute:'2-digit' }),
+      text: text
+    };
+
+    journalEntries.unshift(newEntry);
+    localStorage.setItem(DB_KEY_JOURNAL, JSON.stringify(journalEntries));
+    
+    inputEl.value = "";
+    updateDashboardUI();
+  }
+
+  function updateDashboardUI() {
+    renderHistory();
+    updateAchievements();
+  }
+
+  function renderHistory() {
+    const container = document.getElementById('history-container');
+    container.innerHTML = "";
+
+    if (journalEntries.length === 0) {
+      container.innerHTML = "<div class='empty-history'>Aún no hay registros en tu lóbulo nostálgico.</div>";
+      return;
+    }
+
+    journalEntries.forEach(entry => {
+      const div = document.createElement('div');
+      div.className = 'history-item';
+      div.innerHTML = `
+        <div class="history-date">${entry.date}</div>
+        <div class="history-text">${entry.text}</div>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  function updateAchievements() {
+    const total = journalEntries.length;
+    let unlocked = 0;
+
+    if (total >= 1) { document.getElementById('badge-1').classList.add('active'); unlocked++; }
+    if (total >= 3) { document.getElementById('badge-2').classList.add('active'); unlocked++; }
+    if (total >= 5) { document.getElementById('badge-3').classList.add('active'); unlocked++; }
+    if (total >= 8) { document.getElementById('badge-4').classList.add('active'); unlocked++; }
+
+    document.getElementById('achievement-count').textContent = `${unlocked}/4`;
+  }
+
+  /* =========================================
+     ARRANQUE DE LA APLICACIÓN
+  ========================================= */
+  window.onload = initApp;
+
+</script>
 </body>
 </html>
