@@ -16,6 +16,7 @@
     --accent: #26A69A;
     --white: #FFFFFF;
     --shadow-soft: 0 12px 30px rgba(0, 0, 0, 0.04);
+    --shadow-float: 0 10px 25px rgba(0, 0, 0, 0.15);
     --radius-lg: 32px;
     --radius-md: 20px;
     --radius-sm: 16px;
@@ -23,7 +24,7 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
 
-  body { font-family: 'DM Sans', sans-serif; background-color: var(--bg-color); color: var(--text-dark); overflow-x: hidden; }
+  body { font-family: 'DM Sans', sans-serif; background-color: var(--bg-color); color: var(--text-dark); overflow-x: hidden; scroll-behavior: smooth; }
 
   /* =========================================
      PANTALLA DE CALIBRACIÓN (SPLASH)
@@ -65,7 +66,7 @@
   /* =========================================
      APP PRINCIPAL Y ANIMACIONES
   ========================================= */
-  #main-app { position: relative; z-index: 20; background-color: var(--bg-color); min-height: 100vh; padding-bottom: 80px; }
+  #main-app { position: relative; z-index: 20; background-color: var(--bg-color); min-height: 100vh; padding-bottom: 120px; }
   .hidden { display: none !important; }
   .circle-reveal { display: block !important; animation: irisReveal 0.8s cubic-bezier(0.64, 0.04, 0.35, 1) forwards; }
   @keyframes irisReveal { 0% { clip-path: circle(0% at 50% 50%); } 100% { clip-path: circle(150% at 50% 50%); } }
@@ -80,23 +81,17 @@
   @keyframes slideUpIn { to { opacity: 1; transform: translateY(0); } }
 
   /* =========================================
-     HEADER Y LOGO SUPERIOR (NUEVO LAYOUT)
+     HEADER Y LOGO SUPERIOR
   ========================================= */
-  .top-logo-bar {
-    display: flex; justify-content: center; align-items: center;
-    padding: 30px 0 10px;
-  }
+  .top-logo-bar { display: flex; justify-content: center; align-items: center; padding: 30px 0 10px; }
   .top-logo-bar img { height: 45px; width: auto; object-fit: contain; }
 
-  header { 
-    padding: 10px 24px 20px; 
-    display: flex; justify-content: center; align-items: center; text-align: center;
-  }
+  header { padding: 10px 24px 20px; display: flex; justify-content: center; align-items: center; text-align: center; }
   .header-content p { font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
   .header-content h1 { font-size: 28px; font-weight: 700; display: flex; align-items: center; gap: 8px; justify-content: center; }
 
   /* =========================================
-     TARJETA DE DOSIS ÚNICA (15s) - MOVIDA ARRIBA
+     TARJETA DE DOSIS ÚNICA (15s)
   ========================================= */
   .dose-section { margin: 10px 24px 35px; }
   .active-dose-card {
@@ -112,7 +107,6 @@
   .mute-btn.muted { background: #FFE5E5; color: #D32F2F; }
   
   .card-phrase { font-size: 22px; font-weight: 400; line-height: 1.4; color: var(--text-dark); transition: opacity 0.5s ease; padding-bottom: 40px; }
-
   .dose-progress-bg { position: absolute; bottom: 0; left: 0; width: 100%; height: 6px; background: #E5E5EA; }
   .dose-progress-fill { height: 100%; width: 0%; background: var(--accent); }
 
@@ -121,11 +115,7 @@
   ========================================= */
   .section-title { padding: 0 24px; font-size: 14px; font-weight: 700; color: var(--text-dark); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
 
-  .hardware-card {
-    margin: 0 24px 20px; background: var(--white); padding: 20px;
-    border-radius: var(--radius-lg); box-shadow: var(--shadow-soft);
-    display: flex; align-items: center; gap: 16px; border: 1px solid rgba(0,0,0,0.02);
-  }
+  .hardware-card { margin: 0 24px 20px; background: var(--white); padding: 20px; border-radius: var(--radius-lg); box-shadow: var(--shadow-soft); display: flex; align-items: center; gap: 16px; border: 1px solid rgba(0,0,0,0.02); }
   .hw-icon { font-size: 35px; background: #F0F4F4; width: 60px; height: 60px; border-radius: 20px; display: flex; justify-content: center; align-items: center; flex-shrink: 0; }
   .hw-text h3 { font-size: 16px; color: var(--text-dark); margin-bottom: 2px; }
   .hw-text p { font-size: 13px; color: var(--text-muted); }
@@ -144,7 +134,7 @@
   .warning-text p { font-size: 12px; opacity: 0.85; line-height: 1.4; }
 
   .container { padding: 0 24px; }
-  .minimal-card { background: var(--white); padding: 24px; border-radius: var(--radius-lg); box-shadow: var(--shadow-soft); margin-bottom: 24px; border: 1px solid rgba(0,0,0,0.02); text-align: center; }
+  .minimal-card { background: var(--white); padding: 24px; border-radius: var(--radius-lg); box-shadow: var(--shadow-soft); margin-bottom: 24px; border: 1px solid rgba(0,0,0,0.02); text-align: center; scroll-margin-top: 20px; }
   .minimal-card h3 { font-size: 16px; margin-bottom: 8px; color: var(--text-dark); }
   .minimal-card p { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
 
@@ -165,6 +155,23 @@
 
   .history-item { background: var(--bg-color); padding: 16px; border-radius: 16px; text-align: left; margin-top: 10px; }
   .history-date { font-size: 11px; color: var(--text-muted); margin-bottom: 5px; }
+
+  /* =========================================
+     NUEVO: BURBUJAS DE NAVEGACIÓN FLOTANTES
+  ========================================= */
+  .floating-nav {
+    position: fixed; bottom: 24px; right: 24px;
+    display: flex; flex-direction: column; gap: 12px; z-index: 100;
+  }
+  .nav-bubble {
+    width: 50px; height: 50px; border-radius: 50%;
+    background: var(--text-dark); color: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; box-shadow: var(--shadow-float);
+    text-decoration: none; border: none; cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+  }
+  .nav-bubble:active { transform: scale(0.9); background: var(--accent); }
 
 </style>
 </head>
@@ -243,7 +250,7 @@
       </div>
     </div>
 
-    <div class="container slide-up delay-6">
+    <div class="container slide-up delay-6" id="diary-container">
       
       <div id="teaser-section" class="minimal-card">
         <h3>Diario Clínico Satírico</h3>
@@ -276,26 +283,39 @@
           </div>
         </div>
 
-        <div class="minimal-card" style="margin-bottom: 80px;">
+        <div class="minimal-card" style="margin-bottom: 30px;">
           <h3>Historial 📂</h3>
           <div id="history-container"></div>
         </div>
       </div>
     </div>
 
+    <div class="floating-nav slide-up delay-6">
+      <a href="https://tutiendaonline.com" target="_blank" class="nav-bubble" title="Comprar más en Farmacia Fufu">🛒</a>
+      <button class="nav-bubble" onclick="scrollToDiary()" title="Ir al Diario">📓</button>
+    </div>
+
   </div>
 
 <script>
   /* =========================================
-     LÓGICA DEL BOTÓN DE 3 SEGUNDOS
+     LÓGICA DEL BOTÓN DE 3 SEGUNDOS Y AUDIO FIX
   ========================================= */
   const syncBtn = document.getElementById('sync-btn');
   let holdTimer;
   let isAppStarted = false;
+  let audioUnlocked = false; // Variable para saber si ya dimos permiso de voz
 
   function startHold(e) {
     if (isAppStarted) return;
     if(e.type === 'touchstart') e.preventDefault(); 
+    
+    // TRUCO DE AUDIO: Desbloquear el audio EXACTAMENTE al tocar el botón
+    if (!audioUnlocked && 'speechSynthesis' in window) {
+      window.speechSynthesis.speak(new SpeechSynthesisUtterance(""));
+      audioUnlocked = true;
+    }
+
     syncBtn.classList.add('holding'); 
     holdTimer = setTimeout(() => {
       isAppStarted = true;
@@ -319,7 +339,7 @@
   syncBtn.addEventListener('touchcancel', endHold);
 
   /* =========================================
-     CONFIGURACIÓN DE FRASES Y AUDIO
+     CONFIGURACIÓN DE FRASES Y DOSIS
   ========================================= */
   const PASSWORD = "FUFU"; 
   let isMuted = false;
@@ -336,9 +356,6 @@
   ];
 
   function startApp() {
-    const unlockAudio = new SpeechSynthesisUtterance("");
-    window.speechSynthesis.speak(unlockAudio);
-
     const mainApp = document.getElementById('main-app');
     mainApp.classList.remove('hidden');
     mainApp.classList.add('circle-reveal');
@@ -358,6 +375,8 @@
     setTimeout(() => {
       textEl.innerText = `"${phrases[index]}"`;
       textEl.style.opacity = 1;
+      
+      // Ahora el audio debería sonar porque se desbloqueó al presionar el botón
       if (!isMuted) speakPhrase(phrases[index]);
     }, 500); 
 
@@ -404,6 +423,21 @@
       btn.classList.remove('muted');
       btn.innerHTML = '🔊';
       speakPhrase(phrases[currentIndex]);
+    }
+  }
+
+  /* =========================================
+     NAVEGACIÓN DE BURBUJAS (SCROLL)
+  ========================================= */
+  function scrollToDiary() {
+    const diaryContainer = document.getElementById('diary-container');
+    diaryContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    
+    // Si el cuadro de contraseña o el diario están abiertos, hacemos focus
+    if(!document.getElementById('auth-section').classList.contains('hidden')) {
+      setTimeout(() => document.getElementById('password-input').focus(), 500);
+    } else if(!document.getElementById('private-section').classList.contains('hidden')) {
+      setTimeout(() => document.getElementById('journal-input').focus(), 500);
     }
   }
 
